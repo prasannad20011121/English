@@ -12,7 +12,8 @@ MEAN stack (MongoDB, Express, Angular, Node.js). The user asked for **free** AI/
 was unsure about roles, so we use the simple default: **Student + Admin**. A Trainer/batch role is an
 optional later phase.
 
-**Status:** Phases 0–1 and Phase 2a (question bank + written practice) are built. See the phase
+**Status:** Phases 0–1 and Phase 2 (question bank, written practice, and the AI-assisted question
+writer with admin review) are built. See the phase
 table in section 13 and the README for how to run them. Questions come from a reviewed bank, not
 live LLM generation: the LLM only helps admins write drafts that are checked before publishing
 (Phase 2b). The remaining phases are built one by one.

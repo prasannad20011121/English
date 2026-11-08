@@ -66,6 +66,7 @@ export class Shell {
   ];
 
   protected readonly adminNav: NavItem[] = [
+    { label: 'Questions', short: 'Questions', icon: 'lucideBookOpen', link: '/admin/questions' },
     { label: 'Users', short: 'Users', icon: 'lucideUsers', link: '/admin/users' },
   ];
 

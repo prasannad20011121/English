@@ -1,0 +1,153 @@
+<form class="editor" (ngSubmit)="save()" novalidate>
+  @if (error(); as message) {
+    <p class="alert alert--error" role="alert">
+      <ui-icon name="lucideCircleAlert" />
+      {{ message }}
+    </p>
+  }
+
+  <div class="row">
+    <label class="field">
+      <span class="group-label">Type</span>
+      <select class="ui-input" name="type" [(ngModel)]="draft.type">
+        @for (t of types; track t.value) {
+          <option [value]="t.value">{{ t.label }}</option>
+        }
+      </select>
+    </label>
+    <label class="field">
+      <span class="group-label">Difficulty</span>
+      <select class="ui-input" name="difficulty" [(ngModel)]="draft.difficulty">
+        <option [ngValue]="1">Easy</option>
+        <option [ngValue]="2">Medium</option>
+        <option [ngValue]="3">Hard</option>
+      </select>
+    </label>
+  </div>
+
+  @if (draft.type === 'spot_error') {
+    <fieldset class="field">
+      <legend class="group-label">Sentence in 4 parts</legend>
+      <div class="parts">
+        @for (part of draft.segments; track $index) {
+          <label class="part">
+            <span class="letter">{{ letters[$index] }}</span>
+            <input
+              class="ui-input"
+              [name]="'segment' + $index"
+              [(ngModel)]="draft.segments[$index]"
+            />
+          </label>
+        }
+      </div>
+      @if (err('segments'); as e) {
+        <p class="error">{{ e }}</p>
+      }
+    </fieldset>
+    <label class="field">
+      <span class="group-label">Part with the error</span>
+      <select class="ui-input" name="answer" [(ngModel)]="draft.answer">
+        @for (l of letters.slice(0, 4); track l) {
+          <option [ngValue]="$index">Part {{ l }}</option>
+        }
+        <option [ngValue]="4">No error</option>
+      </select>
+    </label>
+    @if (draft.answer !== 4) {
+      <label class="field">
+        <span class="group-label">Corrected sentence (change only the wrong part)</span>
+        <input class="ui-input" name="correction" [(ngModel)]="draft.correction" />
+        @if (err('correction'); as e) {
+          <p class="error">{{ e }}</p>
+        }
+      </label>
+    }
+  } @else {
+    <label class="field">
+      <span class="group-label">
+        Sentence
+        <span class="hint">
+          {{
+            draft.type === 'synonym' || draft.type === 'antonym'
+              ? 'mark the word like **word**'
+              : 'use ___ for the blank'
+          }}
+        </span>
+      </span>
+      <textarea class="ui-input" name="prompt" rows="2" [(ngModel)]="draft.prompt"></textarea>
+      @if (err('prompt'); as e) {
+        <p class="error">{{ e }}</p>
+      }
+    </label>
+    <fieldset class="field">
+      <legend class="group-label">Options (select the correct one)</legend>
+      <div class="options">
+        @for (option of draft.options; track $index) {
+          <label class="option" [class.is-answer]="draft.answer === $index">
+            <input
+              type="radio"
+              name="answer"
+              [value]="$index"
+              [(ngModel)]="draft.answer"
+              [attr.aria-label]="'Option ' + letters[$index] + ' is correct'"
+            />
+            <span class="letter">{{ letters[$index] }}</span>
+            <input
+              class="ui-input"
+              [name]="'option' + $index"
+              [(ngModel)]="draft.options[$index]"
+            />
+          </label>
+        }
+      </div>
+      @if (err('options'); as e) {
+        <p class="error">{{ e }}</p>
+      }
+    </fieldset>
+  }
+
+  <label class="field">
+    <span class="group-label">Explanation shown to students</span>
+    <textarea
+      class="ui-input"
+      name="explanation"
+      rows="2"
+      [(ngModel)]="draft.explanation"
+    ></textarea>
+    @if (err('explanation'); as e) {
+      <p class="error">{{ e }}</p>
+    }
+  </label>
+
+  <fieldset class="field">
+    <legend class="group-label">Topics (1–3)</legend>
+    <div class="chips">
+      @for (t of tagList; track t[0]) {
+        <button
+          type="button"
+          class="chip"
+          [class.is-on]="draft.tags.includes(t[0])"
+          [attr.aria-pressed]="draft.tags.includes(t[0])"
+          (click)="toggleTag(t[0])"
+        >
+          {{ t[1] }}
+        </button>
+      }
+    </div>
+    @if (err('tags'); as e) {
+      <p class="error">{{ e }}</p>
+    }
+  </fieldset>
+
+  <div class="actions">
+    <button
+      type="submit"
+      class="btn btn--primary btn--sm"
+      [class.is-loading]="saving()"
+      [disabled]="saving()"
+    >
+      Save changes
+    </button>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="cancelled.emit()">Cancel</button>
+  </div>
+</form>

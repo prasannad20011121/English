@@ -26,6 +26,12 @@ const questionSchema = new Schema(
     status: { type: String, enum: QUESTION_STATUSES, default: 'draft', index: true },
     source: { type: String, enum: QUESTION_SOURCES, required: true },
     contentHash: { type: String, required: true, unique: true },
+    /** Who added it (admin generating AI drafts or writing manually). */
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    reviewedAt: { type: Date },
+    /** The model that wrote an AI draft. */
+    aiModel: { type: String },
     stats: {
       attempts: { type: Number, default: 0 },
       correct: { type: Number, default: 0 },

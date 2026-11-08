@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "lint": "eslint . && tsc --noEmit",
     "seed:admin": "tsx src/scripts/seed-admin.ts",
-    "seed:questions": "tsx src/scripts/seed-questions.ts"
+    "seed:questions": "tsx src/scripts/seed-questions.ts",
+    "generate:questions": "tsx src/scripts/generate-questions.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

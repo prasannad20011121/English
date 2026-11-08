@@ -38,6 +38,29 @@ const envSchema = z
       .transform((v) => (v ? v : undefined)),
     MAIL_FROM: z.string().default('SHL English Practice <no-reply@example.com>'),
 
+    /**
+     * AI question writer (optional). Any OpenAI-compatible chat API works, e.g.
+     * Groq https://api.groq.com/openai/v1, Gemini https://generativelanguage.googleapis.com/v1beta/openai,
+     * or a local Ollama http://localhost:11434/v1. Leave LLM_BASE_URL empty to turn it off.
+     */
+    LLM_BASE_URL: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v.replace(/\/+$/, '') : undefined)),
+    LLM_API_KEY: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v : undefined)),
+    LLM_MODEL: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v : undefined)),
+    /** Optional LanguageTool server (e.g. http://localhost:8010) to double-check AI drafts. */
+    LANGUAGETOOL_URL: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v.replace(/\/+$/, '') : undefined)),
+
     SERVE_CLIENT: z.stringbool().default(false),
     CLIENT_DIST: z.string().default('../client/dist/client/browser'),
   })
@@ -47,6 +70,13 @@ const envSchema = z
         code: 'custom',
         path: ['JWT_ACCESS_SECRET'],
         message: 'Set a real random JWT_ACCESS_SECRET in production',
+      });
+    }
+    if (cfg.LLM_BASE_URL && !cfg.LLM_MODEL) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['LLM_MODEL'],
+        message: 'Set LLM_MODEL when LLM_BASE_URL is set',
       });
     }
     if (cfg.COOKIE_SAMESITE === 'none' && !cfg.COOKIE_SECURE) {

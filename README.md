@@ -14,7 +14,7 @@ Node.js) and will use free / open-source AI for speech-to-text, grammar checking
 | 0     | Project setup: monorepo, Express + Angular, Docker, CI           | ✅ Done |
 | 1     | Accounts: sign up, log in, stay logged in, profile, reset, admin | ✅ Done |
 | 2a    | Question bank + written practice with instant feedback           | ✅ Done |
-| 2b    | AI-assisted question writing (free LLM) with admin review        | Next    |
+| 2b    | AI-assisted question writing (free LLM) with admin review        | ✅ Done |
 | 3–9   | Voice practice, scoring, mock tests, progress, admin tools       | Planned |
 
 The full roadmap is in [docs/PLAN.md](docs/PLAN.md).
@@ -39,7 +39,18 @@ The full roadmap is in [docs/PLAN.md](docs/PLAN.md).
     reports.
 - **Dashboard:** exam countdown, a real practice streak and daily goal, the practice modules, and
   tips for the voice test.
-- **Admin:** a searchable, paginated list of users.
+- **Admin › Question bank:** review AI drafts and flagged questions, preview them as students will
+  see them, edit (same rules as the seed bank), publish or retire one at a time or in bulk.
+- **AI question writer** (optional, works with free LLMs): admins pick a type, topic, difficulty and
+  count. Every draft must pass four checks before it reaches the review queue:
+  1. format;
+  2. duplicates;
+  3. a second, blind AI pass must reach the same answer;
+  4. optionally, a LanguageTool grammar check.
+
+  Nothing reaches students until an admin publishes it.
+
+- **Admin › Users:** a searchable, paginated list of users.
 - A custom **"soft bento pastel"** design: pastel tiles, the Outfit font, Lucide icons, gentle
   animations, and confetti when you sign up.
 - Desktop sidebar and phone bottom tab bar; light, dark or follow-the-system theme (remembered).
@@ -84,15 +95,16 @@ The Angular dev server proxies `/api` to the API, so cookies work without any CO
 
 ### Scripts (run from the repo root)
 
-| Command                  | What it does                                           |
-| ------------------------ | ------------------------------------------------------ |
-| `npm run dev`            | Runs API (auto-restart) and Angular dev server         |
-| `npm test`               | Runs server and client unit tests                      |
-| `npm run lint`           | ESLint + type checks for both apps                     |
-| `npm run build`          | Production builds into `server/dist` and `client/dist` |
-| `npm run format`         | Formats everything with Prettier                       |
-| `npm run seed:questions` | Loads `server/seed/questions/*.json` into the database |
-| `npm run seed:admin`     | Creates or updates the admin account                   |
+| Command                                                                             | What it does                                           |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `npm run dev`                                                                       | Runs API (auto-restart) and Angular dev server         |
+| `npm test`                                                                          | Runs server and client unit tests                      |
+| `npm run lint`                                                                      | ESLint + type checks for both apps                     |
+| `npm run build`                                                                     | Production builds into `server/dist` and `client/dist` |
+| `npm run format`                                                                    | Formats everything with Prettier                       |
+| `npm run seed:questions`                                                            | Loads `server/seed/questions/*.json` into the database |
+| `npm run seed:admin`                                                                | Creates or updates the admin account                   |
+| `npm run generate:questions -w server -- --type spot_error --tag tenses --count 10` | Writes AI drafts from the command line                 |
 
 Server tests start an in-memory MongoDB automatically. The first run downloads a MongoDB binary; to
 use one you already have, set `MONGOMS_SYSTEM_BINARY=/path/to/mongod`.
@@ -127,6 +139,10 @@ All server settings are environment variables, checked at startup. They are docu
 | `APP_URL`                | Public app URL, used in password-reset emails                        |
 | `SMTP_URL`               | Optional SMTP server for emails, e.g. a free Brevo or Gmail account  |
 | `TRUST_PROXY`            | `true` behind a reverse proxy (Render, Railway, nginx)               |
+| `LLM_BASE_URL`           | Optional AI writer: any OpenAI-compatible API (see below)            |
+| `LLM_MODEL`              | Model id for the AI writer                                           |
+| `LLM_API_KEY`            | API key for the AI writer (not needed for a local Ollama)            |
+| `LANGUAGETOOL_URL`       | Optional grammar double-check, e.g. `http://localhost:8010`          |
 
 ## API (so far)
 
@@ -150,9 +166,41 @@ All server settings are environment variables, checked at startup. They are docu
 | POST        | `/api/practice/sessions/:id/finish`  | Score, accuracy by topic, mistakes                                           |
 | GET         | `/api/users/me/stats?tz=`            | Streak, daily goal, totals (in your time zone)                               |
 | POST        | `/api/questions/:id/report`          | Flag a question for review                                                   |
+| GET         | `/api/admin/questions`               | Admin: list by status/type/topic + counts                                    |
+| GET         | `/api/admin/questions/ai-status`     | Admin: is the AI writer configured?                                          |
+| POST        | `/api/admin/questions/generate`      | Admin: AI drafts `{ type, tag, difficulty, count }`                          |
+| PUT         | `/api/admin/questions/:id`           | Admin: replace content (validated)                                           |
+| POST        | `/api/admin/questions/:id/status`    | Admin: publish / retire / back to draft                                      |
+| POST        | `/api/admin/questions/bulk-status`   | Admin: same for many questions                                               |
 
 Errors always look like `{ "error": { "code", "message", "details"? } }`; validation errors include
 `details.fields` with a message per field.
+
+## Why a question bank and not live AI questions?
+
+Students only ever see questions from the reviewed bank. Live LLM questions would be:
+
+- **Less reliable:** free models sometimes give a wrong answer key or an ambiguous question.
+- **Slower:** a few seconds per question.
+- **Quota-hungry:** every student request would use the free tier's limits.
+- **Unfair for mock tests:** difficulty would vary from student to student.
+
+The AI is used where it is strongest, as a fast writer of drafts that are checked and approved
+before publishing.
+
+### Turning on the AI writer (free)
+
+Set three values in `server/.env` and restart the API:
+
+| Provider                  | `LLM_BASE_URL`                                            | `LLM_API_KEY`             |
+| ------------------------- | --------------------------------------------------------- | ------------------------- |
+| Groq (free tier)          | `https://api.groq.com/openai/v1`                          | key from the Groq console |
+| Google Gemini (free tier) | `https://generativelanguage.googleapis.com/v1beta/openai` | key from Google AI Studio |
+| Ollama (your machine)     | `http://localhost:11434/v1`                               | not needed                |
+
+Set `LLM_MODEL` to a model your provider offers (for Ollama, e.g. `llama3.1`). Larger models write
+better questions and fail fewer checks. For an extra grammar check, run
+`docker compose --profile ai up -d languagetool` and set `LANGUAGETOOL_URL=http://localhost:8010`.
 
 ## Question bank
 

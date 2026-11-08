@@ -75,6 +75,15 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/profile').then((m) => m.ProfilePage),
       },
       {
+        path: 'admin/questions',
+        title: 'Question bank',
+        canActivate: [roleGuard('admin')],
+        loadComponent: () =>
+          import('./features/admin/admin-questions/admin-questions').then(
+            (m) => m.AdminQuestionsPage,
+          ),
+      },
+      {
         path: 'admin/users',
         title: 'Users',
         canActivate: [roleGuard('admin')],

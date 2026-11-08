@@ -101,6 +101,10 @@
       Profile
     </a>
     @if (isAdmin()) {
+      <a class="menu__item" cdkMenuItem routerLink="/admin/questions">
+        <ui-icon name="lucideBookOpen" size="18px" />
+        Question bank (admin)
+      </a>
       <a class="menu__item" cdkMenuItem routerLink="/admin/users">
         <ui-icon name="lucideUsers" size="18px" />
         Users (admin)

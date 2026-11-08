@@ -1,0 +1,401 @@
+<header class="page-head">
+  <h1 class="title">Question bank</h1>
+  <p>
+    Review AI drafts and flagged questions before students see them. Only published questions appear
+    in practice.
+  </p>
+</header>
+
+<!-- AI writer -->
+<section class="tile tile--lavender ai" aria-labelledby="ai-title">
+  <div class="ai__head">
+    <span class="ai__icon"><ui-icon name="lucideSparkles" size="22px" /></span>
+    <div>
+      <h2 id="ai-title">AI question writer</h2>
+      @if (ai(); as s) {
+        @if (s.enabled) {
+          <p>
+            Using <strong>{{ s.model }}</strong
+            >{{ s.provider ? ' via ' + s.provider : '' }}. Every draft is checked for format and
+            duplicates, then solved blind by a second AI pass{{
+              s.grammarCheck ? ' and checked by LanguageTool' : ''
+            }}. You approve before students see it.
+          </p>
+        } @else {
+          <p>
+            Off. To turn it on, set <code>LLM_BASE_URL</code>, <code>LLM_MODEL</code> and
+            <code>LLM_API_KEY</code> in <code>server/.env</code> (free options: Groq, Gemini, or a
+            local Ollama) and restart the server.
+          </p>
+        }
+      }
+    </div>
+  </div>
+
+  @if (ai()?.enabled) {
+    <form class="ai__form" (ngSubmit)="generate()">
+      <label>
+        <span class="group-label">Type</span>
+        <select class="ui-input" name="genType" [(ngModel)]="genType">
+          @for (t of types; track t.value) {
+            <option [value]="t.value">{{ t.label }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        <span class="group-label">Topic</span>
+        <select class="ui-input" name="genTag" [(ngModel)]="genTag">
+          @for (t of tagList; track t[0]) {
+            <option [value]="t[0]">{{ t[1] }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        <span class="group-label">Difficulty</span>
+        <select class="ui-input" name="genDifficulty" [(ngModel)]="genDifficulty">
+          <option [ngValue]="1">Easy</option>
+          <option [ngValue]="2">Medium</option>
+          <option [ngValue]="3">Hard</option>
+        </select>
+      </label>
+      <label>
+        <span class="group-label">How many</span>
+        <select class="ui-input" name="genCount" [(ngModel)]="genCount">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+        </select>
+      </label>
+      <button
+        type="submit"
+        class="btn btn--primary"
+        [class.is-loading]="generating()"
+        [disabled]="generating()"
+      >
+        {{ generating() ? 'Writing & checking…' : 'Generate drafts' }}
+      </button>
+    </form>
+    @if (generating()) {
+      <p class="ai__note" role="status">This can take up to a minute on free AI tiers.</p>
+    }
+    @if (report(); as r) {
+      <div class="report" role="status">
+        <p>
+          <ui-icon name="lucideCircleCheck" size="18px" />
+          <strong>{{ r.created.length }} of {{ r.requested }}</strong> saved as drafts ·
+          {{ r.rejected.length }} rejected by the checks
+        </p>
+        @if (r.rejected.length) {
+          <details>
+            <summary>Why were some rejected?</summary>
+            <ul>
+              @for (x of r.rejected; track $index) {
+                <li>
+                  <strong>{{ x.reason }}</strong>
+                  @if (x.prompt) {
+                    <span>{{ x.prompt }}</span>
+                  }
+                </li>
+              }
+            </ul>
+          </details>
+        }
+      </div>
+    }
+  }
+</section>
+
+<!-- Filters -->
+<div class="toolbar">
+  <div class="segmented" role="radiogroup" aria-label="Status">
+    @for (t of tabs; track t.value) {
+      <label>
+        <input
+          type="radio"
+          name="status"
+          [checked]="status() === t.value"
+          (change)="setStatusTab(t.value)"
+        />
+        <span>
+          {{ t.label }}
+          <b
+            class="count"
+            [class.count--alert]="t.value === 'flagged' && (data()?.counts?.[t.value] ?? 0) > 0"
+          >
+            {{ data()?.counts?.[t.value] ?? 0 }}
+          </b>
+        </span>
+      </label>
+    }
+  </div>
+  <div class="filters">
+    <select
+      class="ui-input"
+      aria-label="Filter by type"
+      [ngModel]="type()"
+      (ngModelChange)="type.set($event); page.set(1)"
+    >
+      <option value="">All types</option>
+      @for (t of types; track t.value) {
+        <option [value]="t.value">{{ t.label }}</option>
+      }
+    </select>
+    <select
+      class="ui-input"
+      aria-label="Filter by topic"
+      [ngModel]="tag()"
+      (ngModelChange)="tag.set($event); page.set(1)"
+    >
+      <option value="">All topics</option>
+      @for (t of tagList; track t[0]) {
+        <option [value]="t[0]">{{ t[1] }}</option>
+      }
+    </select>
+    <label class="search">
+      <span class="sr-only">Search questions</span>
+      <ui-icon name="lucideSearch" />
+      <input
+        class="ui-input"
+        type="search"
+        placeholder="Search sentences"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </label>
+  </div>
+</div>
+
+@if (listError(); as message) {
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" />
+    {{ message }}
+  </p>
+}
+
+@let d = data();
+@if (d?.items?.length) {
+  <div class="bulk">
+    <label class="check">
+      <input
+        type="checkbox"
+        [checked]="selected().size === d!.items.length"
+        (change)="toggleAll()"
+      />
+      <span>Select all on this page</span>
+    </label>
+    @if (selected().size) {
+      <span class="bulk__count">{{ selected().size }} selected</span>
+      @if (status() !== 'published') {
+        <button
+          type="button"
+          class="btn btn--primary btn--sm"
+          [disabled]="busy() === 'bulk'"
+          (click)="bulk('published')"
+        >
+          Publish selected
+        </button>
+      }
+      @if (status() !== 'retired') {
+        <button
+          type="button"
+          class="btn btn--ghost btn--sm"
+          [disabled]="busy() === 'bulk'"
+          (click)="bulk('retired')"
+        >
+          Retire selected
+        </button>
+      }
+    }
+  </div>
+}
+
+<div class="list" [attr.aria-busy]="loading()">
+  @for (q of d?.items ?? []; track q.id) {
+    @let info = typeInfo[q.type];
+    <article class="card q" [class.is-selected]="selected().has(q.id)">
+      <div class="q__top">
+        <label class="check">
+          <input
+            type="checkbox"
+            [checked]="selected().has(q.id)"
+            (change)="toggle(q.id)"
+            [attr.aria-label]="'Select question: ' + q.prompt"
+          />
+        </label>
+        <span class="pill pill--{{ info.tone }}">
+          <ui-icon [name]="info.icon" size="14px" />
+          {{ info.title }}
+        </span>
+        <span class="meta">{{ difficultyLabels[q.difficulty] }}</span>
+        @for (t of q.tags; track t) {
+          <span class="meta">{{ tagLabels[t] }}</span>
+        }
+        <span class="meta meta--source">
+          {{
+            q.source === 'ai'
+              ? 'AI · ' + (q.aiModel ?? 'model')
+              : q.source === 'seed'
+                ? 'Seed bank'
+                : 'Manual'
+          }}
+        </span>
+      </div>
+
+      <!-- Preview with the right answer shown -->
+      @switch (q.type) {
+        @case ('spot_error') {
+          <p class="q__sentence">
+            @for (part of q.segments; track $index) {
+              <span class="seg" [class.seg--error]="$index === q.answer"
+                ><b>{{ letters[$index] }}</b> {{ part }}</span
+              >
+            }
+          </p>
+          @if (q.correction) {
+            <p class="q__fix"><ui-icon name="lucideCheck" size="16px" /> {{ q.correction }}</p>
+          } @else {
+            <p class="q__fix"><ui-icon name="lucideCheck" size="16px" /> No error</p>
+          }
+        }
+        @case ('synonym') {
+          @let t = splitTarget(q.prompt);
+          <p class="q__sentence">
+            {{ t.before }}<mark>{{ t.word }}</mark
+            >{{ t.after }}
+          </p>
+        }
+        @case ('antonym') {
+          @let t = splitTarget(q.prompt);
+          <p class="q__sentence">
+            {{ t.before }}<mark>{{ t.word }}</mark
+            >{{ t.after }}
+          </p>
+        }
+        @default {
+          @let b = splitBlank(q.prompt);
+          <p class="q__sentence">
+            {{ b.before }}<span class="fill">{{ blankText(q.options![q.answer]!) }}</span
+            >{{ b.after }}
+          </p>
+        }
+      }
+      @if (q.options) {
+        <ol class="q__options">
+          @for (o of q.options; track $index) {
+            <li [class.is-answer]="$index === q.answer">
+              <b>{{ letters[$index] }}</b> {{ o }}
+              @if ($index === q.answer) {
+                <ui-icon name="lucideCircleCheck" size="16px" />
+              }
+            </li>
+          }
+        </ol>
+      }
+      <p class="q__why">{{ q.explanation }}</p>
+
+      @if (q.reports.length) {
+        <div class="q__reports">
+          <ui-icon name="lucideCircleAlert" size="16px" />
+          <span>
+            {{ q.reports.length }} report{{ q.reports.length === 1 ? '' : 's' }}:
+            @for (r of q.reports; track $index) {
+              <span class="reason"
+                >{{ r.reason.replace('_', ' ') }}
+                @if (r.note) {
+                  — “{{ r.note }}”
+                }
+              </span>
+            }
+          </span>
+        </div>
+      }
+
+      <div class="q__bottom">
+        <span class="stats">
+          @if (q.stats.attempts) {
+            Answered {{ q.stats.attempts }}× ·
+            {{ (q.stats.correct / q.stats.attempts) * 100 | number: '1.0-0' }}% right
+          } @else {
+            Not answered yet
+          }
+        </span>
+        <div class="q__actions">
+          @if (q.status !== 'published') {
+            <button
+              type="button"
+              class="btn btn--primary btn--sm"
+              [disabled]="busy() === q.id"
+              (click)="setStatus(q, 'published')"
+            >
+              <ui-icon name="lucideCheck" size="16px" />
+              {{ q.status === 'flagged' ? 'Looks fine, publish' : 'Publish' }}
+            </button>
+          }
+          <button
+            type="button"
+            class="btn btn--ghost btn--sm"
+            (click)="editing.set(editing() === q.id ? null : q.id)"
+          >
+            {{ editing() === q.id ? 'Close editor' : 'Edit' }}
+          </button>
+          @if (q.status !== 'retired') {
+            <button
+              type="button"
+              class="btn btn--ghost btn--sm"
+              [disabled]="busy() === q.id"
+              (click)="setStatus(q, 'retired')"
+            >
+              Retire
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (editing() === q.id) {
+        <app-question-editor [question]="q" (saved)="onSaved()" (cancelled)="editing.set(null)" />
+      }
+    </article>
+  } @empty {
+    @if (!loading()) {
+      <div class="empty tile tile--mint">
+        <ui-icon name="lucideCircleCheck" size="24px" />
+        <p>
+          @switch (status()) {
+            @case ('draft') {
+              No drafts waiting for review.
+            }
+            @case ('flagged') {
+              No flagged questions. Nice!
+            }
+            @default {
+              No questions match these filters.
+            }
+          }
+        </p>
+      </div>
+    }
+  }
+</div>
+
+@if (d && d.total > d.limit) {
+  <nav class="pager" aria-label="Pages of questions">
+    <button
+      type="button"
+      class="icon-btn"
+      aria-label="Previous page"
+      [disabled]="page() <= 1"
+      (click)="page.set(page() - 1)"
+    >
+      <ui-icon name="lucideChevronLeft" />
+    </button>
+    <span>Page {{ page() }} of {{ pages() }} · {{ d.total }} questions</span>
+    <button
+      type="button"
+      class="icon-btn"
+      aria-label="Next page"
+      [disabled]="page() >= pages()"
+      (click)="page.set(page() + 1)"
+    >
+      <ui-icon name="lucideChevronRight" />
+    </button>
+  </nav>
+}
