@@ -29,6 +29,9 @@
 }
 
 .hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 6px;
 }
 
@@ -193,12 +196,6 @@ h2 {
 }
 
 // ---- Modules -----------------------------------------------------------------------------------
-
-.section-title {
-  margin: 36px 0 14px;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-}
 
 .modules {
   display: grid;

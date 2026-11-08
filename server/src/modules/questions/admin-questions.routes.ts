@@ -14,8 +14,8 @@ import {
 import { getGrammarChecker } from '../../services/grammar/grammar-checker.js';
 import { getLlm } from '../../services/llm/llm.client.js';
 import { AppError } from '../../utils/app-error.js';
-import { generateQuestions } from './generator.service.js';
-import { TAGS, WRITTEN_TYPES, contentHash, questionContentSchema } from './question.schemas.js';
+import { GENERATABLE_TYPES, generateQuestions } from './generator.service.js';
+import { QUESTION_TYPES, TAGS, contentHash, questionContentSchema } from './question.schemas.js';
 import { toQuestionFields } from './seed-bank.js';
 
 type StoredQuestion = QuestionFields & { _id: Types.ObjectId };
@@ -30,9 +30,18 @@ function toAdminQuestion(q: StoredQuestion) {
     prompt: q.prompt,
     segments: q.segments?.length ? q.segments : undefined,
     options: q.options?.length ? q.options : undefined,
-    answer: q.answer,
+    answer: q.answer ?? null,
     correction: q.correction ?? null,
-    explanation: q.explanation,
+    explanation: q.explanation ?? null,
+    acceptedAnswers: q.acceptedAnswers?.length ? q.acceptedAnswers : undefined,
+    phrases: q.phrases?.length ? q.phrases : undefined,
+    script: q.script?.length ? q.script : undefined,
+    passage: q.passage ?? undefined,
+    keyPoints: q.keyPoints?.length ? q.keyPoints : undefined,
+    hints: q.hints?.length ? q.hints : undefined,
+    sampleAnswer: q.sampleAnswer ?? undefined,
+    prepSeconds: q.prepSeconds ?? undefined,
+    answerSeconds: q.answerSeconds ?? undefined,
     status: q.status,
     source: q.source,
     aiModel: q.aiModel ?? null,
@@ -49,7 +58,7 @@ function toAdminQuestion(q: StoredQuestion) {
 
 const listQuery = z.object({
   status: z.enum(QUESTION_STATUSES).optional(),
-  type: z.enum(WRITTEN_TYPES).optional(),
+  type: z.enum(QUESTION_TYPES).optional(),
   tag: z.enum(TAGS).optional(),
   source: z.enum(QUESTION_SOURCES).optional(),
   q: z.string().trim().max(100).optional(),
@@ -58,7 +67,7 @@ const listQuery = z.object({
 });
 
 const generateSchema = z.object({
-  type: z.enum(WRITTEN_TYPES),
+  type: z.enum(GENERATABLE_TYPES),
   tag: z.enum(TAGS),
   difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   count: z.number().int().min(1).max(20).default(10),
@@ -180,8 +189,23 @@ adminQuestionsRouter.put('/:id', validateBody(questionContentSchema), async (req
   if (await Question.exists({ contentHash: hash, _id: { $ne: q._id } })) {
     throw new AppError(409, 'DUPLICATE', 'Another question already has exactly this content.');
   }
-  // Clear the fields that belong to the other question shape (e.g. options on spot-the-error).
-  q.set({ segments: undefined, options: undefined, correction: undefined });
+  // Clear the fields that belong to other question shapes (e.g. options on spot-the-error).
+  q.set({
+    segments: undefined,
+    options: undefined,
+    answer: undefined,
+    correction: undefined,
+    explanation: undefined,
+    acceptedAnswers: undefined,
+    phrases: undefined,
+    script: undefined,
+    passage: undefined,
+    keyPoints: undefined,
+    hints: undefined,
+    sampleAnswer: undefined,
+    prepSeconds: undefined,
+    answerSeconds: undefined,
+  });
   q.set(toQuestionFields(content));
   await q.save();
   res.json(toAdminQuestion(q.toObject() as StoredQuestion));

@@ -1,0 +1,175 @@
+[
+  {
+    "type": "conversation",
+    "difficulty": 1,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Hi Ravi, are you coming to the library this evening?" },
+      { "speaker": "B", "text": "No, I have a cricket match at five. Let's go tomorrow." }
+    ],
+    "prompt": "Why can't Ravi go to the library this evening?",
+    "acceptedAnswers": ["cricket", "match"],
+    "explanation": "Ravi says he has a cricket match at five."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 1,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Excuse me, which floor is the HR department on?" },
+      { "speaker": "B", "text": "It's on the third floor, next to the conference room." }
+    ],
+    "prompt": "Which floor is the HR department on?",
+    "acceptedAnswers": ["third", "three"],
+    "explanation": "The HR department is on the third floor."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 1,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "What time does the canteen close?" },
+      {
+        "speaker": "B",
+        "text": "Usually at four, but today it closes at two because of the function."
+      }
+    ],
+    "prompt": "What time does the canteen close today?",
+    "acceptedAnswers": ["two"],
+    "explanation": "Today it closes at two because of the function."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 1,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Did you bring your laptop for the workshop?" },
+      { "speaker": "B", "text": "Yes, but I forgot the charger at home." },
+      { "speaker": "A", "text": "Don't worry, you can borrow mine." }
+    ],
+    "prompt": "What did the second speaker forget?",
+    "acceptedAnswers": ["charger"],
+    "explanation": "The second speaker forgot the laptop charger."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 2,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Priya, did you send the project report to the client?" },
+      { "speaker": "B", "text": "Not yet. I'm waiting for Arun to check the figures." }
+    ],
+    "prompt": "Who is checking the figures?",
+    "acceptedAnswers": ["arun"],
+    "explanation": "Priya is waiting for Arun to check the figures."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 2,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "I'd like to book a table for four people at eight tonight." },
+      { "speaker": "B", "text": "Sorry, we're full at eight. Would nine o'clock be fine?" },
+      { "speaker": "A", "text": "Yes, nine is fine." }
+    ],
+    "prompt": "At what time is the table booked?",
+    "acceptedAnswers": ["nine"],
+    "explanation": "The restaurant was full at eight, so the table is booked for nine."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 2,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "How was your first week at the new job?" },
+      {
+        "speaker": "B",
+        "text": "Busy, but the team is very friendly. The only problem is the long journey."
+      }
+    ],
+    "prompt": "What is the problem with the new job?",
+    "acceptedAnswers": ["journey", "travel", "commute", "distance", "far"],
+    "explanation": "The only problem is the long journey to work."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 2,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Can I pay by card?" },
+      {
+        "speaker": "B",
+        "text": "I'm sorry, our card machine isn't working today. You can pay in cash or by UPI."
+      }
+    ],
+    "prompt": "Why can't the customer pay by card?",
+    "acceptedAnswers": ["machine", "not working", "broken"],
+    "explanation": "The shop's card machine is not working today."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 2,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Did you hear that the exam has been moved?" },
+      { "speaker": "B", "text": "Yes, it's now on the fifteenth instead of the tenth." }
+    ],
+    "prompt": "On which date is the exam now?",
+    "acceptedAnswers": ["fifteenth", "fifteen"],
+    "explanation": "The exam moved from the tenth to the fifteenth."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 3,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      {
+        "speaker": "A",
+        "text": "We need someone to present our project at the conference next month."
+      },
+      { "speaker": "B", "text": "I'd love to, but I'll be on leave for my sister's wedding." },
+      { "speaker": "A", "text": "Then let's ask Meena. She presented last year." }
+    ],
+    "prompt": "Who will probably present the project?",
+    "acceptedAnswers": ["meena"],
+    "explanation": "The second speaker is on leave, so they plan to ask Meena."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 3,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "The client wants the website ready by Friday." },
+      { "speaker": "B", "text": "That's impossible. We still have to test the payment page." },
+      { "speaker": "A", "text": "Okay, I'll ask them for an extra week." }
+    ],
+    "prompt": "What still needs to be tested?",
+    "acceptedAnswers": ["payment"],
+    "explanation": "They still have to test the payment page."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 3,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Your train is running forty minutes late." },
+      { "speaker": "B", "text": "Then I'll miss my connecting bus to Mysore." },
+      { "speaker": "A", "text": "There's another bus at ten fifteen." }
+    ],
+    "prompt": "Where is the traveller going?",
+    "acceptedAnswers": ["mysore", "mysuru"],
+    "explanation": "The traveller has a connecting bus to Mysore."
+  },
+  {
+    "type": "conversation",
+    "difficulty": 3,
+    "tags": ["listening", "comprehension"],
+    "script": [
+      { "speaker": "A", "text": "Have you finished the online course on data analysis?" },
+      { "speaker": "B", "text": "Almost. I've completed six of the eight modules." }
+    ],
+    "prompt": "How many modules are left?",
+    "acceptedAnswers": ["two"],
+    "explanation": "Six of eight modules are done, so two are left."
+  }
+]

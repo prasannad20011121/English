@@ -1,32 +1,60 @@
 import { z } from 'zod';
 import { REPORT_REASONS } from '../../models/question.model.js';
-import { TAGS, WRITTEN_TYPES } from '../questions/question.schemas.js';
+import { VOICE_TASKS } from '../voice/tasks.js';
 
 export const startSessionSchema = z
   .object({
-    mode: z.enum(['practice', 'review']).default('practice'),
-    type: z.enum(WRITTEN_TYPES).optional(),
-    count: z.union([z.literal(5), z.literal(10), z.literal(20)]).default(10),
+    mode: z.enum(['practice', 'review', 'test']).default('practice'),
+    task: z.enum(VOICE_TASKS).optional(),
+    count: z.union([z.literal(5), z.literal(10)]).default(5),
     difficulty: z.number().int().min(1).max(3).optional(),
-    tags: z.array(z.enum(TAGS)).max(TAGS.length).optional(),
   })
-  .refine((v) => v.mode === 'review' || v.type, {
-    message: 'Choose a question type',
-    path: ['type'],
+  .refine((v) => v.mode !== 'practice' || v.task, {
+    message: 'Choose a task',
+    path: ['task'],
   });
 export type StartSessionInput = z.infer<typeof startSessionSchema>;
 
-export const answerSchema = z.object({
+/** Text fields sent with the audio file (multipart/form-data). */
+export const answerFieldsSchema = z.object({
   questionId: z.string().regex(/^[a-f\d]{24}$/i, 'Invalid question'),
-  chosen: z.number().int().min(0).max(4),
-  timeMs: z
+  durationMs: z.coerce
+    .number()
+    .int()
+    .min(0)
+    .max(10 * 60 * 1000),
+  timeMs: z.coerce
     .number()
     .int()
     .min(0)
     .max(60 * 60 * 1000)
     .default(0),
+  /** From the browser's speech recognition, used when Whisper is not configured. */
+  clientTranscript: z.string().max(5000).optional(),
+  /** JSON of { firstSoundMs, speechMs, pauses, longPauses } measured while recording. */
+  clientMetrics: z
+    .string()
+    .max(2000)
+    .optional()
+    .transform((raw, ctx) => {
+      if (!raw) return undefined;
+      try {
+        const parsed = z
+          .object({
+            firstSoundMs: z.number().min(0).optional(),
+            speechMs: z.number().min(0).optional(),
+            pauses: z.number().int().min(0).optional(),
+            longPauses: z.number().int().min(0).optional(),
+          })
+          .parse(JSON.parse(raw));
+        return parsed;
+      } catch {
+        ctx.addIssue({ code: 'custom', message: 'Invalid clientMetrics' });
+        return z.NEVER;
+      }
+    }),
 });
-export type AnswerInput = z.infer<typeof answerSchema>;
+export type AnswerFields = z.infer<typeof answerFieldsSchema>;
 
 export const reportSchema = z.object({
   reason: z.enum(REPORT_REASONS),

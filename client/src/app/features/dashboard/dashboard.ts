@@ -70,30 +70,39 @@ export class DashboardPage {
   protected readonly weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   protected readonly todayIndex = (this.now.getDay() + 6) % 7;
 
-  protected readonly modules: Module[] = [
-    {
-      title: 'Speaking',
-      icon: 'lucideMic',
-      tone: 'lavender',
-      description: 'Record answers and get feedback on pronunciation, fluency and grammar.',
-      tasks: ['Read aloud', 'Listen & repeat', 'Sentence builds', 'Story retelling', 'Topic talk'],
-    },
-    {
-      title: 'Written',
-      icon: 'lucidePenLine',
-      tone: 'mint',
-      description: 'Quick grammar and vocabulary rounds with instant answers and explanations.',
-      tasks: ['Fill in the blanks', 'Spot the error', 'Sentence completion', 'Synonyms & antonyms'],
-      link: '/practice/written',
-    },
-    {
-      title: 'Mock tests',
-      icon: 'lucideTimer',
-      tone: 'sky',
-      description: 'Full timed tests in SHL style, with a skill-by-skill score report.',
-      tasks: ['Audio plays once', 'Auto-record', 'No going back', 'Score report'],
-    },
-  ];
+  protected readonly modules = computed<Module[]>(() => {
+    const st = this.stats();
+    return [
+      {
+        title: 'Speaking',
+        icon: 'lucideMic',
+        tone: 'lavender',
+        description:
+          'Read aloud, retell stories and talk on a topic. Scored on fluency and clarity.',
+        tasks: ['Read aloud', 'Story retelling', 'Topic talk'],
+        link: '/practice',
+      },
+      {
+        title: 'Listening',
+        icon: 'lucideHeadphones',
+        tone: 'mint',
+        description:
+          'Hear a question, answer out loud. Repeat, complete, correct and build sentences.',
+        tasks: ['Listen & repeat', 'Listen & complete', 'Listen & correct', 'Conversations'],
+        link: '/practice',
+      },
+      {
+        title: 'Voice test',
+        icon: 'lucideTimer',
+        tone: 'sky',
+        description: st?.testsTaken
+          ? `Best score ${st.bestTest ?? 0}/100 from ${st.testsTaken} ${st.testsTaken === 1 ? 'test' : 'tests'}. Can you beat it?`
+          : 'A full SHL-style test in 9 parts with a skill-by-skill report.',
+        tasks: ['Plays once', 'Auto-record', 'No going back', 'Score report'],
+        link: '/voice-test',
+      },
+    ];
+  });
 
   protected readonly tips: { icon: AppIcon; text: string }[] = [
     { icon: 'lucideHeadphones', text: 'Use earphones with a mic and sit somewhere quiet.' },

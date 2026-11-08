@@ -1,0 +1,123 @@
+<header class="page-head">
+  <h1 class="title">Speaking & listening practice</h1>
+  <p>Questions are spoken aloud and you answer by speaking, just like the SHL voice test.</p>
+</header>
+
+@if (loadError(); as message) {
+  <p class="alert alert--error" role="alert"><ui-icon name="lucideCircleAlert" /> {{ message }}</p>
+}
+
+<div class="top">
+  @if (!micChecked) {
+    <a class="tile tile--butter callout lift" routerLink="/mic-check">
+      <ui-icon name="lucideHeadphones" size="26px" />
+      <span>
+        <strong>Check your microphone first</strong>
+        <span>Takes 30 seconds: hear a sample voice and test a recording.</span>
+      </span>
+      <ui-icon name="lucideArrowRight" size="20px" />
+    </a>
+  }
+
+  <section class="card options" aria-label="Round options">
+    <div>
+      <span class="group-label" id="count-label">Questions</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="count-label">
+        @for (n of counts; track n) {
+          <label>
+            <input type="radio" name="count" [checked]="count() === n" (change)="count.set(n)" />
+            <span>{{ n }}</span>
+          </label>
+        }
+      </div>
+    </div>
+    <div>
+      <span class="group-label" id="difficulty-label">Difficulty</span>
+      <div class="segmented" role="radiogroup" aria-labelledby="difficulty-label">
+        @for (d of difficulties; track d[0]) {
+          <label>
+            <input
+              type="radio"
+              name="difficulty"
+              [checked]="difficulty() === d[0]"
+              (change)="difficulty.set(d[0])"
+            />
+            <span>{{ d[1] }}</span>
+          </label>
+        }
+      </div>
+    </div>
+  </section>
+</div>
+
+@for (g of groups(); track g.group; let gi = $index) {
+  <section class="group" [attr.aria-labelledby]="'group-' + g.group">
+    <h2 class="section-title" [id]="'group-' + g.group">{{ g.title }}</h2>
+    <p class="muted group__lead">{{ g.lead }}</p>
+    <div class="tasks">
+      @for (t of g.tasks; track t.task; let i = $index) {
+        <article class="tile tile--{{ t.info.tone }} task rise" [style.--i]="gi * 3 + i">
+          <div class="task__top">
+            <span class="task__icon"><ui-icon [name]="t.info.icon" size="24px" /></span>
+            @if (t.entry?.best !== null && t.entry?.best !== undefined) {
+              <span class="pill">Best {{ t.entry!.best }}</span>
+            }
+          </div>
+          <h3>{{ t.info.title }}</h3>
+          <p>{{ t.info.description }}</p>
+          <p class="task__meta">
+            @if (t.entry; as e) {
+              {{ e.done }} of {{ e.available }} done
+              @if (e.average !== null) {
+                · average {{ e.average }}
+              }
+            } @else {
+              &nbsp;
+            }
+          </p>
+          <button
+            type="button"
+            class="btn btn--soft task__btn"
+            [class.is-loading]="starting() === t.task"
+            [disabled]="!!starting() || t.entry?.available === 0"
+            [attr.aria-label]="'Start ' + t.info.title"
+            (click)="start(t.task)"
+          >
+            Start
+            <ui-icon name="lucideArrowRight" size="18px" />
+          </button>
+        </article>
+      }
+    </div>
+  </section>
+}
+
+<div class="extras">
+  <a class="tile tile--lavender test-card lift" routerLink="/voice-test">
+    <span class="task__icon"><ui-icon name="lucideTimer" size="24px" /></span>
+    <span>
+      <strong>Take the full voice test</strong>
+      <span>9 parts, about 18 minutes. Each question plays once and there is no going back.</span>
+    </span>
+    <ui-icon name="lucideArrowRight" size="20px" />
+  </a>
+
+  @if (catalog()?.mistakes) {
+    <section class="card review">
+      <ui-icon name="lucideRotateCcw" size="24px" />
+      <div>
+        <h2>Review my mistakes</h2>
+        <p class="muted">{{ catalog()!.mistakes }} questions to try again.</p>
+      </div>
+      <button
+        type="button"
+        class="btn btn--ghost btn--sm"
+        [class.is-loading]="starting() === 'review'"
+        [disabled]="!!starting()"
+        (click)="review()"
+      >
+        Start review
+      </button>
+    </section>
+  }
+</div>

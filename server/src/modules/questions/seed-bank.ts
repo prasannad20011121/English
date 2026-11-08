@@ -61,18 +61,48 @@ export function loadSeedQuestions(dir = SEED_DIR): {
 
 /** Database fields for a validated question. */
 export function toQuestionFields(q: QuestionContent) {
-  return {
+  const common = {
     type: q.type,
     tags: q.tags,
     difficulty: q.difficulty,
     prompt: promptOf(q),
-    ...(q.type === 'spot_error'
-      ? { segments: q.segments, ...(q.correction ? { correction: q.correction } : {}) }
-      : { options: q.options }),
-    answer: q.answer,
-    explanation: q.explanation,
     contentHash: contentHash(q),
+    ...(q.explanation ? { explanation: q.explanation } : {}),
+    ...('prepSeconds' in q && q.prepSeconds !== undefined ? { prepSeconds: q.prepSeconds } : {}),
+    ...('answerSeconds' in q && q.answerSeconds !== undefined
+      ? { answerSeconds: q.answerSeconds }
+      : {}),
   };
+  switch (q.type) {
+    case 'spot_error':
+      return {
+        ...common,
+        segments: q.segments,
+        answer: q.answer,
+        ...(q.correction ? { correction: q.correction } : {}),
+      };
+    case 'fill_blank':
+    case 'sentence_completion':
+    case 'synonym':
+    case 'antonym':
+      return { ...common, options: q.options, answer: q.answer };
+    case 'short_answer':
+      return { ...common, acceptedAnswers: q.acceptedAnswers };
+    case 'conversation':
+      return { ...common, script: q.script, acceptedAnswers: q.acceptedAnswers };
+    case 'sentence_build':
+      return { ...common, phrases: q.phrases };
+    case 'story_retell':
+      return { ...common, passage: q.passage, keyPoints: q.keyPoints };
+    case 'topic_talk':
+      return {
+        ...common,
+        hints: q.hints,
+        ...(q.sampleAnswer ? { sampleAnswer: q.sampleAnswer } : {}),
+      };
+    default:
+      return common;
+  }
 }
 
 /**

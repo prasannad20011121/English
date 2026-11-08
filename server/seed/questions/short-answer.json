@@ -1,0 +1,242 @@
+[
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call the meal we eat in the morning?",
+    "acceptedAnswers": ["breakfast"],
+    "explanation": "The first meal of the day is called breakfast."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "How many days are there in a week?",
+    "acceptedAnswers": ["seven"],
+    "explanation": "A week has seven days."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you use to cut paper?",
+    "acceptedAnswers": ["scissors", "paper cutter", "cutter"],
+    "explanation": "We usually cut paper with scissors."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Which month comes after March?",
+    "acceptedAnswers": ["april"],
+    "explanation": "April comes after March."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the opposite of hot?",
+    "acceptedAnswers": ["cold"],
+    "explanation": "The opposite of hot is cold."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Where do people go to borrow books?",
+    "acceptedAnswers": ["library"],
+    "explanation": "People borrow books from a library."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you call a person who teaches in a school?",
+    "acceptedAnswers": ["teacher"],
+    "explanation": "A person who teaches is a teacher."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "How many hours are there in a day?",
+    "acceptedAnswers": ["twenty four"],
+    "explanation": "A day has twenty-four hours."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What colour do you get when you mix blue and yellow?",
+    "acceptedAnswers": ["green"],
+    "explanation": "Blue and yellow make green."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 1,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Which animal is known as the king of the jungle?",
+    "acceptedAnswers": ["lion"],
+    "explanation": "The lion is called the king of the jungle."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you call a person who designs buildings?",
+    "acceptedAnswers": ["architect"],
+    "explanation": "An architect designs buildings."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "If a meeting starts at ten and lasts for two hours, when does it end?",
+    "acceptedAnswers": ["twelve", "noon", "midday"],
+    "explanation": "Ten plus two hours is twelve o'clock."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call a list of things to discuss in a meeting?",
+    "acceptedAnswers": ["agenda"],
+    "explanation": "The list of topics for a meeting is the agenda."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the plural of the word child?",
+    "acceptedAnswers": ["children"],
+    "explanation": "The plural of child is children."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Which document lists your education and work experience for a job application?",
+    "acceptedAnswers": ["resume", "résumé", "cv", "curriculum vitae", "biodata"],
+    "explanation": "This document is called a resume or CV."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you call the money you pay to study at a college?",
+    "acceptedAnswers": ["fee", "fees", "tuition"],
+    "explanation": "The money paid to study is called fees."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the past tense of the verb go?",
+    "acceptedAnswers": ["went"],
+    "explanation": "The past tense of go is went."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call a person who buys goods or services?",
+    "acceptedAnswers": ["customer", "consumer", "client", "buyer"],
+    "explanation": "A person who buys is a customer."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Which day comes two days after Friday?",
+    "acceptedAnswers": ["sunday"],
+    "explanation": "Two days after Friday is Sunday."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 2,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the opposite of the word increase?",
+    "acceptedAnswers": ["decrease", "reduce", "fall", "drop"],
+    "explanation": "The opposite of increase is decrease."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you call a formal meeting where a candidate is asked questions for a job?",
+    "acceptedAnswers": ["interview"],
+    "explanation": "This meeting is a job interview."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What word describes a person who is always on time?",
+    "acceptedAnswers": ["punctual"],
+    "explanation": "A person who is always on time is punctual."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call the money a company earns from sales before expenses are taken out?",
+    "acceptedAnswers": ["revenue", "turnover", "sales", "gross income"],
+    "explanation": "Money earned before expenses is revenue."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the noun form of the verb decide?",
+    "acceptedAnswers": ["decision"],
+    "explanation": "The noun form of decide is decision."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do you call the person who greets visitors at an office's front desk?",
+    "acceptedAnswers": ["receptionist"],
+    "explanation": "The person at the front desk is the receptionist."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "If something happens once every year, how do we describe it?",
+    "acceptedAnswers": ["annual", "annually", "yearly"],
+    "explanation": "Something that happens every year is annual."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call a word that means the same as another word?",
+    "acceptedAnswers": ["synonym"],
+    "explanation": "A word with the same meaning is a synonym."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "Which part of a computer is often called its brain?",
+    "acceptedAnswers": ["processor", "cpu", "central processing unit", "microprocessor"],
+    "explanation": "The processor (CPU) is called the brain of a computer."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What is the superlative form of the adjective good?",
+    "acceptedAnswers": ["best"],
+    "explanation": "Good, better, best: the superlative is best."
+  },
+  {
+    "type": "short_answer",
+    "difficulty": 3,
+    "tags": ["listening", "vocabulary"],
+    "prompt": "What do we call the short break in the middle of a working day when people eat?",
+    "acceptedAnswers": ["lunch"],
+    "explanation": "That break is the lunch break."
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "The train leaves at six o'clock.",
+    "phrases": ["at six o'clock", "the train", "leaves"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "I will call you after lunch.",
+    "phrases": ["after lunch", "I will", "call you"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "She works in a bank.",
+    "phrases": ["in a bank", "she", "works"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "We went to the market yesterday.",
+    "phrases": ["yesterday", "we went", "to the market"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "My father reads the newspaper every morning.",
+    "phrases": ["every morning", "my father", "reads the newspaper"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "The children are playing in the park.",
+    "phrases": ["in the park", "are playing", "the children"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "Please bring your identity card tomorrow.",
+    "phrases": ["your identity card", "please bring", "tomorrow"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 1,
+    "tags": ["word_order", "listening"],
+    "prompt": "He has finished his homework.",
+    "phrases": ["his homework", "he", "has finished"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "The results will be announced next Monday.",
+    "phrases": ["next Monday", "the results", "will be announced"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "Our manager approved the new proposal.",
+    "phrases": ["the new proposal", "our manager", "approved"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "Students must submit the form before Friday.",
+    "phrases": ["before Friday", "students must", "submit the form"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "I have been waiting for an hour.",
+    "phrases": ["for an hour", "I have", "been waiting"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "The company is hiring fresh graduates this year.",
+    "phrases": ["fresh graduates this year", "the company", "is hiring"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "She explained the problem to the customer.",
+    "phrases": ["to the customer", "she explained", "the problem"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "We should leave early to avoid the traffic.",
+    "phrases": ["to avoid the traffic", "we should", "leave early"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "The interview was shorter than I expected.",
+    "phrases": ["than I expected", "the interview", "was shorter"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 2,
+    "tags": ["word_order", "listening"],
+    "prompt": "My sister has never travelled abroad.",
+    "phrases": ["travelled abroad", "my sister", "has never"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "The meeting was postponed because the director was unwell.",
+    "phrases": ["because the director was unwell", "the meeting", "was postponed"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "Candidates who clear the test will be called for an interview.",
+    "phrases": ["will be called for an interview", "candidates", "who clear the test"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "Although it was late, she continued working on the presentation.",
+    "phrases": ["she continued working on the presentation", "although", "it was late"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "The software was updated to fix several security problems.",
+    "phrases": ["to fix several security problems", "the software", "was updated"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "If you need any help, please contact the office.",
+    "phrases": ["please contact the office", "if you need", "any help"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "The report that you sent yesterday has a few errors.",
+    "phrases": ["has a few errors", "the report", "that you sent yesterday"]
+  },
+  {
+    "type": "sentence_build",
+    "difficulty": 3,
+    "tags": ["word_order", "listening"],
+    "prompt": "Neither the students nor the teacher knew the answer.",
+    "phrases": ["knew the answer", "neither the students", "nor the teacher"]
+  }
+]

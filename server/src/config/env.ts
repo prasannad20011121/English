@@ -55,6 +55,25 @@ const envSchema = z
       .string()
       .optional()
       .transform((v) => (v ? v : undefined)),
+    /**
+     * Speech-to-text for spoken answers: any OpenAI-compatible Whisper API, e.g. Groq
+     * https://api.groq.com/openai/v1 or a self-hosted faster-whisper server. Empty = the browser's
+     * own speech recognition is used instead.
+     */
+    STT_BASE_URL: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v.replace(/\/+$/, '') : undefined)),
+    STT_MODEL: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v : undefined)),
+    STT_API_KEY: z
+      .string()
+      .optional()
+      .transform((v) => (v ? v : undefined)),
+    /** Days to keep students' recordings (promised at sign-up). */
+    RECORDING_RETENTION_DAYS: z.coerce.number().int().min(1).max(365).default(60),
     /** Optional LanguageTool server (e.g. http://localhost:8010) to double-check AI drafts. */
     LANGUAGETOOL_URL: z
       .string()
@@ -77,6 +96,13 @@ const envSchema = z
         code: 'custom',
         path: ['LLM_MODEL'],
         message: 'Set LLM_MODEL when LLM_BASE_URL is set',
+      });
+    }
+    if (cfg.STT_BASE_URL && !cfg.STT_MODEL) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['STT_MODEL'],
+        message: 'Set STT_MODEL when STT_BASE_URL is set',
       });
     }
     if (cfg.COOKIE_SAMESITE === 'none' && !cfg.COOKIE_SECURE) {

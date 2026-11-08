@@ -195,3 +195,17 @@ textarea {
     color: var(--ink-2);
   }
 }
+
+.section-title {
+  margin: 36px 0 14px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+/** Placeholder card while a page loads. */
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink-2);
+}

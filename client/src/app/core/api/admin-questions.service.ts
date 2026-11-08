@@ -13,9 +13,19 @@ export interface AdminQuestion {
   prompt: string;
   segments?: string[];
   options?: string[];
-  answer: number;
+  /** Written types only. */
+  answer: number | null;
   correction: string | null;
-  explanation: string;
+  explanation: string | null;
+  acceptedAnswers?: string[];
+  phrases?: string[];
+  script?: { speaker: 'A' | 'B'; text: string }[];
+  passage?: string;
+  keyPoints?: { label: string; keywords: string[] }[];
+  hints?: string[];
+  sampleAnswer?: string;
+  prepSeconds?: number;
+  answerSeconds?: number;
   status: QuestionStatus;
   source: 'seed' | 'ai' | 'manual';
   aiModel: string | null;
@@ -48,10 +58,39 @@ export interface GenerateReport {
   grammarChecked: boolean;
 }
 
+/** Question types answered by speaking that have no tap-to-answer equivalent. */
+export const VOICE_ONLY_TYPES = [
+  'read_aloud',
+  'repeat',
+  'short_answer',
+  'sentence_build',
+  'conversation',
+  'story_retell',
+  'topic_talk',
+] as const satisfies readonly QuestionType[];
+export type VoiceOnlyType = (typeof VOICE_ONLY_TYPES)[number];
+
+/** Types the AI writer can draft (the server's list). */
+export const GENERATABLE_TYPES = [
+  'fill_blank',
+  'spot_error',
+  'read_aloud',
+  'repeat',
+  'short_answer',
+  'sentence_build',
+  'topic_talk',
+  'sentence_completion',
+  'synonym',
+  'antonym',
+] as const satisfies readonly QuestionType[];
+
+export const isVoiceOnly = (type: QuestionType): type is VoiceOnlyType =>
+  (VOICE_ONLY_TYPES as readonly QuestionType[]).includes(type);
+
 /** The authoring shape the API validates (same rules as the seed bank). */
 export type QuestionContent =
   | {
-      type: Exclude<QuestionType, 'spot_error'>;
+      type: Exclude<QuestionType, 'spot_error' | VoiceOnlyType>;
       difficulty: number;
       tags: Tag[];
       prompt: string;
@@ -67,7 +106,11 @@ export type QuestionContent =
       answer: number;
       correction?: string;
       explanation: string;
-    };
+    }
+  | ({ type: VoiceOnlyType; difficulty: number; tags: Tag[]; prompt: string } & Record<
+      string,
+      unknown
+    >);
 
 export interface QuestionQuery {
   status: QuestionStatus;

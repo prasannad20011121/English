@@ -1,0 +1,357 @@
+<p class="sr-only" aria-live="polite">{{ announcement() }}</p>
+
+@let v = view();
+@let p = prompt();
+@let i = info();
+
+<header class="bar">
+  @if (isTest()) {
+    <a
+      class="icon-btn"
+      routerLink="/voice-test"
+      aria-label="Leave the test (you can continue later)"
+    >
+      <ui-icon name="lucideX" />
+    </a>
+  } @else {
+    <a class="icon-btn" routerLink="/practice" aria-label="Back to practice">
+      <ui-icon name="lucideChevronLeft" />
+    </a>
+  }
+  <div class="bar__text">
+    <h1 class="bar__title">{{ title() }}</h1>
+    @if (v && p) {
+      <p class="bar__meta">
+        @if (section(); as s) {
+          Part {{ letters[p.section!] }} · {{ s.title }} ·
+        }
+        Question {{ index() + 1 }} of {{ total() }}
+      </p>
+    }
+  </div>
+  @if (v) {
+    <div
+      class="bar__progress"
+      role="progressbar"
+      aria-label="Questions answered"
+      aria-valuemin="0"
+      [attr.aria-valuemax]="total()"
+      [attr.aria-valuenow]="done().size"
+    >
+      <span [style.width.%]="progress()"></span>
+    </div>
+  }
+</header>
+
+@switch (phase()) {
+  @case ('loading') {
+    <div class="card loading" aria-busy="true">Getting your questions ready…</div>
+  }
+
+  @case ('error') {
+    <section class="card stage rise">
+      <p class="alert alert--error" role="alert">
+        <ui-icon name="lucideCircleAlert" />
+        {{ error() }}
+      </p>
+      <div class="actions">
+        <button type="button" class="btn btn--primary" (click)="retryAfterError()">
+          <ui-icon name="lucideRotateCcw" size="18px" /> Try again
+        </button>
+        <a class="btn btn--ghost" routerLink="/mic-check">Check my microphone</a>
+      </div>
+    </section>
+  }
+
+  @case ('intro') {
+    @if (p && i) {
+      <section class="tile tile--{{ i.tone }} intro rise" aria-labelledby="intro-title">
+        <span class="intro__icon"><ui-icon [name]="i.icon" size="28px" /></span>
+        @if (isTest() && section(); as s) {
+          <p class="eyebrow">Part {{ letters[p.section!] }} of {{ v?.sections?.length }}</p>
+          <h2 id="intro-title" class="title">{{ s.title }}</h2>
+          <p class="intro__count">{{ s.count }} {{ s.count === 1 ? 'question' : 'questions' }}</p>
+        } @else {
+          <p class="eyebrow">{{ total() }} {{ total() === 1 ? 'question' : 'questions' }}</p>
+          <h2 id="intro-title" class="title">
+            {{ v?.session?.mode === 'review' ? 'Review my mistakes' : i.title }}
+          </h2>
+        }
+        <p class="intro__how">{{ i.howTo }}</p>
+        <ul class="intro__rules">
+          @if (isTest()) {
+            <li><ui-icon name="lucideVolume2" size="18px" /> Each question plays once.</li>
+            <li><ui-icon name="lucideSkipForward" size="18px" /> You cannot go back.</li>
+          } @else {
+            <li>
+              <ui-icon name="lucideRepeat" size="18px" /> You can hear most questions once more.
+            </li>
+          }
+          <li><ui-icon name="lucideMic" size="18px" /> Recording starts after the beep.</li>
+          @if (p.autoStop) {
+            <li>
+              <ui-icon name="lucideCircleStop" size="18px" /> It stops when you finish speaking.
+            </li>
+          } @else {
+            <li>
+              <ui-icon name="lucideTimer" size="18px" /> Keep talking until the time runs out.
+            </li>
+          }
+        </ul>
+        @if (blocker(); as b) {
+          <p class="alert alert--error" role="alert">
+            <ui-icon name="lucideCircleAlert" /> {{ b }}
+          </p>
+        } @else if (!micWasChecked && index() === 0) {
+          <p class="alert alert--info">
+            <ui-icon name="lucideHeadphones" />
+            <span
+              >First time? <a routerLink="/mic-check">Check your microphone</a> so your answers come
+              through clearly.</span
+            >
+          </p>
+        }
+        @if (!tts.supported) {
+          <p class="alert alert--error" role="alert">
+            <ui-icon name="lucideCircleAlert" /> This browser cannot play spoken questions. Please
+            use Chrome, Edge or Safari.
+          </p>
+        }
+        <div class="actions">
+          <button
+            type="button"
+            class="btn btn--primary"
+            [class.is-loading]="opening()"
+            [disabled]="!!blocker() || opening()"
+            (click)="begin()"
+          >
+            <ui-icon name="lucidePlay" size="18px" />
+            @if (isTest() && section()) {
+              Begin part {{ letters[p.section!] }}
+            } @else if (done().size) {
+              Continue
+            } @else {
+              Start
+            }
+          </button>
+        </div>
+      </section>
+    }
+  }
+
+  @case ('saving') {
+    <div class="card loading" aria-busy="true">
+      <span class="spinner" aria-hidden="true"></span> Saving your answers and adding up your score…
+    </div>
+  }
+
+  @case ('feedback') {
+    @if (result(); as r) {
+      <section class="card feedback rise" aria-labelledby="feedback-title">
+        <div class="feedback__head">
+          <span class="score score--{{ scoreTone(r.score) }}">
+            <strong>{{ r.score }}</strong
+            ><small>/100</small>
+          </span>
+          <div>
+            <p class="eyebrow muted">{{ i?.title }}</p>
+            <h2 id="feedback-title" class="title">{{ scoreWord(r.score) }}</h2>
+          </div>
+        </div>
+
+        <app-answer-review [result]="r" [whisper]="config()?.stt === 'whisper'" />
+
+        <div class="listen" role="group" aria-label="Listen again">
+          <button type="button" class="btn btn--ghost btn--sm" (click)="hearMyself()">
+            <ui-icon name="lucideAudioLines" size="16px" /> Hear yourself
+          </button>
+          @if (modelText()) {
+            <button type="button" class="btn btn--ghost btn--sm" (click)="hearModel()">
+              <ui-icon name="lucideVolume2" size="16px" /> Hear a model answer
+            </button>
+          }
+          @if (p?.speak?.length) {
+            <button type="button" class="btn btn--ghost btn--sm" (click)="hearQuestion()">
+              <ui-icon name="lucideRepeat" size="16px" /> Hear the question
+            </button>
+          }
+        </div>
+
+        <div class="actions actions--end">
+          @if (p && !reported().has(p.id)) {
+            <button
+              type="button"
+              class="link-btn"
+              [attr.aria-expanded]="reportOpen()"
+              (click)="reportOpen.set(!reportOpen())"
+            >
+              Report a problem
+            </button>
+          }
+          <span class="spacer"></span>
+          <button type="button" class="btn btn--primary" (click)="next()">
+            {{ isLast() ? 'See results' : 'Next question' }}
+            <ui-icon name="lucideArrowRight" size="18px" />
+          </button>
+        </div>
+
+        @if (reportOpen()) {
+          <form class="report" (submit)="$event.preventDefault(); report()">
+            <fieldset>
+              <legend class="group-label">What is wrong with this question?</legend>
+              <div class="segmented">
+                @for (opt of reportReasons; track opt[0]) {
+                  <label>
+                    <input
+                      type="radio"
+                      name="reason"
+                      [value]="opt[0]"
+                      [checked]="reportReason() === opt[0]"
+                      (change)="reportReason.set(opt[0])"
+                    />
+                    <span>{{ opt[1] }}</span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+            <button type="submit" class="btn btn--ghost btn--sm">Send report</button>
+          </form>
+        }
+      </section>
+    }
+  }
+
+  @default {
+    <!-- playing, prep, recording, silent, checking -->
+    @if (p && i) {
+      <section class="card stage stage--{{ phase() }} rise" aria-labelledby="stage-title">
+        <div class="stage__head">
+          <span class="pill pill--{{ i.tone }}"
+            ><ui-icon [name]="i.icon" size="15px" /> {{ i.title }}</span
+          >
+          <span class="phase-pill" [class.is-live]="phase() === 'recording'">
+            @switch (phase()) {
+              @case ('playing') {
+                <ui-icon name="lucideEar" size="15px" /> Listen
+              }
+              @case ('prep') {
+                <ui-icon name="lucideClock" size="15px" /> Get ready
+              }
+              @case ('recording') {
+                <span class="dot" aria-hidden="true"></span> Recording
+              }
+              @case ('checking') {
+                <ui-icon name="lucideAudioWaveform" size="15px" />
+                {{ isTest() ? 'Saved' : 'Checking' }}
+              }
+              @default {
+                <ui-icon name="lucideMicOff" size="15px" /> Paused
+              }
+            }
+          </span>
+        </div>
+
+        <h2 id="stage-title" class="sr-only">{{ i.cue }}</h2>
+
+        @if (p.display) {
+          <p class="display-text" [class.display-text--topic]="p.task === 'topic_talk'">
+            {{ p.display }}
+          </p>
+          @if (p.hints?.length) {
+            <ul class="hints" aria-label="Ideas to talk about">
+              @for (h of p.hints; track h) {
+                <li>{{ h }}</li>
+              }
+            </ul>
+          }
+        } @else {
+          <div class="listen-art" [class.is-on]="tts.speaking()" aria-hidden="true">
+            <ui-icon name="lucideHeadphones" size="40px" />
+            <span></span><span></span><span></span>
+          </div>
+          @if (p.title) {
+            <p class="story-title">{{ p.title }}</p>
+          }
+        }
+
+        <p class="cue">
+          @switch (phase()) {
+            @case ('playing') {
+              {{ isTest() ? 'Listen carefully. It plays once.' : 'Listen carefully.' }}
+            }
+            @case ('prep') {
+              {{ p.task === 'topic_talk' ? 'Plan what you will say.' : 'Get ready to speak.' }}
+            }
+            @case ('recording') {
+              {{ i.cue }}
+            }
+            @case ('checking') {
+              {{ isTest() ? 'Answer saved. Next question coming up…' : 'Checking your answer…' }}
+            }
+            @default {
+              @if (holdReason() === 'silence') {
+                We didn't hear anything. Check your microphone and speak a little louder.
+              } @else {
+                Your answer could not be checked.
+              }
+            }
+          }
+        </p>
+
+        @switch (phase()) {
+          @case ('prep') {
+            <div class="countdown" role="timer" aria-live="off">
+              <strong>{{ countdown() }}</strong>
+              <span>{{ countdown() === 1 ? 'second' : 'seconds' }}</span>
+            </div>
+            @if (!isTest()) {
+              <div class="actions">
+                <button type="button" class="btn btn--ghost" (click)="startNow()">
+                  I'm ready <ui-icon name="lucideMic" size="18px" />
+                </button>
+              </div>
+            }
+          }
+          @case ('recording') {
+            <ui-level-meter class="meter" [level]="recorder.level()" />
+            <div class="time">
+              <div class="time__bar"><span [style.width.%]="timePercent()"></span></div>
+              <span class="time__left" role="timer" aria-live="off"
+                >{{ secondsLeft() }} s left</span
+              >
+            </div>
+            <div class="actions">
+              <button type="button" class="btn btn--primary" (click)="stopNow()">
+                <ui-icon name="lucideCircleStop" size="18px" /> Done
+              </button>
+              @if (!isTest() && replaysLeft() > 0 && p.speak.length) {
+                <button type="button" class="btn btn--ghost" (click)="replay()">
+                  <ui-icon name="lucideRepeat" size="18px" /> Hear again
+                </button>
+              }
+              @if (!isTest()) {
+                <button type="button" class="btn btn--ghost" (click)="skip()">Skip</button>
+              }
+            </div>
+          }
+          @case ('checking') {
+            <span class="spinner spinner--lg" aria-hidden="true"></span>
+          }
+          @case ('silent') {
+            <div class="actions">
+              <button type="button" class="btn btn--primary" (click)="tryAgain()">
+                <ui-icon name="lucideMic" size="18px" /> Record again
+              </button>
+              @if (canSendHeld()) {
+                <button type="button" class="btn btn--ghost" (click)="sendHeld()">
+                  {{ holdReason() === 'failed' ? 'Send again' : 'Send anyway' }}
+                </button>
+              }
+              <button type="button" class="btn btn--ghost" (click)="skip()">Skip</button>
+            </div>
+          }
+        }
+      </section>
+    }
+  }
+}

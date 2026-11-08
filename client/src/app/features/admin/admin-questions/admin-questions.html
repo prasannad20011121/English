@@ -37,7 +37,7 @@
       <label>
         <span class="group-label">Type</span>
         <select class="ui-input" name="genType" [(ngModel)]="genType">
-          @for (t of types; track t.value) {
+          @for (t of genTypes; track t.value) {
             <option [value]="t.value">{{ t.label }}</option>
           }
         </select>
@@ -270,10 +270,66 @@
             >{{ t.after }}
           </p>
         }
+        @case ('read_aloud') {
+          <p class="q__sentence">{{ q.prompt }}</p>
+        }
+        @case ('repeat') {
+          <p class="q__sentence">{{ q.prompt }}</p>
+        }
+        @case ('short_answer') {
+          <p class="q__sentence">{{ q.prompt }}</p>
+          <ng-container *ngTemplateOutlet="accepted; context: { $implicit: q }" />
+        }
+        @case ('sentence_build') {
+          <ol class="q__phrases" aria-label="Phrases in the order they are read">
+            @for (p of q.phrases ?? []; track $index) {
+              <li>{{ p }}</li>
+            }
+          </ol>
+          <p class="q__fix"><ui-icon name="lucideCheck" size="16px" /> {{ q.prompt }}</p>
+        }
+        @case ('conversation') {
+          <dl class="q__script">
+            @for (t of q.script ?? []; track $index) {
+              <div>
+                <dt>{{ t.speaker }}</dt>
+                <dd>{{ t.text }}</dd>
+              </div>
+            }
+          </dl>
+          <p class="q__sentence q__sentence--q">{{ q.prompt }}</p>
+          <ng-container *ngTemplateOutlet="accepted; context: { $implicit: q }" />
+        }
+        @case ('story_retell') {
+          <p class="q__title">{{ q.prompt }}</p>
+          <p class="q__passage">{{ q.passage }}</p>
+          <ul class="q__points" aria-label="Key points">
+            @for (k of q.keyPoints ?? []; track $index) {
+              <li>
+                <strong>{{ k.label }}</strong>
+                <span>{{ k.keywords.join(', ') }}</span>
+              </li>
+            }
+          </ul>
+        }
+        @case ('topic_talk') {
+          <p class="q__sentence">{{ q.prompt }}</p>
+          <ul class="q__hints" aria-label="Hints">
+            @for (h of q.hints ?? []; track $index) {
+              <li>{{ h }}</li>
+            }
+          </ul>
+          @if (q.sampleAnswer) {
+            <details class="q__sample">
+              <summary>Sample answer</summary>
+              <p>{{ q.sampleAnswer }}</p>
+            </details>
+          }
+        }
         @default {
           @let b = splitBlank(q.prompt);
           <p class="q__sentence">
-            {{ b.before }}<span class="fill">{{ blankText(q.options![q.answer]!) }}</span
+            {{ b.before }}<span class="fill">{{ blankText(q.options?.[q.answer ?? 0] ?? '') }}</span
             >{{ b.after }}
           </p>
         }
@@ -290,7 +346,9 @@
           }
         </ol>
       }
-      <p class="q__why">{{ q.explanation }}</p>
+      @if (q.explanation) {
+        <p class="q__why">{{ q.explanation }}</p>
+      }
 
       @if (q.reports.length) {
         <div class="q__reports">
@@ -319,6 +377,20 @@
           }
         </span>
         <div class="q__actions">
+          @if (typeInfo[q.type].voice) {
+            <button
+              type="button"
+              class="btn btn--ghost btn--sm"
+              [attr.aria-pressed]="listening() === q.id"
+              (click)="listen(q)"
+            >
+              <ui-icon
+                [name]="listening() === q.id ? 'lucidePause' : 'lucideVolume2'"
+                size="16px"
+              />
+              {{ listening() === q.id ? 'Stop' : 'Listen' }}
+            </button>
+          }
           @if (q.status !== 'published') {
             <button
               type="button"
@@ -399,3 +471,10 @@
     </button>
   </nav>
 }
+
+<ng-template #accepted let-q>
+  <p class="q__fix">
+    <ui-icon name="lucideCheck" size="16px" />
+    Accepted: {{ q.acceptedAnswers?.join(' · ') }}
+  </p>
+</ng-template>

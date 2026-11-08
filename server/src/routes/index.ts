@@ -8,6 +8,7 @@ import {
   questionsRouter,
   statsHandler,
 } from '../modules/practice/practice.routes.js';
+import { recordingsRouter } from '../modules/recordings/recordings.routes.js';
 import { usersRouter } from '../modules/users/users.routes.js';
 
 export const apiRouter = Router();
@@ -18,5 +19,6 @@ apiRouter.use('/users/me/stats', statsHandler);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/practice', practiceRouter);
 apiRouter.use('/questions', questionsRouter);
+apiRouter.use('/recordings', recordingsRouter);
 apiRouter.use('/admin/questions', adminQuestionsRouter);
 apiRouter.use('/admin', adminRouter);

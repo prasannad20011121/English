@@ -78,12 +78,13 @@ describe('admin question bank', () => {
     expect(res.body).toMatchObject({ status: 'published', reports: [] });
     expect(res.body.reviewedAt).toBeTruthy();
 
+    // Published fill-in-the-blank items are practised by voice as "listen & complete".
     const session = await request(app)
       .post('/api/practice/sessions')
       .set(bearer(student))
-      .send({ type: 'fill_blank', count: 5 })
+      .send({ task: 'listen_complete', count: 5 })
       .expect(201);
-    expect(session.body.questions.map((q: { id: string }) => q.id)).toEqual([id]);
+    expect(session.body.prompts.map((q: { id: string }) => q.id)).toEqual([id]);
   });
 
   it('edits content with the same rules as the seed bank', async () => {

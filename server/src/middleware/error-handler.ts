@@ -1,4 +1,5 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
+import { MulterError } from 'multer';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 import { logger } from '../config/logger.js';
@@ -20,6 +21,11 @@ function toAppError(err: unknown): AppError {
     return new AppError(400, 'VALIDATION_ERROR', 'Please check the request.', {
       fields: fieldErrors(err),
     });
+  }
+  if (err instanceof MulterError) {
+    return err.code === 'LIMIT_FILE_SIZE'
+      ? new AppError(413, 'PAYLOAD_TOO_LARGE', 'The recording is too large (10 MB maximum).')
+      : new AppError(400, 'BAD_UPLOAD', 'The recording could not be uploaded. Please try again.');
   }
   if (err instanceof mongoose.Error.CastError) {
     return new AppError(400, 'INVALID_ID', 'Invalid identifier.');

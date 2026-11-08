@@ -1,0 +1,292 @@
+[
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe your favourite festival and how you celebrate it.",
+    "hints": ["Which festival is it?", "What do you and your family do?", "Why do you enjoy it?"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about your best friend.",
+    "hints": [
+      "How did you meet?",
+      "What do you do together?",
+      "Why is this friendship important to you?"
+    ],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe your hometown.",
+    "hints": [
+      "Where is it and what is it known for?",
+      "What do you like about it?",
+      "What would you change?"
+    ],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about a hobby you enjoy.",
+    "hints": [
+      "What is the hobby?",
+      "When and how did you start?",
+      "What have you learned from it?"
+    ],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe your daily routine on a college day.",
+    "hints": ["Your morning", "Classes and breaks", "Your evening and night"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about your favourite food.",
+    "hints": ["What is it?", "Who makes it best?", "When do you usually eat it?"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe a memorable trip you have taken.",
+    "hints": [
+      "Where did you go and with whom?",
+      "What did you see or do?",
+      "Why was it memorable?"
+    ],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about a teacher who inspired you.",
+    "hints": ["Who was the teacher?", "What did they teach you?", "How did they influence you?"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe how you like to relax after a busy day.",
+    "hints": ["What do you do?", "Who do you spend the time with?", "Why does it help you?"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 1,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about a book or film you enjoyed recently.",
+    "hints": ["What is it about?", "What did you like most?", "Would you recommend it?"],
+    "prepSeconds": 30,
+    "answerSeconds": 60
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Why do you want to join our company?",
+    "hints": [
+      "What you know about the company",
+      "Your skills and interests",
+      "How you can contribute"
+    ],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Introduce yourself to an interview panel.",
+    "hints": ["Your education and background", "Your strengths and skills", "Your career goals"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe a challenge you faced and how you overcame it.",
+    "hints": ["What was the challenge?", "What steps did you take?", "What did you learn?"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about the advantages and disadvantages of online classes.",
+    "hints": ["Advantages", "Disadvantages", "Your opinion"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "How do you manage your time during exams?",
+    "hints": ["Planning and timetables", "Avoiding distractions", "Rest and health"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe a time you worked in a team.",
+    "hints": ["What was the task?", "What was your role?", "What was the result?"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Should students have part-time jobs while studying?",
+    "hints": ["Benefits", "Problems", "Your opinion"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about why English is important for your career.",
+    "hints": ["At interviews", "At work with clients and colleagues", "For learning and growth"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe a skill you would like to learn and why.",
+    "hints": ["What is the skill?", "How would you learn it?", "How would it help you?"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 2,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "How has the mobile phone changed our lives?",
+    "hints": ["Communication", "Work and study", "Any negative effects"],
+    "prepSeconds": 30,
+    "answerSeconds": 90
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Do you prefer working from home or from an office? Explain why.",
+    "hints": ["Productivity", "Team communication", "Work–life balance"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "How can young people help protect the environment?",
+    "hints": ["Daily habits", "Community action", "Using technology"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "What qualities make a good leader?",
+    "hints": ["Communication", "Decision-making", "An example of a leader you admire"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Is social media more helpful or harmful for students?",
+    "hints": ["Benefits", "Risks", "Your conclusion"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Where do you see yourself in five years?",
+    "hints": ["Your role and skills", "Personal goals", "How you plan to get there"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "How should a company handle an unhappy customer?",
+    "hints": ["Listening and apologising", "Solving the problem", "Following up"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Talk about a recent technology that you find exciting.",
+    "hints": ["What it is", "How it is used", "Its benefits and risks"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "What are the biggest challenges for fresh graduates today?",
+    "hints": ["Finding a job", "Skills gap", "How to prepare"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Should public transport be free in cities? Give your opinion.",
+    "hints": ["Benefits for people and the environment", "Costs and problems", "Your conclusion"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  },
+  {
+    "type": "topic_talk",
+    "difficulty": 3,
+    "tags": ["fluency", "vocabulary"],
+    "prompt": "Describe the qualities of a good team member.",
+    "hints": ["Reliability", "Communication", "Helping others"],
+    "prepSeconds": 30,
+    "answerSeconds": 120
+  }
+]

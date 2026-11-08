@@ -1,0 +1,150 @@
+@let res = result();
+@let rv = r();
+
+<div class="block">
+  <h3 class="label">What we heard</h3>
+  @if (hasDiff()) {
+    <app-transcript-diff [alignment]="res.alignment!" [showLegend]="!compact()" />
+    @if (res.transcript) {
+      <p class="heard muted">“{{ res.transcript }}”</p>
+    }
+  } @else if (res.transcript) {
+    <p class="heard">“{{ res.transcript }}”</p>
+  } @else {
+    <p class="heard muted">Nothing was heard.</p>
+  }
+</div>
+
+@switch (res.task) {
+  @case ('read_aloud') {
+    <div class="block">
+      <h3 class="label">The sentence</h3>
+      <p class="answer">{{ rv.reference }}</p>
+    </div>
+  }
+  @case ('repeat') {
+    <div class="block">
+      <h3 class="label">The sentence you heard</h3>
+      <p class="answer">{{ rv.reference }}</p>
+    </div>
+  }
+  @case ('listen_complete') {
+    <div class="block">
+      <h3 class="label">The full sentence</h3>
+      <p class="answer">{{ rv.sentence }}</p>
+      <p class="key">
+        <ui-icon name="lucideCheck" size="18px" /> Missing word: <strong>{{ rv.answer }}</strong>
+      </p>
+    </div>
+  }
+  @case ('listen_correct') {
+    <div class="block">
+      <h3 class="label">You heard</h3>
+      <p class="answer answer--wrong">{{ rv.original }}</p>
+      <h3 class="label">Correct sentence</h3>
+      <p class="answer">{{ rv.correction }}</p>
+    </div>
+  }
+  @case ('sentence_build') {
+    <div class="block">
+      <h3 class="label">The phrases</h3>
+      <ul class="chips">
+        @for (p of rv.phrases ?? []; track $index) {
+          <li>{{ p }}</li>
+        }
+      </ul>
+      <h3 class="label">As one sentence</h3>
+      <p class="answer">{{ rv.reference }}</p>
+    </div>
+  }
+  @case ('story_retell') {
+    @if (res.keyPoints?.length) {
+      <div class="block">
+        <h3 class="label">Key points</h3>
+        <ul class="points">
+          @for (k of res.keyPoints; track k.label) {
+            <li [class.is-covered]="k.covered">
+              <ui-icon [name]="k.covered ? 'lucideCircleCheck' : 'lucideCircleX'" size="18px" />
+              {{ k.label }}<span class="sr-only">{{ k.covered ? ' (covered)' : ' (missed)' }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+    @if (rv.passage) {
+      <details class="block more">
+        <summary>Read the story</summary>
+        <p>{{ rv.passage }}</p>
+      </details>
+    }
+  }
+  @case ('topic_talk') {
+    @if (rv.hints?.length) {
+      <div class="block">
+        <h3 class="label">Ideas you could use</h3>
+        <ul class="tips">
+          @for (h of rv.hints; track h) {
+            <li>{{ h }}</li>
+          }
+        </ul>
+      </div>
+    }
+    @if (rv.sampleAnswer) {
+      <details class="block more">
+        <summary>Read a sample answer</summary>
+        <p>{{ rv.sampleAnswer }}</p>
+      </details>
+    }
+  }
+  @default {
+    <!-- short_answer, conversation -->
+    <div class="block">
+      @if (rv.script?.length) {
+        <details class="more">
+          <summary>Read the conversation</summary>
+          <dl class="script">
+            @for (turn of rv.script; track $index) {
+              <div>
+                <dt>{{ turn.speaker === 'A' ? 'Speaker A' : 'Speaker B' }}</dt>
+                <dd>{{ turn.text }}</dd>
+              </div>
+            }
+          </dl>
+        </details>
+      }
+      <h3 class="label">Question</h3>
+      <p class="answer answer--q">{{ rv.question }}</p>
+      <h3 class="label">
+        {{ (rv.acceptedAnswers?.length ?? 0) > 1 ? 'Good answers' : 'A good answer' }}
+      </h3>
+      <ul class="chips chips--good">
+        @for (a of rv.acceptedAnswers ?? []; track a) {
+          <li>{{ a }}</li>
+        }
+      </ul>
+    </div>
+  }
+}
+
+@if (rv.explanation) {
+  <p class="why"><ui-icon name="lucideLightbulb" size="18px" /> {{ rv.explanation }}</p>
+}
+
+@if (metrics().length) {
+  <ul class="metrics" aria-label="Speaking measures">
+    @for (m of metrics(); track m.label) {
+      <li [title]="m.hint">
+        <span>{{ m.label }}</span>
+        <strong>{{ m.value }}</strong>
+      </li>
+    }
+  </ul>
+}
+
+@if (res.feedback.length) {
+  <ul class="feedback">
+    @for (f of res.feedback; track f) {
+      <li><ui-icon name="lucideSparkles" size="16px" /> {{ f }}</li>
+    }
+  </ul>
+}

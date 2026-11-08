@@ -1,5 +1,5 @@
 import { Schema, model, type HydratedDocument, type InferSchemaType } from 'mongoose';
-import { TAGS, WRITTEN_TYPES } from '../modules/questions/question.schemas.js';
+import { QUESTION_TYPES, TAGS } from '../modules/questions/question.schemas.js';
 
 export const QUESTION_STATUSES = ['draft', 'published', 'flagged', 'retired'] as const;
 export type QuestionStatus = (typeof QUESTION_STATUSES)[number];
@@ -11,7 +11,7 @@ export const FLAG_THRESHOLD = 2;
 
 const questionSchema = new Schema(
   {
-    type: { type: String, enum: WRITTEN_TYPES, required: true },
+    type: { type: String, enum: QUESTION_TYPES, required: true },
     tags: { type: [String], enum: TAGS, default: [] },
     difficulty: { type: Number, min: 1, max: 3, required: true },
     /** The sentence. Fill-blank: contains `___`. Synonym/antonym: target word as **word**. */
@@ -20,9 +20,32 @@ const questionSchema = new Schema(
     segments: { type: [String], default: undefined },
     options: { type: [String], default: undefined },
     /** Index of the right option; spot-the-error: 0–3 = wrong part, 4 = no error. */
-    answer: { type: Number, required: true },
+    answer: { type: Number },
     correction: { type: String },
-    explanation: { type: String, required: true },
+    explanation: { type: String },
+
+    // ---- Voice types ----
+    /** Short answer / conversation: any of these heard in the reply counts as right. */
+    acceptedAnswers: { type: [String], default: undefined },
+    /** Sentence build: phrases in the jumbled order they are read aloud. */
+    phrases: { type: [String], default: undefined },
+    /** Conversation: the dialogue read aloud before the question. */
+    script: {
+      type: [{ _id: false, speaker: { type: String, enum: ['A', 'B'] }, text: String }],
+      default: undefined,
+    },
+    /** Story retelling: the story read aloud. */
+    passage: { type: String },
+    keyPoints: {
+      type: [{ _id: false, label: String, keywords: [String] }],
+      default: undefined,
+    },
+    /** Topic talk: ideas to talk about. */
+    hints: { type: [String], default: undefined },
+    sampleAnswer: { type: String },
+    prepSeconds: { type: Number },
+    answerSeconds: { type: Number },
+
     status: { type: String, enum: QUESTION_STATUSES, default: 'draft', index: true },
     source: { type: String, enum: QUESTION_SOURCES, required: true },
     contentHash: { type: String, required: true, unique: true },

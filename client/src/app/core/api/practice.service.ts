@@ -1,22 +1,45 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import type { Observable } from 'rxjs';
+import { type Observable, shareReplay } from 'rxjs';
+import type { PracticeStats, ReportReason } from '../models/practice';
 import type {
-  AnswerResult,
-  PracticeStats,
-  ReportReason,
+  AnswerResponse,
+  ClientMetrics,
   SessionSummary,
   SessionView,
   StartSessionRequest,
-  WrittenCatalog,
-} from '../models/practice';
+  TestHistoryItem,
+  VoiceCatalog,
+} from '../models/voice';
+
+export interface VoiceConfig {
+  stt: 'whisper' | 'browser';
+  maxAudioBytes: number;
+}
+
+export interface SpokenAnswer {
+  audio: Blob;
+  durationMs: number;
+  timeMs: number;
+  clientTranscript?: string;
+  clientMetrics?: ClientMetrics;
+}
 
 @Injectable({ providedIn: 'root' })
 export class PracticeService {
   private readonly http = inject(HttpClient);
+  private config$?: Observable<VoiceConfig>;
 
-  catalog(): Observable<WrittenCatalog> {
-    return this.http.get<WrittenCatalog>('/api/practice/written/catalog');
+  /** Whether the server transcribes answers (Whisper) or needs the browser's transcript. */
+  config(): Observable<VoiceConfig> {
+    this.config$ ??= this.http
+      .get<VoiceConfig>('/api/practice/voice/config')
+      .pipe(shareReplay({ bufferSize: 1, refCount: false }));
+    return this.config$;
+  }
+
+  catalog(): Observable<VoiceCatalog> {
+    return this.http.get<VoiceCatalog>('/api/practice/voice/catalog');
   }
 
   start(request: StartSessionRequest): Observable<SessionView> {
@@ -27,15 +50,22 @@ export class PracticeService {
     return this.http.get<SessionView>(`/api/practice/sessions/${encodeURIComponent(id)}`);
   }
 
-  answer(
-    sessionId: string,
-    questionId: string,
-    chosen: number,
-    timeMs: number,
-  ): Observable<AnswerResult> {
-    return this.http.post<AnswerResult>(
+  answer(sessionId: string, questionId: string, answer: SpokenAnswer): Observable<AnswerResponse> {
+    const form = new FormData();
+    form.append('questionId', questionId);
+    form.append('durationMs', String(Math.round(answer.durationMs)));
+    form.append('timeMs', String(Math.round(answer.timeMs)));
+    if (answer.clientTranscript) form.append('clientTranscript', answer.clientTranscript);
+    if (answer.clientMetrics) form.append('clientMetrics', JSON.stringify(answer.clientMetrics));
+    const extension = answer.audio.type.includes('mp4')
+      ? 'm4a'
+      : answer.audio.type.includes('ogg')
+        ? 'ogg'
+        : 'webm';
+    form.append('audio', answer.audio, `answer.${extension}`);
+    return this.http.post<AnswerResponse>(
       `/api/practice/sessions/${encodeURIComponent(sessionId)}/answers`,
-      { questionId, chosen, timeMs: Math.round(timeMs) },
+      form,
     );
   }
 
@@ -44,6 +74,17 @@ export class PracticeService {
       `/api/practice/sessions/${encodeURIComponent(sessionId)}/finish`,
       {},
     );
+  }
+
+  tests(): Observable<{ items: TestHistoryItem[] }> {
+    return this.http.get<{ items: TestHistoryItem[] }>('/api/practice/tests');
+  }
+
+  /** A stored recording, fetched with the access token (audio elements cannot send it). */
+  recording(audioId: string): Observable<Blob> {
+    return this.http.get(`/api/recordings/${encodeURIComponent(audioId)}`, {
+      responseType: 'blob',
+    });
   }
 
   report(questionId: string, reason: ReportReason, note?: string): Observable<{ message: string }> {
@@ -59,7 +100,7 @@ export class PracticeService {
     try {
       params = params.set('tz', Intl.DateTimeFormat().resolvedOptions().timeZone);
     } catch {
-      /* fall back to UTC on the server */
+      /* the server falls back to UTC */
     }
     return this.http.get<PracticeStats>('/api/users/me/stats', { params });
   }

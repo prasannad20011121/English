@@ -4,14 +4,15 @@
       <p class="eyebrow">{{ greeting }}</p>
       <h1 id="hero-title" class="display">Hi {{ firstName() }},<br />let's get you SHL-ready.</h1>
       <p class="hero__lead">
-        Written practice is open: quick rounds with instant explanations. Speaking practice opens
-        soon.
+        Listen to spoken questions and answer out loud, just like the SHL voice test. Get a score
+        and tips after every answer.
       </p>
       <div class="hero__cta">
-        <a class="btn btn--primary" routerLink="/practice/written">
-          Start written practice
+        <a class="btn btn--primary" routerLink="/practice">
+          Start practising
           <ui-icon name="lucideArrowRight" size="18px" />
         </a>
+        <a class="btn btn--soft" routerLink="/voice-test">Take a voice test</a>
       </div>
     </div>
     <ui-illustration class="hero__art" name="speak" />
@@ -97,7 +98,7 @@
       <h2 id="goal-title">Daily goal</h2>
     </div>
     <p class="goal__count">
-      <strong>{{ st?.answeredToday ?? 0 }}</strong> / {{ st?.dailyGoal ?? 5 }} questions
+      <strong>{{ st?.answeredToday ?? 0 }}</strong> / {{ st?.dailyGoal ?? 5 }} answers
     </p>
     <div
       class="bar"
@@ -121,7 +122,7 @@
 
 <h2 class="section-title">Practice modules</h2>
 <div class="modules">
-  @for (module of modules; track module.title; let i = $index) {
+  @for (module of modules(); track module.title; let i = $index) {
     @if (module.link) {
       <a
         class="tile tile--{{ module.tone }} module module--open lift rise"

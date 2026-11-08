@@ -15,9 +15,35 @@ import {
   type Tag,
 } from './question.schemas.js';
 import { toQuestionFields } from './seed-bank.js';
+import { containsPhrase, words as spokenWords } from '../voice/scoring/normalize.js';
+
+/** Types the AI writer can draft (conversations and stories are written by hand). */
+export const GENERATABLE_TYPES = [
+  'fill_blank',
+  'spot_error',
+  'sentence_completion',
+  'synonym',
+  'antonym',
+  'read_aloud',
+  'repeat',
+  'short_answer',
+  'sentence_build',
+  'topic_talk',
+] as const satisfies readonly QuestionType[];
+export type GeneratableType = (typeof GENERATABLE_TYPES)[number];
+
+/** Types whose drafts have an answer key that a second, blind pass can check. */
+const SOLVABLE = new Set<QuestionType>([
+  'fill_blank',
+  'spot_error',
+  'sentence_completion',
+  'synonym',
+  'antonym',
+  'short_answer',
+]);
 
 export interface GenerateRequest {
-  type: QuestionType;
+  type: GeneratableType;
   tag: Tag;
   difficulty: 1 | 2 | 3;
   count: number;
@@ -50,6 +76,10 @@ const TAG_NAMES: Record<Tag, string> = {
   word_order: 'word order',
   vocabulary: 'vocabulary (word meaning)',
   collocations: 'collocations and fixed phrases',
+  pronunciation: 'clear pronunciation (words with tricky sounds and stress)',
+  fluency: 'fluent, natural speaking',
+  listening: 'listening and remembering what was heard',
+  comprehension: 'understanding spoken questions',
 };
 
 const LEVELS = {
@@ -58,7 +88,16 @@ const LEVELS = {
   3: 'hard: longer sentences with tricky rules (inversion, conditionals, formal grammar, less common words)',
 } as const;
 
-const FORMATS: Record<QuestionType, string> = {
+const FORMATS: Record<GeneratableType, string> = {
+  read_aloud:
+    '{"prompt": "one natural sentence of 10–25 words for a student to read aloud (no blanks, no lists, no abbreviations)"}',
+  repeat: '{"prompt": "one natural sentence of 6–15 words for a student to hear once and repeat"}',
+  short_answer:
+    '{"prompt": "a short spoken question with one clear 1–3 word answer", "acceptedAnswers": ["1–4 acceptable answers, lowercase, spelled out in words"], "explanation": "one short sentence giving the answer"}',
+  sentence_build:
+    '{"prompt": "a correct sentence of 6–14 words", "phrases": ["the same sentence split into exactly 3 phrases, listed in a JUMBLED order"]}',
+  topic_talk:
+    '{"prompt": "a speaking topic or interview question a student can talk about for 1–2 minutes", "hints": ["3 short ideas the speaker could cover"]}',
   fill_blank:
     '{"prompt": "a sentence with exactly one ___ blank replacing one word or short phrase", "options": ["4 options of the same kind; exactly one is correct"], "answer": <index 0-3 of the correct option>, "explanation": "one short sentence stating the rule"}',
   sentence_completion:
@@ -73,21 +112,35 @@ const FORMATS: Record<QuestionType, string> = {
 
 /** A question in the JSON shape the writer is asked to produce. */
 function asAuthoring(q: StoredQuestion): Record<string, unknown> {
-  return q.type === 'spot_error'
-    ? {
+  switch (q.type) {
+    case 'spot_error':
+      return {
         segments: q.segments,
         answer: q.answer,
         ...(q.correction ? { correction: q.correction } : {}),
         explanation: q.explanation,
-      }
-    : { prompt: q.prompt, options: q.options, answer: q.answer, explanation: q.explanation };
+      };
+    case 'read_aloud':
+    case 'repeat':
+      return { prompt: q.prompt };
+    case 'short_answer':
+      return { prompt: q.prompt, acceptedAnswers: q.acceptedAnswers, explanation: q.explanation };
+    case 'sentence_build':
+      return { prompt: q.prompt, phrases: q.phrases };
+    case 'topic_talk':
+      return { prompt: q.prompt, hints: q.hints };
+    default:
+      return { prompt: q.prompt, options: q.options, answer: q.answer, explanation: q.explanation };
+  }
 }
 
 function writerMessages(req: GenerateRequest, examples: StoredQuestion[]) {
   const extra =
     req.type === 'spot_error'
       ? ' Make about one in five sentences fully correct (answer 4).'
-      : ' Put the correct option in different positions across the questions.';
+      : ['fill_blank', 'sentence_completion', 'synonym', 'antonym'].includes(req.type)
+        ? ' Put the correct option in different positions across the questions.'
+        : ' These are for a spoken English test: write sentences that sound natural when read aloud.';
   return [
     {
       role: 'system' as const,
@@ -113,25 +166,35 @@ function writerMessages(req: GenerateRequest, examples: StoredQuestion[]) {
 
 function solverMessages(items: QuestionContent[]) {
   const listed = items.map((q, i) => {
-    if (q.type === 'spot_error') {
-      return {
-        n: i + 1,
-        task: 'Which part contains a grammatical error? Answer 0-3 for the part, or 4 if there is no error.',
-        parts: q.segments,
-      };
+    switch (q.type) {
+      case 'spot_error':
+        return {
+          n: i + 1,
+          task: 'Which part contains a grammatical error? Answer 0-3 for the part, or 4 if there is no error.',
+          parts: q.segments,
+        };
+      case 'short_answer':
+        return { n: i + 1, task: 'Answer this question in 1-3 words.', question: q.prompt };
+      case 'fill_blank':
+      case 'sentence_completion':
+      case 'synonym':
+      case 'antonym': {
+        const task = {
+          fill_blank: 'Which option correctly fills the blank (___)?',
+          sentence_completion: 'Which option correctly completes the sentence?',
+          synonym: 'Which option is closest in meaning to the word in **asterisks**?',
+          antonym: 'Which option is most opposite in meaning to the word in **asterisks**?',
+        }[q.type];
+        return {
+          n: i + 1,
+          task: `${task} Answer with the option index 0-3.`,
+          sentence: q.prompt,
+          options: q.options,
+        };
+      }
+      default:
+        return { n: i + 1, task: 'No answer needed.' };
     }
-    const task = {
-      fill_blank: 'Which option correctly fills the blank (___)?',
-      sentence_completion: 'Which option correctly completes the sentence?',
-      synonym: 'Which option is closest in meaning to the word in **asterisks**?',
-      antonym: 'Which option is most opposite in meaning to the word in **asterisks**?',
-    }[q.type];
-    return {
-      n: i + 1,
-      task: `${task} Answer with the option index 0-3.`,
-      sentence: q.prompt,
-      options: q.options,
-    };
   });
   return [
     {
@@ -141,9 +204,27 @@ function solverMessages(items: QuestionContent[]) {
     },
     {
       role: 'user' as const,
-      content: `Questions:\n${JSON.stringify(listed, null, 1)}\n\nReturn {"answers": [{"n": 1, "answer": <index>}, ...]} for every question.`,
+      content: `Questions:\n${JSON.stringify(listed, null, 1)}\n\nReturn {"answers": [{"n": 1, "answer": <index or short text>}, ...]} for every question.`,
     },
   ];
+}
+
+/** Does the blind answer agree with the draft's key? */
+function agrees(q: QuestionContent, got: number | string): boolean {
+  if (q.type === 'short_answer') {
+    const heard = spokenWords(String(got));
+    return q.acceptedAnswers.some(
+      (a) => containsPhrase(heard, a) || containsPhrase(spokenWords(a), String(got)),
+    );
+  }
+  return 'answer' in q && got === q.answer;
+}
+
+function describeAnswer(q: QuestionContent, got: number | string): string {
+  if (q.type === 'short_answer') return `"${got}"`;
+  if (q.type === 'spot_error')
+    return got === NO_ERROR ? '"No error"' : `part ${'ABCD'[got as number] ?? got}`;
+  return `option ${'ABCD'[got as number] ?? got}`;
 }
 
 /** The sentence with the right answer in place (what should read as correct English). */
@@ -154,7 +235,8 @@ export function correctSentence(q: QuestionContent): string {
     case 'synonym':
     case 'antonym':
       return q.prompt.replace(/\*\*/g, '');
-    default: {
+    case 'fill_blank':
+    case 'sentence_completion': {
       const option = q.options[q.answer]!;
       const fill = /^\(.*\)$/.test(option.trim()) ? '' : option;
       return q.prompt
@@ -163,6 +245,10 @@ export function correctSentence(q: QuestionContent): string {
         .replace(/\s([.,;?!])/g, '$1')
         .trim();
     }
+    case 'story_retell':
+      return q.passage;
+    default:
+      return q.prompt;
   }
 }
 
@@ -270,28 +356,33 @@ export async function generateQuestions(
     candidates.push(q);
   }
 
-  // 3. Blind solve: a second, independent pass must reach the same answer.
-  let checked: QuestionContent[] = [];
-  if (candidates.length) {
-    const solved = await llm.complete(solverMessages(candidates), { temperature: 0, json: true });
-    let answers = new Map<number, number>();
+  // 3. Blind solve: a second, independent pass must reach the same answer (when there is one).
+  let checked: QuestionContent[] = candidates.filter((q) => !SOLVABLE.has(q.type));
+  const solvable = candidates.filter((q) => SOLVABLE.has(q.type));
+  if (solvable.length) {
+    const solved = await llm.complete(solverMessages(solvable), { temperature: 0, json: true });
+    let answers = new Map<number, number | string>();
     try {
       const parsed = parseJsonReply(solved) as { answers?: { n?: unknown; answer?: unknown }[] };
       answers = new Map(
         (parsed.answers ?? [])
-          .filter((a) => typeof a.n === 'number' && typeof a.answer === 'number')
-          .map((a) => [a.n as number, a.answer as number]),
+          .filter(
+            (a) =>
+              typeof a.n === 'number' &&
+              (typeof a.answer === 'number' || typeof a.answer === 'string'),
+          )
+          .map((a) => [a.n as number, a.answer as number | string]),
       );
     } catch {
       logger.warn({ reply: solved.slice(0, 500) }, 'AI checker reply was not usable');
     }
-    candidates.forEach((q, i) => {
+    solvable.forEach((q, i) => {
       const got = answers.get(i + 1);
       if (got === undefined) reject(q, 'The answer check did not return a result');
-      else if (got !== q.answer) {
+      else if (!agrees(q, got)) {
         reject(
           q,
-          `The answer check chose ${q.type === 'spot_error' ? (got === NO_ERROR ? '"No error"' : `part ${'ABCD'[got] ?? got}`) : `option ${'ABCD'[got] ?? got}`} — the key may be wrong or the question ambiguous`,
+          `The answer check chose ${describeAnswer(q, got)} — the key may be wrong or the question ambiguous`,
         );
       } else checked.push(q);
     });

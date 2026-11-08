@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
-import { WRITTEN_TYPES } from '../modules/questions/question.schemas.js';
+import { QUESTION_TYPES } from '../modules/questions/question.schemas.js';
 
 /** What one student has seen: drives "no repeats" and "review my mistakes". */
 const seenQuestionSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     questionId: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
-    type: { type: String, enum: WRITTEN_TYPES, required: true },
+    type: { type: String, enum: QUESTION_TYPES, required: true },
     timesSeen: { type: Number, default: 0 },
     timesCorrect: { type: Number, default: 0 },
     lastCorrect: { type: Boolean, required: true },

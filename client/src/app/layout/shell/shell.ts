@@ -55,13 +55,13 @@ export class Shell {
 
   protected readonly practiceNav: NavItem[] = [
     { label: 'Home', short: 'Home', icon: 'lucideHouse', link: '/dashboard' },
-    { label: 'Written', short: 'Write', icon: 'lucidePenLine', link: '/practice/written' },
-    { label: 'Speaking', short: 'Speak', icon: 'lucideMic', soon: true },
-    { label: 'Mock tests', short: 'Mock', icon: 'lucideTimer', soon: true },
+    { label: 'Practice', short: 'Practice', icon: 'lucideMic', link: '/practice' },
+    { label: 'Voice test', short: 'Test', icon: 'lucideTimer', link: '/voice-test' },
     { label: 'Progress', short: 'Progress', icon: 'lucideChartLine', soon: true },
   ];
 
   protected readonly accountNav: NavItem[] = [
+    { label: 'Mic check', short: 'Mic', icon: 'lucideHeadphones', link: '/mic-check' },
     { label: 'Profile', short: 'Profile', icon: 'lucideUser', link: '/profile' },
   ];
 
@@ -70,12 +70,12 @@ export class Shell {
     { label: 'Users', short: 'Users', icon: 'lucideUsers', link: '/admin/users' },
   ];
 
-  /** Phone bottom bar: Home, Write, Speak, Profile. */
+  /** Phone bottom bar: Home, Practice, Test, Profile. */
   protected readonly tabs = computed<NavItem[]>(() => [
     this.practiceNav[0]!,
     this.practiceNav[1]!,
     this.practiceNav[2]!,
-    this.accountNav[0]!,
+    this.accountNav[1]!,
   ]);
 
   protected logout(): void {

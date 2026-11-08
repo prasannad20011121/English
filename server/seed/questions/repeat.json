@@ -1,0 +1,182 @@
+[
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The bus leaves at half past seven."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Please close the door when you leave."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "I have an interview tomorrow morning."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Our class starts at nine every day."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "She bought a new laptop last week."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Can you speak a little more slowly?"
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The meeting has been moved to Friday."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "We need to finish this report today."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "My brother works in a software company."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 1,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "It is raining heavily in Chennai today."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Please submit your assignment before the end of the week."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The manager wants a summary of the customer feedback."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "I would like to know more about the job role."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Our training session will continue after a short break."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Make sure you carry a copy of your resume."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The new policy will be explained at the staff meeting."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "He has been learning French for almost two years."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Could you confirm the time and place of the interview?"
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Most students prefer online classes for recorded lectures."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 2,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The printer on the second floor is not working."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Candidates who complete the assessment will receive an email within three days."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The project was delayed because the client changed several requirements."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Before you leave, please update the shared document with your progress."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Our department is looking for someone with strong analytical skills."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The conference has been postponed due to unexpected travel restrictions."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "If the network problem continues, contact the technical support team immediately."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Students are expected to attend at least eighty percent of the lectures."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "The results of the survey will be published on the college website."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "She was appreciated for handling the difficult customer very professionally."
+  },
+  {
+    "type": "repeat",
+    "difficulty": 3,
+    "tags": ["listening", "pronunciation"],
+    "prompt": "Several employees volunteered to organise the annual sports day."
+  }
+]

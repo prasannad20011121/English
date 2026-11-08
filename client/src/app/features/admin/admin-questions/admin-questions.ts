@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -6,21 +6,24 @@ import { catchError, of } from 'rxjs';
 import { apiErrorMessage } from '../../../core/api/api-error';
 import {
   AdminQuestionsService,
+  GENERATABLE_TYPES,
   type AdminQuestion,
   type AdminQuestionPage,
   type GenerateReport,
   type QuestionStatus,
 } from '../../../core/api/admin-questions.service';
 import type { QuestionType, Tag } from '../../../core/models/practice';
+import { TtsService } from '../../../core/voice/tts.service';
 import { UiIcon } from '../../../ui/icon/icon';
 import { ToastService } from '../../../ui/toast/toast.service';
-import { blankText, splitBlank, splitTarget } from '../../practice/written/question-text';
+import { blankText, splitBlank, splitTarget } from '../../../shared/questions/question-text';
 import {
   DIFFICULTY_LABELS,
   LETTERS,
   TAG_LABELS,
   TYPE_INFO,
-} from '../../practice/written/written-types';
+} from '../../../shared/questions/question-types';
+import { speakPartsOf } from '../../../shared/questions/speak-parts';
 import { QuestionEditor } from './question-editor';
 
 const STATUS_TABS: { value: QuestionStatus; label: string }[] = [
@@ -32,13 +35,14 @@ const STATUS_TABS: { value: QuestionStatus; label: string }[] = [
 
 @Component({
   selector: 'app-admin-questions',
-  imports: [FormsModule, DecimalPipe, UiIcon, QuestionEditor],
+  imports: [FormsModule, DecimalPipe, NgTemplateOutlet, UiIcon, QuestionEditor],
   templateUrl: './admin-questions.html',
   styleUrl: './admin-questions.scss',
 })
 export class AdminQuestionsPage {
   private readonly api = inject(AdminQuestionsService);
   private readonly toast = inject(ToastService);
+  private readonly tts = inject(TtsService);
 
   protected readonly tabs = STATUS_TABS;
   protected readonly typeInfo = TYPE_INFO;
@@ -46,6 +50,12 @@ export class AdminQuestionsPage {
     value: value as QuestionType,
     label: info.title,
   }));
+  protected readonly genTypes = GENERATABLE_TYPES.map((value) => ({
+    value,
+    label: TYPE_INFO[value].title,
+  }));
+  /** Question being read aloud in the preview. */
+  protected readonly listening = signal<string | null>(null);
   protected readonly tagList = Object.entries(TAG_LABELS) as [Tag, string][];
   protected readonly tagLabels = TAG_LABELS;
   protected readonly difficultyLabels = DIFFICULTY_LABELS;
@@ -216,8 +226,15 @@ export class AdminQuestionsPage {
       });
   }
 
-  protected answerLabel(q: AdminQuestion): string {
-    if (q.type === 'spot_error') return q.answer === 4 ? 'No error' : `Part ${LETTERS[q.answer]}`;
-    return `${LETTERS[q.answer]} · ${q.options?.[q.answer]}`;
+  /** Plays the question the way students hear it. */
+  protected async listen(q: AdminQuestion): Promise<void> {
+    if (this.listening() === q.id) {
+      this.tts.cancel();
+      this.listening.set(null);
+      return;
+    }
+    this.listening.set(q.id);
+    await this.tts.play(speakPartsOf(q));
+    if (this.listening() === q.id) this.listening.set(null);
   }
 }

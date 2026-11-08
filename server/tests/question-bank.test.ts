@@ -97,7 +97,7 @@ describe('question content rules', () => {
     const a = shuffleOptions(parsed);
     const b = shuffleOptions(parsed);
     expect(a).toEqual(b);
-    if (a.type === 'spot_error') throw new Error('unexpected');
+    if (!('options' in a)) throw new Error('unexpected');
     expect(a.options[a.answer]).toBe('we played.');
     expect(contentHash(a)).toBe(contentHash(parsed));
   });

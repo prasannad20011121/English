@@ -1,0 +1,86 @@
+:host {
+  display: block;
+  max-width: 760px;
+}
+
+.steps {
+  display: grid;
+  gap: 16px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+
+  &__num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+    background: var(--primary-soft);
+    color: var(--lavender-ink);
+    font-weight: 750;
+  }
+
+  &__body {
+    display: grid;
+    flex: 1;
+    gap: 12px;
+    justify-items: start;
+    min-width: 0;
+
+    h2 {
+      font-size: 19px;
+      margin-top: 8px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .alert {
+      margin: 0;
+    }
+  }
+}
+
+.live {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.meter {
+  color: var(--primary);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.playback {
+  width: min(100%, 360px);
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.done {
+  margin-top: 24px;
+}

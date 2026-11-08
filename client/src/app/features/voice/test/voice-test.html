@@ -1,0 +1,95 @@
+<section class="tile tile--sky hero rise" aria-labelledby="test-title">
+  <div class="hero__text">
+    <p class="eyebrow">SHL-style mock test</p>
+    <h1 id="test-title" class="display">Voice test</h1>
+    <p class="hero__lead">
+      {{ totalQuestions }} spoken questions in {{ parts.length }} parts, about 18 minutes. You get a
+      full report with a score for each skill at the end.
+    </p>
+    <ul class="rules">
+      <li><ui-icon name="lucideHeadphones" size="18px" /> Use earphones and find a quiet place.</li>
+      <li><ui-icon name="lucideVolume2" size="18px" /> Each question plays only once.</li>
+      <li><ui-icon name="lucideMic" size="18px" /> Recording starts after the beep.</li>
+      <li>
+        <ui-icon name="lucideSkipForward" size="18px" /> No going back, and no feedback until the
+        end.
+      </li>
+    </ul>
+    <div class="actions">
+      @if (unfinished(); as t) {
+        <a class="btn btn--primary" [routerLink]="['/practice/session', t.id]">
+          Continue my test ({{ t.answered }}/{{ t.total }})
+          <ui-icon name="lucideArrowRight" size="18px" />
+        </a>
+      }
+      <button
+        type="button"
+        class="btn"
+        [class.btn--primary]="!unfinished()"
+        [class.btn--soft]="!!unfinished()"
+        [class.is-loading]="starting()"
+        [disabled]="starting()"
+        (click)="start()"
+      >
+        {{ unfinished() ? 'Start a new test' : 'Start the test' }}
+        @if (!unfinished()) {
+          <ui-icon name="lucideArrowRight" size="18px" />
+        }
+      </button>
+      @if (!micChecked) {
+        <a class="btn btn--soft" routerLink="/mic-check">Check my microphone</a>
+      }
+    </div>
+  </div>
+</section>
+
+<h2 class="section-title">The {{ parts.length }} parts</h2>
+<ol class="parts">
+  @for (part of parts; track part.task; let i = $index) {
+    <li class="tile tile--{{ taskInfo[part.task].tone }} part rise" [style.--i]="i">
+      <span class="part__letter">{{ letters[i] }}</span>
+      <span class="part__text">
+        <strong>{{ part.title }}</strong>
+        <span>{{ taskInfo[part.task].description }}</span>
+      </span>
+      <span class="pill">{{ part.count }} {{ part.count === 1 ? 'question' : 'questions' }}</span>
+    </li>
+  }
+</ol>
+
+<h2 class="section-title">Past tests</h2>
+@let h = history();
+@if (h === undefined) {
+  <div class="card loading" aria-busy="true">Loading your tests…</div>
+} @else if (h === null) {
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" /> Could not load your past tests.
+  </p>
+} @else if (!finished().length) {
+  <div class="card empty">
+    <ui-icon name="lucideHistory" size="24px" />
+    <p>Your results will appear here after your first test.</p>
+  </div>
+} @else {
+  <ul class="history">
+    @for (t of finished(); track t.id) {
+      <li>
+        <a class="card history__item lift" [routerLink]="['/practice/session', t.id, 'summary']">
+          <span class="history__score score--{{ scoreTone(t.overall ?? 0) }}">{{
+            t.overall ?? 0
+          }}</span>
+          <span class="history__text">
+            <strong>{{ t.band?.label }} ({{ t.band?.cefr }})</strong>
+            <span
+              >{{ t.finishedAt ?? t.startedAt | date: 'd MMM y, h:mm a' }} · {{ t.answered }}/{{
+                t.total
+              }}
+              answered</span
+            >
+          </span>
+          <ui-icon name="lucideChevronRight" size="18px" />
+        </a>
+      </li>
+    }
+  </ul>
+}

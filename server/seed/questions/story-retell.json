@@ -1,0 +1,235 @@
+[
+  {
+    "type": "story_retell",
+    "difficulty": 1,
+    "tags": ["listening", "fluency"],
+    "prompt": "The lost wallet",
+    "passage": "Anil found a wallet on the bus while going to college. Inside it there was some money and an identity card. He called the number on the card and spoke to the owner, an old man named Mr Rao. In the evening, Anil met him at the bus stand and returned the wallet. Mr Rao thanked him and gave him a box of sweets.",
+    "keyPoints": [
+      { "label": "Anil found a wallet on the bus", "keywords": ["wallet", "purse"] },
+      { "label": "It had money and an identity card", "keywords": ["money", "identity", "card"] },
+      { "label": "He called the owner, Mr Rao", "keywords": ["called", "phoned", "rao", "owner"] },
+      {
+        "label": "He returned it and got sweets",
+        "keywords": ["returned", "gave back", "sweets", "thanked"]
+      }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 1,
+    "tags": ["listening", "fluency"],
+    "prompt": "The rainy day",
+    "passage": "On Monday morning it rained heavily, and the roads near Kavya's house were flooded. Her bus did not come, so she could not reach college on time. She called her friend Divya, who lived nearby. Divya's father drove both of them to college in his car. They reached just before their first exam started.",
+    "keyPoints": [
+      { "label": "Heavy rain flooded the roads", "keywords": ["rain", "flood"] },
+      { "label": "Her bus did not come", "keywords": ["bus"] },
+      { "label": "She called her friend Divya", "keywords": ["divya", "friend"] },
+      { "label": "Divya's father drove them in his car", "keywords": ["father", "car", "drove"] },
+      { "label": "They reached just before the exam", "keywords": ["exam", "reached", "on time"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 1,
+    "tags": ["listening", "fluency"],
+    "prompt": "The new phone",
+    "passage": "Suresh saved money for six months to buy a new phone. When he finally bought it, he was very happy. But on the same day he dropped it on the road and the screen cracked. He felt sad, but the shopkeeper told him the phone had a one-year warranty. The screen was replaced for free.",
+    "keyPoints": [
+      { "label": "Suresh saved money for six months", "keywords": ["saved", "six months"] },
+      { "label": "He bought a new phone", "keywords": ["phone", "bought"] },
+      {
+        "label": "He dropped it and the screen cracked",
+        "keywords": ["dropped", "cracked", "broke", "screen"]
+      },
+      { "label": "It had a warranty", "keywords": ["warranty", "guarantee"] },
+      { "label": "The screen was replaced for free", "keywords": ["replaced", "free"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 1,
+    "tags": ["listening", "fluency"],
+    "prompt": "Grandmother's birthday",
+    "passage": "It was Grandmother's seventieth birthday, and the whole family wanted to surprise her. Arjun and his sister decorated the living room with flowers and balloons while she was at the temple. Their mother baked a cake, and their cousins came from Chennai. When Grandmother returned, everyone shouted happy birthday. She was so happy that she cried with joy.",
+    "keyPoints": [
+      {
+        "label": "A surprise for Grandmother's seventieth birthday",
+        "keywords": ["birthday", "surprise", "seventieth", "seventy"]
+      },
+      {
+        "label": "Arjun and his sister decorated the room",
+        "keywords": ["decorated", "flowers", "balloons"]
+      },
+      { "label": "Their mother baked a cake and cousins came", "keywords": ["cake", "cousins"] },
+      { "label": "Grandmother was so happy she cried", "keywords": ["cried", "happy", "joy"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 2,
+    "tags": ["listening", "fluency"],
+    "prompt": "The job interview",
+    "passage": "Meera had an interview at a software company in Bengaluru. She left home early, but her auto broke down on the way. Instead of panicking, she called the HR manager and explained the problem. The manager appreciated her honesty and moved her interview by thirty minutes. Meera performed well and received an offer letter the next week.",
+    "keyPoints": [
+      {
+        "label": "Meera had an interview at a software company",
+        "keywords": ["interview", "software"]
+      },
+      { "label": "Her auto broke down", "keywords": ["auto", "broke", "rickshaw"] },
+      { "label": "She called the HR manager", "keywords": ["called", "hr", "manager"] },
+      {
+        "label": "The interview was moved by thirty minutes",
+        "keywords": ["moved", "thirty", "rescheduled", "postponed"]
+      },
+      { "label": "She got an offer letter", "keywords": ["offer", "selected", "job"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 2,
+    "tags": ["listening", "fluency"],
+    "prompt": "The team project",
+    "passage": "Four students were working on a college project about solar energy. Two days before the deadline, their laptop stopped working and they lost most of their files. Instead of giving up, they divided the work and stayed late in the library. They rebuilt the project together and submitted it on time. Their teacher praised them for their teamwork.",
+    "keyPoints": [
+      { "label": "A college project about solar energy", "keywords": ["solar", "project"] },
+      {
+        "label": "The laptop stopped working and files were lost",
+        "keywords": ["laptop", "lost", "files"]
+      },
+      {
+        "label": "They divided the work and stayed late in the library",
+        "keywords": ["divided", "library", "stayed"]
+      },
+      { "label": "They submitted it on time", "keywords": ["submitted", "on time", "deadline"] },
+      {
+        "label": "The teacher praised their teamwork",
+        "keywords": ["teamwork", "praised", "teacher"]
+      }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 2,
+    "tags": ["listening", "fluency"],
+    "prompt": "The helpful call",
+    "passage": "Rahul ordered a pair of shoes online, but he received the wrong size. He called customer care and spoke to an executive named Pooja. She apologised, arranged a free pickup and promised the correct size within three days. The new pair arrived in just two days. Rahul was so happy that he gave the company a five-star rating.",
+    "keyPoints": [
+      {
+        "label": "Rahul received shoes in the wrong size",
+        "keywords": ["shoes", "wrong size", "size"]
+      },
+      {
+        "label": "He called customer care and spoke to Pooja",
+        "keywords": ["customer care", "pooja", "called"]
+      },
+      { "label": "She arranged a free pickup", "keywords": ["pickup", "free", "apologised"] },
+      { "label": "The new pair came in two days", "keywords": ["two days", "arrived", "new pair"] },
+      { "label": "He gave a five-star rating", "keywords": ["five star", "rating", "review"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 2,
+    "tags": ["listening", "fluency"],
+    "prompt": "The village library",
+    "passage": "In a small village near Madurai, there was no library for children. A retired teacher named Lakshmi decided to change this. She collected old books from her neighbours and opened a reading room in her house. Every evening, children came to read and do their homework. Within a year, the village had a proper library with more than a thousand books.",
+    "keyPoints": [
+      { "label": "The village had no library", "keywords": ["no library", "village"] },
+      { "label": "A retired teacher named Lakshmi", "keywords": ["lakshmi", "teacher", "retired"] },
+      {
+        "label": "She collected books and opened a reading room",
+        "keywords": ["collected", "books", "reading room"]
+      },
+      { "label": "Children came every evening", "keywords": ["children", "evening", "homework"] },
+      {
+        "label": "Soon there was a proper library with a thousand books",
+        "keywords": ["thousand", "proper library", "year"]
+      }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 3,
+    "tags": ["listening", "fluency"],
+    "prompt": "The delayed flight",
+    "passage": "Karthik was flying to Delhi for an important client meeting when his flight was delayed by four hours. Worried about missing the meeting, he contacted the client and suggested a video call instead. The client agreed, and Karthik joined the call from the airport lounge using his laptop. The presentation went smoothly, and the client signed the contract the same evening.",
+    "keyPoints": [
+      {
+        "label": "Karthik's flight to Delhi was delayed",
+        "keywords": ["delayed", "flight", "delhi"]
+      },
+      {
+        "label": "He suggested a video call to the client",
+        "keywords": ["video call", "video", "online"]
+      },
+      { "label": "He joined from the airport lounge", "keywords": ["airport", "lounge", "laptop"] },
+      { "label": "The client signed the contract", "keywords": ["contract", "signed", "deal"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 3,
+    "tags": ["listening", "fluency"],
+    "prompt": "The new manager",
+    "passage": "When Anjali became a team manager, she noticed that her team rarely shared ideas in meetings. She started a weekly session where everyone could suggest improvements without being judged. At first only a few people spoke, but slowly the whole team joined in. Within three months, their suggestions had reduced customer complaints by almost half.",
+    "keyPoints": [
+      {
+        "label": "Anjali's new team rarely shared ideas",
+        "keywords": ["anjali", "manager", "ideas", "quiet"]
+      },
+      {
+        "label": "She started a weekly ideas session",
+        "keywords": ["weekly", "session", "suggest"]
+      },
+      { "label": "Slowly the whole team joined in", "keywords": ["joined", "slowly", "everyone"] },
+      { "label": "Complaints fell by almost half", "keywords": ["complaints", "half", "reduced"] }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 3,
+    "tags": ["listening", "fluency"],
+    "prompt": "The science fair",
+    "passage": "Neha wanted to enter the state science fair with a low-cost water filter. Her first three designs failed because the water was still dirty. Her teacher encouraged her to test different layers of sand and charcoal. On the fifth attempt, the filter worked well. Neha won second prize, and a local company offered to help her produce the filters for nearby villages.",
+    "keyPoints": [
+      {
+        "label": "Neha made a low-cost water filter for a science fair",
+        "keywords": ["water filter", "filter", "science fair"]
+      },
+      { "label": "Her first designs failed", "keywords": ["failed", "dirty", "first three"] },
+      {
+        "label": "Her teacher suggested sand and charcoal",
+        "keywords": ["sand", "charcoal", "layers"]
+      },
+      { "label": "She won second prize", "keywords": ["second prize", "prize", "won"] },
+      {
+        "label": "A company offered to help make filters for villages",
+        "keywords": ["company", "villages", "produce"]
+      }
+    ]
+  },
+  {
+    "type": "story_retell",
+    "difficulty": 3,
+    "tags": ["listening", "fluency"],
+    "prompt": "The farmers' app",
+    "passage": "Two engineering students noticed that small farmers lost money because they did not know the market prices of their crops. They built a simple mobile app that sent daily prices in the local language. At first, only twenty farmers used it. After a news channel featured their story, thousands of farmers downloaded the app, and the students received funding to grow their company.",
+    "keyPoints": [
+      {
+        "label": "Farmers did not know market prices",
+        "keywords": ["farmers", "prices", "market"]
+      },
+      {
+        "label": "Students built an app with daily prices in the local language",
+        "keywords": ["app", "daily", "local language"]
+      },
+      { "label": "At first only twenty farmers used it", "keywords": ["twenty", "few"] },
+      {
+        "label": "A news channel featured it and thousands downloaded it",
+        "keywords": ["news", "thousands", "downloaded"]
+      },
+      { "label": "They received funding", "keywords": ["funding", "investment", "money"] }
+    ]
+  }
+]

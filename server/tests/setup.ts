@@ -13,7 +13,9 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-  await Promise.all(Object.values(mongoose.connection.collections).map((c) => c.deleteMany({})));
+  // Includes GridFS collections (recordings.files / recordings.chunks).
+  const collections = await mongoose.connection.db!.collections();
+  await Promise.all(collections.map((c) => c.deleteMany({})));
 });
 
 afterAll(async () => {

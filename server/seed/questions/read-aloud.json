@@ -1,0 +1,182 @@
+[
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "I usually take the bus to college because it is cheaper than an auto rickshaw."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Please switch off your mobile phone before the interview begins."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "My favourite subject in school was science, especially chemistry."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "We are planning a short trip to the hills during the summer holidays."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The canteen serves hot idli and sambar every morning at eight."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "She practises speaking English with her friends for ten minutes every day."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Our team finished the project two days before the deadline."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The library will remain closed on Sunday for maintenance work."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Could you please send me the meeting details by email?"
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 1,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Drinking enough water keeps you active throughout a busy day."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Good communication skills help engineers explain complex ideas to clients clearly."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The company encourages employees to learn new technologies through online courses."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Despite the heavy traffic, the delivery reached the customer on time."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "A positive attitude can make a difficult situation much easier to handle."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The hiring manager asked each candidate to describe a recent challenge."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Regular exercise improves concentration and reduces stress before examinations."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Customers appreciate quick responses, polite language and accurate information."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Our college organises a technical festival every February with workshops and competitions."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "If you have any questions about the schedule, feel free to contact the coordinator."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The training programme focuses on teamwork, time management and presentation skills."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 2,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Every Saturday, volunteers teach basic computer skills to children in our neighbourhood."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Artificial intelligence is transforming industries, but it also raises important questions about privacy."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The quarterly report highlighted a significant increase in customer satisfaction across all regions."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Effective leaders listen carefully, communicate honestly and take responsibility for their decisions."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Environmental awareness has encouraged many cities to invest in public transport and renewable energy."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The pharmaceutical company announced an ambitious partnership with several international universities."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Successful negotiations require patience, preparation and a genuine understanding of the other side."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Thoroughly reviewing your work before submission reduces errors and builds a reputation for reliability."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "The government's initiative aims to improve digital literacy among rural entrepreneurs."
+  },
+  {
+    "type": "read_aloud",
+    "difficulty": 3,
+    "tags": ["pronunciation", "fluency"],
+    "prompt": "Although the software update was delayed, the development team kept stakeholders informed throughout."
+  }
+]

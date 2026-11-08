@@ -105,3 +105,26 @@ textarea.ui-input {
   display: flex;
   gap: 10px;
 }
+
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.error-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+  list-style: none;
+  font-size: 14px;
+
+  code {
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,121 @@
+<header class="page-head">
+  <h1 class="title">Check your microphone</h1>
+  <p>Make sure you can hear the questions and that your answers record clearly.</p>
+</header>
+
+<div class="steps">
+  <section class="card step rise" aria-labelledby="step-mic">
+    <span class="step__num" aria-hidden="true">1</span>
+    <div class="step__body">
+      <h2 id="step-mic">Your microphone</h2>
+      @if (!recorder.ready()) {
+        <p class="muted">Your browser will ask for permission to use the microphone.</p>
+        @if (error(); as message) {
+          <p class="alert alert--error" role="alert">
+            <ui-icon name="lucideCircleAlert" /> {{ message }}
+          </p>
+        }
+        <button
+          type="button"
+          class="btn btn--primary"
+          [class.is-loading]="opening()"
+          [disabled]="opening()"
+          (click)="allow()"
+        >
+          <ui-icon name="lucideMic" size="18px" /> Allow microphone
+        </button>
+      } @else {
+        <div class="live">
+          <ui-level-meter class="meter" [level]="recorder.level()" />
+          <p class="muted">Say something: the bars should move when you speak.</p>
+        </div>
+        <div class="row">
+          <button
+            type="button"
+            class="btn btn--ghost"
+            [class.is-loading]="testing()"
+            [disabled]="testing()"
+            (click)="testRecording()"
+          >
+            <ui-icon name="lucideMic" size="18px" />
+            {{ testing() ? 'Recording 5 seconds…' : 'Record a 5-second test' }}
+          </button>
+        </div>
+        @if (testUrl(); as url) {
+          @if (!heard()) {
+            <p class="alert alert--error" role="alert">
+              <ui-icon name="lucideMicOff" /> We could not hear you. Move closer to the microphone
+              or pick another microphone in your browser settings.
+            </p>
+          } @else {
+            <p class="alert alert--success">
+              <ui-icon name="lucideCircleCheck" /> We can hear you. Play it back to check it is
+              clear.
+            </p>
+          }
+          <audio class="playback" controls [src]="url" aria-label="Your test recording"></audio>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="card step rise" style="--i: 1" aria-labelledby="step-voice">
+    <span class="step__num" aria-hidden="true">2</span>
+    <div class="step__body">
+      <h2 id="step-voice">Question voice</h2>
+      <p class="muted">
+        Questions are read in a {{ accentName() }} English accent
+        @if (tts.voiceName(); as name) {
+          ({{ name }})
+        }
+        . You can change the accent in your <a routerLink="/profile">profile</a>.
+      </p>
+      @if (!tts.supported) {
+        <p class="alert alert--error" role="alert">
+          <ui-icon name="lucideCircleAlert" /> This browser cannot read questions aloud. Please use
+          Chrome, Edge or Safari.
+        </p>
+      }
+      <button type="button" class="btn btn--ghost" [disabled]="!tts.supported" (click)="sample()">
+        <ui-icon name="lucideVolume2" size="18px" /> Hear a sample question
+      </button>
+    </div>
+  </section>
+
+  <section class="card step rise" style="--i: 2" aria-labelledby="step-room">
+    <span class="step__num" aria-hidden="true">3</span>
+    <div class="step__body">
+      <h2 id="step-room">Before you start</h2>
+      <ul class="checklist">
+        <li><ui-icon name="lucideHeadphones" size="18px" /> Earphones with a mic work best.</li>
+        <li>
+          <ui-icon name="lucideVolume2" size="18px" /> Sit somewhere quiet, away from fans and
+          traffic.
+        </li>
+        <li>
+          <ui-icon name="lucideMic" size="18px" /> Keep the mic a hand's width from your mouth.
+        </li>
+        <li>
+          <ui-icon name="lucideAudioWaveform" size="18px" />
+          @if (config()?.stt === 'whisper') {
+            Your answers are turned into text by the server.
+          } @else {
+            Your answers are turned into text by your browser (Chrome or Edge work best).
+          }
+        </li>
+      </ul>
+      @if (sttProblem()) {
+        <p class="alert alert--error" role="alert">
+          <ui-icon name="lucideCircleAlert" /> This browser cannot turn speech into text. Please use
+          Chrome or Edge.
+        </p>
+      }
+    </div>
+  </section>
+</div>
+
+<div class="done">
+  <button type="button" class="btn btn--primary" (click)="finish()">
+    All good, let's practise <ui-icon name="lucideArrowRight" size="18px" />
+  </button>
+</div>

@@ -92,7 +92,7 @@ describe('AI question generator', () => {
       tags: ['prepositions'],
       difficulty: 1,
     });
-    expect(draft!.options![draft!.answer]).toBe('at');
+    expect(draft!.options![draft!.answer!]).toBe('at');
     // The examples sent to the writer come from the published bank.
     expect(llm.calls[0]![1]!.content).toContain('10 a.m.');
   });

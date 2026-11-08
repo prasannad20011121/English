@@ -50,24 +50,33 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.DashboardPage),
       },
       {
-        path: 'practice/written',
-        title: 'Written practice',
-        loadComponent: () =>
-          import('./features/practice/written/written-home/written-home').then(
-            (m) => m.WrittenHomePage,
-          ),
+        path: 'practice',
+        title: 'Speaking & listening practice',
+        loadComponent: () => import('./features/voice/home/home').then((m) => m.VoiceHomePage),
       },
       {
-        path: 'practice/written/session/:id',
+        path: 'practice/session/:id',
         title: 'Practice',
         loadComponent: () =>
-          import('./features/practice/written/player/player').then((m) => m.PlayerPage),
+          import('./features/voice/player/player').then((m) => m.VoicePlayerPage),
       },
       {
-        path: 'practice/written/session/:id/summary',
+        path: 'practice/session/:id/summary',
         title: 'Results',
         loadComponent: () =>
-          import('./features/practice/written/summary/summary').then((m) => m.SummaryPage),
+          import('./features/voice/summary/summary').then((m) => m.VoiceSummaryPage),
+      },
+      {
+        path: 'voice-test',
+        title: 'Voice test',
+        loadComponent: () =>
+          import('./features/voice/test/voice-test').then((m) => m.VoiceTestPage),
+      },
+      {
+        path: 'mic-check',
+        title: 'Microphone check',
+        loadComponent: () =>
+          import('./features/voice/mic-check/mic-check').then((m) => m.MicCheckPage),
       },
       {
         path: 'profile',

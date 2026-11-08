@@ -1,0 +1,148 @@
+@if (error(); as message) {
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" />
+    {{ message }}
+  </p>
+  <a class="btn btn--primary" routerLink="/practice">Back to practice</a>
+} @else if (summary(); as s) {
+  <section class="tile tile--{{ scoreTone(s.overall) }} hero rise" aria-labelledby="summary-title">
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 136 136">
+        <circle class="ring__track" cx="68" cy="68" [attr.r]="ringRadius" />
+        <circle
+          class="ring__fill"
+          cx="68"
+          cy="68"
+          [attr.r]="ringRadius"
+          [attr.stroke-dasharray]="ringCircumference"
+          [attr.stroke-dashoffset]="ringOffset()"
+        />
+      </svg>
+      <div class="ring__label">
+        <strong>{{ s.overall }}</strong>
+        <span>out of 100</span>
+      </div>
+    </div>
+    <div class="hero__text">
+      <p class="eyebrow">{{ heading() }}</p>
+      <h1 id="summary-title" class="display">{{ scoreWord(s.overall) }}</h1>
+      <p class="sr-only">Overall score {{ s.overall }} out of 100.</p>
+      <p class="band">
+        Estimated level: <strong>{{ s.band.label }} ({{ s.band.cefr }})</strong>
+      </p>
+      <ul class="facts">
+        <li><ui-icon name="lucideMic" size="18px" /> {{ s.answered }} of {{ s.total }} answered</li>
+        <li><ui-icon name="lucideCircleCheck" size="18px" /> {{ s.correct }} good answers</li>
+      </ul>
+      <p class="note">A practice estimate, not an official SHL score.</p>
+      <div class="actions">
+        <button
+          type="button"
+          class="btn btn--primary"
+          [class.is-loading]="starting()"
+          [disabled]="starting()"
+          (click)="again()"
+        >
+          {{ isTest() ? 'Take another test' : 'Practise again' }}
+          <ui-icon name="lucideArrowRight" size="18px" />
+        </button>
+        @if (!isTest() && mistakes() && s.mode !== 'review') {
+          <button type="button" class="btn btn--soft" [disabled]="starting()" (click)="review()">
+            Review mistakes
+          </button>
+        }
+        <a class="btn btn--soft" [routerLink]="isTest() ? '/dashboard' : '/practice'">
+          {{ isTest() ? 'Home' : 'All tasks' }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    @if (skills().length) {
+      <section class="card bars rise" style="--i: 1" aria-labelledby="skills-title">
+        <h2 id="skills-title">Skills</h2>
+        <ul>
+          @for (k of skills(); track k.skill) {
+            <li>
+              <span class="bars__name">{{ skillLabels[k.skill] }}</span>
+              <span class="bars__bar bars__bar--{{ scoreTone(k.score) }}" aria-hidden="true">
+                <span [style.width.%]="k.score"></span>
+              </span>
+              <span class="bars__score">{{ k.score }}<span class="sr-only"> out of 100</span></span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (s.sections?.length) {
+      <section class="card bars rise" style="--i: 2" aria-labelledby="parts-title">
+        <h2 id="parts-title">Parts</h2>
+        <ul>
+          @for (part of s.sections; track $index) {
+            <li>
+              <span class="bars__name"
+                ><b>{{ letters[$index] }}</b> {{ part.title }}
+                @if (part.answered < part.total) {
+                  <small class="muted">({{ part.total - part.answered }} unanswered)</small>
+                }
+              </span>
+              <span class="bars__bar bars__bar--{{ scoreTone(part.score) }}" aria-hidden="true">
+                <span [style.width.%]="part.score"></span>
+              </span>
+              <span class="bars__score"
+                >{{ part.score }}<span class="sr-only"> out of 100</span></span
+              >
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+
+  <section class="answers rise" style="--i: 3" aria-labelledby="answers-title">
+    <h2 id="answers-title" class="section-title">Your answers</h2>
+    @for (item of s.items; track item.questionId) {
+      <details class="card answer" [open]="!isTest() && item.answered && !item.correct">
+        <summary>
+          <span class="answer__score score--{{ item.answered ? scoreTone(item.score) : 'none' }}">
+            {{ item.answered ? item.score : '–' }}
+          </span>
+          <span class="answer__text">
+            <small>
+              @if (isTest() && item.prompt.section !== undefined) {
+                {{ letters[item.prompt.section] }} ·
+              }
+              {{ taskInfo[item.task].title }}
+            </small>
+            <span>{{ itemLabel(item) }}</span>
+          </span>
+          <ui-icon class="answer__chev" name="lucideChevronDown" size="18px" />
+        </summary>
+        <div class="answer__body">
+          @if (item.answered) {
+            <app-answer-review
+              [result]="item"
+              [whisper]="config()?.stt === 'whisper'"
+              [compact]="true"
+            />
+            @if (item.audioId) {
+              <button type="button" class="btn btn--ghost btn--sm" (click)="play(item)">
+                <ui-icon
+                  [name]="playing() === item.questionId ? 'lucidePause' : 'lucidePlay'"
+                  size="16px"
+                />
+                {{ playing() === item.questionId ? 'Stop' : 'Play my answer' }}
+              </button>
+            }
+          } @else {
+            <p class="muted">Not answered, so it scores 0.</p>
+          }
+        </div>
+      </details>
+    }
+  </section>
+} @else {
+  <div class="card loading" aria-busy="true">Adding up your score…</div>
+}

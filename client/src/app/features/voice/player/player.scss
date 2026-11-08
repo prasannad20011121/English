@@ -1,0 +1,439 @@
+:host {
+  display: grid;
+  gap: 16px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 4px 12px;
+
+  &__text {
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  &__meta {
+    margin: 2px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  &__progress {
+    grid-column: 1 / -1;
+    height: 8px;
+    margin-top: 8px;
+    border-radius: 99px;
+    background: var(--surface-2);
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--primary);
+      transition: width 400ms var(--ease);
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  &--end {
+    justify-content: flex-start;
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+// ---- Intro -------------------------------------------------------------------------------------
+
+.intro {
+  display: grid;
+  gap: 12px;
+  padding: clamp(24px, 4vw, 40px);
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  }
+
+  &__count {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__how {
+    max-width: 60ch;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  &__rules {
+    display: grid;
+    gap: 8px;
+    margin: 4px 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 500;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .alert {
+    margin: 0;
+  }
+
+  .actions {
+    justify-content: flex-start;
+    margin-top: 6px;
+  }
+}
+
+// ---- Stage (question in progress) --------------------------------------------------------------
+
+.stage {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  padding: clamp(22px, 4vw, 40px);
+  text-align: center;
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+}
+
+.phase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: 13px;
+  font-weight: 700;
+
+  &.is-live {
+    background: var(--danger-soft);
+    color: var(--danger-ink);
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--danger);
+    animation: blink 1.2s ease-in-out infinite;
+  }
+}
+
+.display-text {
+  max-width: 34ch;
+  margin: 0;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+
+  &--topic {
+    max-width: 30ch;
+  }
+}
+
+.hints {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 640px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-2);
+    font-weight: 500;
+  }
+}
+
+.story-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.listen-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+
+  span {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    opacity: 0;
+  }
+
+  &.is-on span {
+    animation: ripple 2.4s var(--ease) infinite;
+  }
+
+  &.is-on span:nth-of-type(2) {
+    animation-delay: 0.8s;
+  }
+
+  &.is-on span:nth-of-type(3) {
+    animation-delay: 1.6s;
+  }
+}
+
+.cue {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.countdown {
+  display: grid;
+  place-content: center;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: var(--butter);
+  color: var(--butter-ink);
+  line-height: 1;
+
+  strong {
+    font-size: 48px;
+    font-weight: 750;
+  }
+
+  span {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.meter {
+  color: var(--primary);
+}
+
+.time {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 420px);
+
+  &__bar {
+    height: 10px;
+    border-radius: 99px;
+    background: var(--surface-2);
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 100%;
+      background: var(--danger);
+      border-radius: inherit;
+      transition: width 120ms linear;
+    }
+  }
+
+  &__left {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+
+  &--lg {
+    width: 36px;
+    height: 36px;
+    border-width: 3.5px;
+    color: var(--primary);
+  }
+}
+
+// ---- Feedback ----------------------------------------------------------------------------------
+
+.feedback {
+  display: grid;
+  gap: 20px;
+  scroll-margin: 90px 0 120px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.score {
+  display: grid;
+  place-content: center;
+  flex: none;
+  width: 84px;
+  height: 84px;
+  border-radius: 26px;
+  line-height: 1;
+  text-align: center;
+
+  strong {
+    font-size: 32px;
+    font-weight: 750;
+  }
+
+  small {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  @each $tone in 'mint', 'butter', 'peach' {
+    &--#{$tone} {
+      background: var(--#{$tone});
+      color: var(--#{$tone}-ink);
+    }
+  }
+}
+
+.listen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: 500 14px var(--font);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.report {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line-strong);
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Phones: keep the whole question, the timer and the buttons on one screen above the tab bar.
+@media (max-width: 600px) {
+  :host {
+    gap: 12px;
+  }
+
+  .stage {
+    gap: 14px;
+    padding: 18px 16px;
+  }
+
+  .listen-art {
+    width: 84px;
+    height: 84px;
+
+    .ui-icon {
+      transform: scale(0.75);
+    }
+  }
+
+  .countdown {
+    width: 104px;
+    height: 104px;
+
+    strong {
+      font-size: 38px;
+    }
+  }
+
+  .meter {
+    height: 40px;
+  }
+}
+
+.stage .actions {
+  // Room for the phone tab bar when scrolled into view.
+  scroll-margin-bottom: 120px;
+}

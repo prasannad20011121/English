@@ -2,8 +2,10 @@ import { createApp } from './app.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import { env } from './config/env.js';
 import { logger } from './config/logger.js';
+import { scheduleRecordingCleanup } from './services/storage/recordings.js';
 
 await connectDB();
+scheduleRecordingCleanup(env.RECORDING_RETENTION_DAYS);
 
 const server = createApp().listen(env.PORT, () => {
   logger.info(`API listening on http://localhost:${env.PORT}/api`);
