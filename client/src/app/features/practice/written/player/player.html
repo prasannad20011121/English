@@ -1,0 +1,221 @@
+@if (loadError(); as message) {
+  <div class="card center">
+    <p class="alert alert--error" role="alert">
+      <ui-icon name="lucideCircleAlert" />
+      {{ message }}
+    </p>
+    <a class="btn btn--primary" routerLink="/practice/written">Back to written practice</a>
+  </div>
+} @else if (!view()) {
+  <div class="skeleton" aria-busy="true" aria-label="Loading questions">
+    <span></span><span></span><span></span>
+  </div>
+} @else {
+  @let q = question()!;
+  @let r = result();
+  @let info = typeInfo[q.type];
+
+  <header class="top">
+    <a class="icon-btn" routerLink="/practice/written" aria-label="Leave practice">
+      <ui-icon name="lucideX" />
+    </a>
+    <div class="top__meta">
+      <span class="pill pill--{{ info.tone }}">
+        <ui-icon [name]="info.icon" size="15px" />
+        {{ title() }}
+      </span>
+      <span class="top__count">Question {{ index() + 1 }} of {{ total() }}</span>
+    </div>
+    <span class="top__score" aria-label="Score">
+      <ui-icon name="lucideCircleCheck" size="18px" />
+      {{ score() }}
+    </span>
+  </header>
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Progress"
+    aria-valuemin="0"
+    [attr.aria-valuemax]="total()"
+    [attr.aria-valuenow]="answeredCount()"
+  >
+    <span [style.width.%]="progress()"></span>
+  </div>
+
+  <section
+    id="question-card"
+    class="card question"
+    tabindex="-1"
+    aria-labelledby="question-instruction"
+    [class.is-right]="r?.correct"
+    [class.is-wrong]="r && !r.correct"
+  >
+    <h1 id="question-instruction" class="question__instruction">{{ info.instruction }}</h1>
+
+    @switch (q.type) {
+      @case ('spot_error') {
+        <p class="sentence sentence--parts">
+          @for (part of q.segments; track $index) {
+            <button
+              type="button"
+              [class]="'part part--' + (optionState($index) ?? 'idle')"
+              [disabled]="!!r || pending() !== null"
+              [attr.aria-label]="'Part ' + letters[$index] + ': ' + part"
+              (click)="choose($index)"
+            >
+              <span class="part__letter" aria-hidden="true">{{ letters[$index] }}</span>
+              {{ part }}
+            </button>
+          }
+        </p>
+        <button
+          type="button"
+          [class]="'option option--wide option--' + (optionState(noError) ?? 'idle')"
+          [disabled]="!!r || pending() !== null"
+          (click)="choose(noError)"
+        >
+          <span class="option__letter" aria-hidden="true">E</span>
+          No error
+        </button>
+      }
+      @case ('synonym') {
+        @let t = splitTarget(q.prompt);
+        <p class="sentence">
+          {{ t.before }}<mark class="target">{{ t.word }}</mark
+          >{{ t.after }}
+        </p>
+      }
+      @case ('antonym') {
+        @let t = splitTarget(q.prompt);
+        <p class="sentence">
+          {{ t.before }}<mark class="target">{{ t.word }}</mark
+          >{{ t.after }}
+        </p>
+      }
+      @default {
+        @let b = splitBlank(q.prompt);
+        <p class="sentence">
+          {{ b.before }}<span class="blank" [class.blank--filled]="!!r">{{ blankFill() }}</span
+          >{{ b.after }}
+        </p>
+      }
+    }
+
+    @if (q.type !== 'spot_error') {
+      <div class="options" [class.options--long]="q.type === 'sentence_completion'">
+        @for (option of q.options; track $index) {
+          <button
+            type="button"
+            [class]="'option option--' + (optionState($index) ?? 'idle')"
+            [class.is-pending]="pending() === $index"
+            [disabled]="!!r || pending() !== null"
+            (click)="choose($index)"
+          >
+            <span class="option__letter" aria-hidden="true">{{ letters[$index] }}</span>
+            <span class="option__text">{{ option }}</span>
+            @if (optionState($index) === 'right') {
+              <ui-icon name="lucideCircleCheck" />
+            } @else if (optionState($index) === 'wrong') {
+              <ui-icon name="lucideX" />
+            }
+          </button>
+        }
+      </div>
+    }
+
+    <p class="question__meta">
+      @for (tag of q.tags; track tag) {
+        <span>{{ tagLabels[tag] }}</span>
+      }
+      <span>{{ difficultyLabels[q.difficulty] }}</span>
+      @if (!r) {
+        <span class="hint"
+          >Tip: press {{ q.type === 'spot_error' ? 'A–E' : 'A–D' }} or 1–{{ choiceCount() }}</span
+        >
+      }
+    </p>
+  </section>
+
+  <p class="sr-only" role="status" aria-live="polite">{{ announcement() }}</p>
+
+  @if (r) {
+    <section
+      class="feedback tile"
+      [class.tile--mint]="r.correct"
+      [class.tile--rose]="!r.correct"
+      aria-label="Feedback"
+    >
+      <div class="feedback__head">
+        <span class="feedback__icon">
+          <ui-icon [name]="r.correct ? 'lucideCircleCheck' : 'lucideLightbulb'" size="24px" />
+        </span>
+        <div>
+          <h2>{{ r.correct ? 'Correct!' : 'Not quite' }}</h2>
+          @if (!r.correct) {
+            <p>
+              The right answer is <strong>{{ answerLabel(q, r.answer) }}</strong
+              >.
+            </p>
+          }
+        </div>
+      </div>
+      @if (r.correction) {
+        <p class="feedback__correction">
+          <ui-icon name="lucideCheck" size="18px" />
+          <span>{{ r.correction }}</span>
+        </p>
+      }
+      <p class="feedback__why">{{ r.explanation }}</p>
+
+      <div class="feedback__actions">
+        <button
+          type="button"
+          class="btn btn--primary"
+          [class.is-loading]="finishing()"
+          [disabled]="finishing()"
+          (click)="next()"
+        >
+          {{ isLast() ? 'See my results' : 'Next question' }}
+          <ui-icon name="lucideArrowRight" size="18px" />
+        </button>
+        @if (!reported()[q.id]) {
+          <button type="button" class="link-btn" (click)="reportOpen.set(!reportOpen())">
+            Report a problem
+          </button>
+        } @else {
+          <span class="muted-note">Thanks for reporting</span>
+        }
+      </div>
+
+      @if (reportOpen()) {
+        <form class="report" (ngSubmit)="sendReport()">
+          <label>
+            <span class="group-label">What's wrong?</span>
+            <select
+              class="ui-input"
+              name="reason"
+              [ngModel]="reportReason()"
+              (ngModelChange)="reportReason.set($event)"
+            >
+              <option value="wrong_answer">The answer is wrong</option>
+              <option value="unclear">The question is unclear</option>
+              <option value="typo">There is a typo</option>
+              <option value="other">Something else</option>
+            </select>
+          </label>
+          <label>
+            <span class="group-label">Details (optional)</span>
+            <input
+              class="ui-input"
+              name="note"
+              maxlength="300"
+              [ngModel]="reportNote()"
+              (ngModelChange)="reportNote.set($event)"
+            />
+          </label>
+          <button type="submit" class="btn btn--sm btn--ghost">Send report</button>
+        </form>
+      }
+    </section>
+  }
+}

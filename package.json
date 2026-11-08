@@ -18,7 +18,8 @@
     "lint": "npm run lint -w server && npm run lint -w client",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "seed:admin": "npm run seed:admin -w server"
+    "seed:admin": "npm run seed:admin -w server",
+    "seed:questions": "npm run seed:questions -w server"
   },
   "devDependencies": {
     "concurrently": "^10.0.7",

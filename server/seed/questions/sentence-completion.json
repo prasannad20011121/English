@@ -1,0 +1,342 @@
+[
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "prompt": "Although it was raining heavily, ___",
+    "options": [
+      "the match continued as planned.",
+      "because the ground was wet.",
+      "so we stayed at home.",
+      "but the players were tired."
+    ],
+    "answer": 0,
+    "explanation": "'Although' already shows contrast, so the second part must not add 'but', 'so' or 'because'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "prompt": "She studied late into the night ___",
+    "options": [
+      "so that she could finish the chapter.",
+      "unless she was ready for the test.",
+      "even she was not tired.",
+      "despite of the noise outside."
+    ],
+    "answer": 0,
+    "explanation": "'So that' gives the purpose. 'Despite of' and 'even she was' are not correct English."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["tenses", "conjunctions"],
+    "prompt": "Had I known about the traffic, ___",
+    "options": [
+      "I would have left earlier.",
+      "I will leave earlier.",
+      "I would leave earlier.",
+      "I had left earlier."
+    ],
+    "answer": 0,
+    "explanation": "'Had I known' is a third conditional about the past, so it needs 'would have + past participle'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions", "word_order"],
+    "prompt": "Not only did he finish the project on time, ___",
+    "options": [
+      "but he also helped his teammates.",
+      "and helped his teammates too.",
+      "he also helps his teammates.",
+      "but also he helping his teammates."
+    ],
+    "answer": 0,
+    "explanation": "'Not only ...' is completed with 'but ... also', with the verb in the same past tense."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "prompt": "If you heat ice, ___",
+    "options": ["it melts.", "it will melted.", "it melted.", "it would melt yesterday."],
+    "answer": 0,
+    "explanation": "General truths use the zero conditional: if + present, present."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["comparatives"],
+    "prompt": "The more you practise speaking, ___",
+    "options": [
+      "the more confident you become.",
+      "you become more confident.",
+      "more confident you become.",
+      "the most confident you become."
+    ],
+    "answer": 0,
+    "explanation": "The pattern is 'the more ..., the more ...', with 'the' in both halves."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "No sooner had the bell rung ___",
+    "options": [
+      "than the students rushed out.",
+      "when the students rushed out.",
+      "then the students rushed out.",
+      "that the students rushed out."
+    ],
+    "answer": 0,
+    "explanation": "'No sooner' is always followed by 'than'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "prompt": "Hardly had we reached the station ___",
+    "options": [
+      "when the train left.",
+      "than the train left.",
+      "then the train left.",
+      "so the train left."
+    ],
+    "answer": 0,
+    "explanation": "'Hardly' is paired with 'when'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["collocations"],
+    "prompt": "I am looking forward ___",
+    "options": [
+      "to meeting you next week.",
+      "to meet you next week.",
+      "for meeting you next week.",
+      "meeting you next week."
+    ],
+    "answer": 0,
+    "explanation": "'Look forward to' is followed by the -ing form."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "prompt": "He is used to ___",
+    "options": ["waking up early.", "wake up early.", "woke up early.", "be waking up early."],
+    "answer": 0,
+    "explanation": "'Be used to' (accustomed to) is followed by the -ing form."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions", "tenses"],
+    "prompt": "Unless you apologise, ___",
+    "options": [
+      "she will not forgive you.",
+      "she will forgive you not.",
+      "she would not forgave you.",
+      "she does not forgiving you."
+    ],
+    "answer": 0,
+    "explanation": "A real future condition takes 'will + base verb' in the main clause."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "prompt": "The film was so boring that ___",
+    "options": [
+      "many people left halfway.",
+      "many people leaving halfway.",
+      "many people to leave halfway.",
+      "so many people left halfway."
+    ],
+    "answer": 0,
+    "explanation": "'So ... that' is followed by a full clause with a verb in the right tense."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "Despite working very hard, ___",
+    "options": [
+      "he could not meet the deadline.",
+      "but he could not meet the deadline.",
+      "although he missed the deadline.",
+      "so he missed the deadline."
+    ],
+    "answer": 0,
+    "explanation": "'Despite' already shows contrast; do not add 'but', 'although' or 'so'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 3,
+    "tags": ["tenses"],
+    "prompt": "It is high time we ___",
+    "options": [
+      "started preparing for the exam.",
+      "start preparing for the exam.",
+      "will start preparing for the exam.",
+      "have started preparing for the exam."
+    ],
+    "answer": 0,
+    "explanation": "'It is high time' is followed by the past tense to say something should already be happening."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["modals"],
+    "prompt": "She would rather ___",
+    "options": [
+      "stay at home than go to the party.",
+      "staying at home than going to the party.",
+      "to stay at home than go to the party.",
+      "stays at home than go to the party."
+    ],
+    "answer": 0,
+    "explanation": "'Would rather' is followed by the base verb, without 'to'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "prompt": "As soon as the guests arrived, ___",
+    "options": [
+      "we served them tea.",
+      "we serve them tea yesterday.",
+      "we had serving them tea.",
+      "we were serve them tea."
+    ],
+    "answer": 0,
+    "explanation": "Both actions are in the past, so use the simple past: served."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 3,
+    "tags": ["tenses", "conjunctions"],
+    "prompt": "Had it not been for your help, ___",
+    "options": [
+      "I would have failed the course.",
+      "I will fail the course.",
+      "I failed the course.",
+      "I have failed the course."
+    ],
+    "answer": 0,
+    "explanation": "'Had it not been for' talks about an unreal past, so it needs 'would have + past participle'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "prompt": "Please switch off the lights ___",
+    "options": [
+      "before you leave the room.",
+      "before you will leave the room.",
+      "before you left the room.",
+      "before leaving room the."
+    ],
+    "answer": 0,
+    "explanation": "After time words like 'before', use the present tense for a future action."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "The book was so interesting that ___",
+    "options": [
+      "I finished it in one day.",
+      "I finishing it in one day.",
+      "I have finish it in one day.",
+      "finished it I in one day."
+    ],
+    "answer": 0,
+    "explanation": "The result clause needs a normal subject + past-tense verb: I finished it."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "Neither the manager nor the employees ___",
+    "options": [
+      "were aware of the change.",
+      "was aware of the change.",
+      "is aware of the change.",
+      "has been aware of the change."
+    ],
+    "answer": 0,
+    "explanation": "With 'neither ... nor', the verb agrees with the nearer subject, 'the employees' (plural)."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "prompt": "Scarcely had she started her speech ___",
+    "options": [
+      "when the power went out.",
+      "than the power went out.",
+      "then the power went out.",
+      "and the power went out."
+    ],
+    "answer": 0,
+    "explanation": "'Scarcely' is paired with 'when'."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "prompt": "Because he missed the bus, ___",
+    "options": [
+      "he was late for class.",
+      "so he was late for class.",
+      "but he was late for class.",
+      "therefore late for class."
+    ],
+    "answer": 0,
+    "explanation": "'Because' already gives the reason; do not add 'so' or 'but' in the result."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "In spite of the heavy traffic, ___",
+    "options": [
+      "we reached the airport on time.",
+      "but we reached the airport on time.",
+      "although we reached the airport on time.",
+      "we reaching the airport on time."
+    ],
+    "answer": 0,
+    "explanation": "'In spite of' shows contrast by itself and needs a full main clause after it."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 2,
+    "tags": ["tenses", "conjunctions"],
+    "prompt": "I would have called you ___",
+    "options": [
+      "if I had known your number.",
+      "if I knew your number yesterday.",
+      "if I have known your number.",
+      "if I would know your number."
+    ],
+    "answer": 0,
+    "explanation": "'Would have called' (third conditional) pairs with 'if + past perfect': if I had known."
+  },
+  {
+    "type": "sentence_completion",
+    "difficulty": 3,
+    "tags": ["word_order"],
+    "prompt": "Only after the results were announced ___",
+    "options": [
+      "did she realise her mistake.",
+      "she realised her mistake.",
+      "she did realise her mistake.",
+      "realised she her mistake."
+    ],
+    "answer": 0,
+    "explanation": "A sentence starting with 'Only after ...' uses question word order in the main clause: did she realise."
+  }
+]

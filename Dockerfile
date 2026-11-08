@@ -19,6 +19,7 @@ COPY server/package.json server/
 COPY client/package.json client/
 RUN npm ci --workspace server --omit=dev && npm cache clean --force
 COPY --from=build /app/server/dist server/dist
+COPY server/seed server/seed
 COPY --from=build /app/client/dist/client/browser client/dist/client/browser
 
 WORKDIR /app/server

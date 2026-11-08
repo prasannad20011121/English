@@ -1,0 +1,157 @@
+@if (error(); as message) {
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" />
+    {{ message }}
+  </p>
+  <a class="btn btn--primary" routerLink="/practice/written">Back to written practice</a>
+} @else if (summary(); as s) {
+  <section class="tile tile--{{ verdict().tone }} hero rise" aria-labelledby="summary-title">
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 128 128">
+        <circle class="ring__track" cx="64" cy="64" [attr.r]="ringRadius" />
+        <circle
+          class="ring__fill"
+          cx="64"
+          cy="64"
+          [attr.r]="ringRadius"
+          [attr.stroke-dasharray]="ringCircumference"
+          [attr.stroke-dashoffset]="ringOffset()"
+        />
+      </svg>
+      <div class="ring__label">
+        <strong
+          >{{ s.correct }}<small>/{{ s.answered }}</small></strong
+        >
+        <span>correct</span>
+      </div>
+    </div>
+    <div class="hero__text">
+      <p class="eyebrow">{{ title() }}</p>
+      <h1 id="summary-title" class="display">{{ verdict().title }}</h1>
+      <p class="sr-only">You got {{ s.correct }} out of {{ s.answered }} right.</p>
+      <ul class="facts">
+        <li><ui-icon name="lucideTarget" size="18px" /> {{ s.accuracy }}% accuracy</li>
+        <li><ui-icon name="lucideClock" size="18px" /> {{ duration() }}</li>
+        @if (s.answered < s.total) {
+          <li><ui-icon name="lucideInfo" size="18px" /> {{ s.total - s.answered }} skipped</li>
+        }
+      </ul>
+      <div class="actions">
+        <button type="button" class="btn btn--primary" (click)="practiseAgain()">
+          Practise again
+          <ui-icon name="lucideArrowRight" size="18px" />
+        </button>
+        @if (s.mistakes.length) {
+          <button
+            type="button"
+            class="btn btn--soft"
+            [class.is-loading]="startingReview()"
+            [disabled]="startingReview()"
+            (click)="reviewMistakes()"
+          >
+            Review mistakes
+          </button>
+        }
+        <a class="btn btn--soft" routerLink="/dashboard">Home</a>
+      </div>
+    </div>
+  </section>
+
+  @if (s.byTag.length) {
+    <section class="card topics rise" style="--i: 1" aria-labelledby="topics-title">
+      <h2 id="topics-title">By topic</h2>
+      <ul>
+        @for (t of s.byTag; track t.tag) {
+          <li>
+            <span class="topics__name">{{ tagLabels[t.tag] }}</span>
+            <span
+              class="topics__bar"
+              role="img"
+              [attr.aria-label]="t.correct + ' of ' + t.total + ' correct'"
+            >
+              <span [style.width.%]="(t.correct / t.total) * 100"></span>
+            </span>
+            <span class="topics__score">{{ t.correct }}/{{ t.total }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  <section class="mistakes rise" style="--i: 2" aria-labelledby="mistakes-title">
+    <h2 id="mistakes-title" class="section-title">
+      {{ s.mistakes.length ? 'Learn from your mistakes' : 'No mistakes this round' }}
+    </h2>
+    @if (!s.mistakes.length && s.answered) {
+      <div class="tile tile--mint perfect">
+        <ui-icon name="lucideSparkles" size="24px" />
+        <p>Every answer was right. Try a harder difficulty or a new topic next time.</p>
+      </div>
+    }
+    @for (m of s.mistakes; track m.id) {
+      <article class="card mistake">
+        <p class="mistake__type">{{ typeInfo[m.type].title }}</p>
+        @switch (m.type) {
+          @case ('spot_error') {
+            <p class="mistake__sentence">
+              @for (part of m.segments; track $index) {
+                <span
+                  class="seg"
+                  [class.seg--right]="$index === m.answer"
+                  [class.seg--wrong]="$index === m.chosen && m.chosen !== m.answer"
+                  ><b>{{ letters[$index] }}</b> {{ part }}</span
+                >
+              }
+            </p>
+            <p class="mistake__answers">
+              You chose
+              <strong>{{ m.chosen === 4 ? 'No error' : 'part ' + letters[m.chosen] }}</strong>
+              · Right answer
+              <strong>{{ m.answer === 4 ? 'No error' : 'part ' + letters[m.answer] }}</strong>
+            </p>
+          }
+          @case ('synonym') {
+            @let t = splitTarget(m.prompt);
+            <p class="mistake__sentence">
+              {{ t.before }}<mark>{{ t.word }}</mark
+              >{{ t.after }}
+            </p>
+            <ng-container *ngTemplateOutlet="choiceLine; context: { $implicit: m }" />
+          }
+          @case ('antonym') {
+            @let t = splitTarget(m.prompt);
+            <p class="mistake__sentence">
+              {{ t.before }}<mark>{{ t.word }}</mark
+              >{{ t.after }}
+            </p>
+            <ng-container *ngTemplateOutlet="choiceLine; context: { $implicit: m }" />
+          }
+          @default {
+            @let b = splitBlank(m.prompt);
+            <p class="mistake__sentence">
+              {{ b.before }}<span class="fill">{{ blankText(m.options![m.answer]!) }}</span
+              >{{ b.after }}
+            </p>
+            <ng-container *ngTemplateOutlet="choiceLine; context: { $implicit: m }" />
+          }
+        }
+        @if (m.correction) {
+          <p class="mistake__correction">
+            <ui-icon name="lucideCheck" size="18px" />
+            {{ m.correction }}
+          </p>
+        }
+        <p class="mistake__why">{{ m.explanation }}</p>
+      </article>
+    }
+  </section>
+
+  <ng-template #choiceLine let-m>
+    <p class="mistake__answers">
+      You chose <strong class="bad">{{ m.options[m.chosen] }}</strong> · Right answer
+      <strong class="good">{{ m.options[m.answer] }}</strong>
+    </p>
+  </ng-template>
+} @else {
+  <div class="loading" aria-busy="true">Adding up your score…</div>
+}

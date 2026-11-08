@@ -1,0 +1,274 @@
+:host {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 40px);
+  padding: clamp(24px, 4vw, 36px);
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ring {
+  position: relative;
+  flex: none;
+  width: 168px;
+  height: 168px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+}
+
+.ring__track,
+.ring__fill {
+  fill: none;
+  stroke-width: 13;
+}
+
+.ring__track {
+  stroke: color-mix(in srgb, var(--surface) 65%, transparent);
+}
+
+.ring__fill {
+  stroke: currentColor;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s var(--ease);
+}
+
+.ring__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  line-height: 1;
+
+  strong {
+    font-size: 46px;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+  }
+
+  small {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  span {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+// ---- Topics ------------------------------------------------------------------------------------
+
+.topics {
+  margin-top: 16px;
+
+  h2 {
+    margin-bottom: 14px;
+    font-size: 18px;
+  }
+
+  ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(120px, 200px) 1fr auto;
+    align-items: center;
+    gap: 14px;
+    font-weight: 600;
+  }
+}
+
+.topics__bar {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #3fb57a, #6d5dd3);
+  }
+}
+
+.topics__score {
+  color: var(--ink-2);
+}
+
+// ---- Mistakes ----------------------------------------------------------------------------------
+
+.section-title {
+  margin: 32px 0 14px;
+  font-size: 22px;
+}
+
+.perfect {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mistake {
+  margin-bottom: 12px;
+}
+
+.mistake__type {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.mistake__sentence {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.6;
+
+  mark {
+    padding: 0 4px;
+    border-radius: 6px;
+    background: var(--butter);
+    color: var(--butter-ink);
+  }
+}
+
+.fill {
+  padding: 0 8px;
+  border-radius: 8px;
+  background: var(--mint);
+  color: var(--mint-ink);
+}
+
+.seg {
+  display: inline-block;
+  margin: 2px 4px 2px 0;
+  padding: 0 8px;
+  border-radius: 8px;
+
+  b {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  &--right {
+    background: var(--mint);
+    color: var(--mint-ink);
+  }
+
+  &--wrong {
+    background: var(--rose);
+    color: var(--rose-ink);
+  }
+}
+
+.mistake__answers {
+  margin-top: 8px;
+  color: var(--ink-2);
+
+  strong {
+    color: var(--ink);
+  }
+
+  .bad {
+    color: var(--danger);
+    text-decoration: line-through;
+  }
+
+  .good {
+    color: var(--mint-ink);
+  }
+}
+
+.mistake__correction {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--mint);
+  color: var(--mint-ink);
+  font-weight: 600;
+
+  .ui-icon {
+    margin-top: 3px;
+  }
+}
+
+.mistake__why {
+  margin-top: 10px;
+}
+
+.loading {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+@media (max-width: 639.98px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ring {
+    align-self: center;
+  }
+
+  .topics li {
+    grid-template-columns: 1fr auto;
+
+    .topics__bar {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+}

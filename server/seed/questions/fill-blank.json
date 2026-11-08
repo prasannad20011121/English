@@ -1,0 +1,497 @@
+[
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["articles"],
+    "prompt": "She is ___ honest person who never lies.",
+    "options": ["a", "an", "the", "(no article)"],
+    "answer": 1,
+    "explanation": "'Honest' starts with a vowel sound because the h is silent, so we use 'an'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["articles"],
+    "prompt": "My brother is ___ engineer at a software company.",
+    "options": ["a", "an", "much", "few"],
+    "answer": 1,
+    "explanation": "'Engineer' starts with a vowel sound, so it takes 'an'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["articles"],
+    "prompt": "___ Ganges is one of the longest rivers in Asia.",
+    "options": ["A", "An", "The", "(no article)"],
+    "answer": 2,
+    "explanation": "Names of rivers take 'the': the Ganges, the Nile, the Thames."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["articles"],
+    "prompt": "We usually have ___ breakfast at seven o'clock.",
+    "options": ["a", "an", "the", "(no article)"],
+    "answer": 3,
+    "explanation": "Meals in general take no article: have breakfast, have lunch, have dinner."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["articles"],
+    "prompt": "Could you pass me ___ salt, please?",
+    "options": ["a", "an", "the", "some of"],
+    "answer": 2,
+    "explanation": "We mean the specific salt on the table, so we use 'the'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["articles"],
+    "prompt": "___ Himalayas attract thousands of trekkers every year.",
+    "options": ["A", "An", "The", "(no article)"],
+    "answer": 2,
+    "explanation": "Names of mountain ranges take 'the': the Himalayas, the Alps."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["prepositions"],
+    "prompt": "The meeting will start ___ 10 a.m.",
+    "options": ["in", "on", "at", "for"],
+    "answer": 2,
+    "explanation": "Use 'at' with clock times: at 10 a.m., at noon."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["prepositions"],
+    "prompt": "My birthday is ___ the fifth of June.",
+    "options": ["in", "on", "at", "by"],
+    "answer": 1,
+    "explanation": "Use 'on' with dates and days: on the fifth of June, on Monday."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["prepositions", "tenses"],
+    "prompt": "She has lived in Chennai ___ 2015.",
+    "options": ["for", "since", "from", "during"],
+    "answer": 1,
+    "explanation": "Use 'since' with a starting point in time and the present perfect: since 2015."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["prepositions", "tenses"],
+    "prompt": "He has been waiting for the bus ___ forty minutes.",
+    "options": ["since", "for", "from", "by"],
+    "answer": 1,
+    "explanation": "Use 'for' with a length of time: for forty minutes, for two years."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["prepositions"],
+    "prompt": "The teacher was angry ___ the students for being late.",
+    "options": ["on", "with", "to", "about"],
+    "answer": 1,
+    "explanation": "We are angry with a person and angry about a situation."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["prepositions", "collocations"],
+    "prompt": "She is very good ___ solving puzzles.",
+    "options": ["in", "at", "on", "for"],
+    "answer": 1,
+    "explanation": "The fixed phrase is 'good at' something."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["prepositions"],
+    "prompt": "We need to discuss ___ the budget before Friday.",
+    "options": ["about", "on", "over", "(no word needed)"],
+    "answer": 3,
+    "explanation": "'Discuss' takes a direct object: discuss the budget, not 'discuss about' the budget."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["prepositions"],
+    "prompt": "The cat jumped ___ the wall and ran away.",
+    "options": ["over", "in", "at", "of"],
+    "answer": 0,
+    "explanation": "'Over' shows movement from one side of something to the other."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["prepositions"],
+    "prompt": "He insisted ___ paying for everyone's lunch.",
+    "options": ["for", "on", "to", "in"],
+    "answer": 1,
+    "explanation": "The verb 'insist' is followed by 'on': insist on doing something."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["prepositions"],
+    "prompt": "The children were afraid ___ the dark.",
+    "options": ["from", "of", "with", "by"],
+    "answer": 1,
+    "explanation": "The adjective 'afraid' is followed by 'of'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["prepositions", "collocations"],
+    "prompt": "The new policy will come ___ effect from next month.",
+    "options": ["into", "in", "to", "on"],
+    "answer": 0,
+    "explanation": "The fixed phrase is 'come into effect', meaning start to apply."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["prepositions"],
+    "prompt": "Please write your answers ___ ink, not pencil.",
+    "options": ["by", "in", "on", "at"],
+    "answer": 1,
+    "explanation": "We write 'in ink' or 'in pencil' when we talk about the material used."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "prompt": "Look! The children ___ in the garden.",
+    "options": ["play", "are playing", "played", "have played"],
+    "answer": 1,
+    "explanation": "'Look!' shows the action is happening now, so we use the present continuous."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["tenses", "subject_verb_agreement"],
+    "prompt": "She ___ to college by bus every day.",
+    "options": ["go", "goes", "going", "gone"],
+    "answer": 1,
+    "explanation": "Daily habits use the simple present, and 'she' takes 'goes'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "prompt": "By the time we reached the station, the train ___.",
+    "options": ["left", "has left", "had left", "leaves"],
+    "answer": 2,
+    "explanation": "The train left before we reached the station, so we use the past perfect 'had left'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "prompt": "I ___ this movie three times already.",
+    "options": ["saw", "have seen", "had seen", "see"],
+    "answer": 1,
+    "explanation": "'Already' with an experience up to now takes the present perfect: have seen."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["tenses", "conjunctions"],
+    "prompt": "If it rains tomorrow, we ___ the match.",
+    "options": ["cancel", "will cancel", "would cancel", "cancelled"],
+    "answer": 1,
+    "explanation": "A real future condition uses 'if + present, will + verb' (first conditional)."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["tenses"],
+    "prompt": "If I ___ you, I would accept the job offer.",
+    "options": ["am", "be", "were", "had been"],
+    "answer": 2,
+    "explanation": "Imaginary situations use 'if I were' in formal English (second conditional)."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["tenses"],
+    "prompt": "She ___ for this company for five years before she moved to Pune.",
+    "options": ["has worked", "had been working", "is working", "works"],
+    "answer": 1,
+    "explanation": "An action that continued up to another past event uses the past perfect continuous."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "prompt": "Listen, someone ___ at the door.",
+    "options": ["knocks", "is knocking", "knocked", "knock"],
+    "answer": 1,
+    "explanation": "'Listen' shows it is happening right now, so we use the present continuous."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["tenses"],
+    "prompt": "When I called her last night, she ___ dinner, so she couldn't talk.",
+    "options": ["cooks", "was cooking", "has cooked", "cook"],
+    "answer": 1,
+    "explanation": "An action in progress at a past moment uses the past continuous: was cooking."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "prompt": "The results ___ next Monday.",
+    "options": ["announce", "will be announced", "announced", "have announced"],
+    "answer": 1,
+    "explanation": "Results do not announce themselves, so we need the future passive: will be announced."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "Neither of the answers ___ correct.",
+    "options": ["are", "is", "were", "have"],
+    "answer": 1,
+    "explanation": "In formal English, 'neither of' takes a singular verb: neither is correct."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "Everyone in the class ___ finished the assignment.",
+    "options": ["have", "has", "are", "were"],
+    "answer": 1,
+    "explanation": "'Everyone' is singular, so it takes 'has'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "Mathematics ___ my favourite subject.",
+    "options": ["are", "is", "were", "have"],
+    "answer": 1,
+    "explanation": "Subjects ending in -ics, like mathematics and physics, are singular."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "The news about the exam results ___ very encouraging.",
+    "options": ["were", "are", "was", "have been"],
+    "answer": 2,
+    "explanation": "'News' is an uncountable noun and takes a singular verb."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "One of my friends ___ moving to Canada next month.",
+    "options": ["are", "is", "were", "have"],
+    "answer": 1,
+    "explanation": "The subject is 'one', which is singular, so the verb is 'is'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "Bread and butter ___ his usual breakfast.",
+    "options": ["is", "are", "were", "have"],
+    "answer": 0,
+    "explanation": "'Bread and butter' is one idea (one dish), so it takes a singular verb."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["subject_verb_agreement"],
+    "prompt": "The number of students in the hostel ___ increased this year.",
+    "options": ["have", "has", "are", "were"],
+    "answer": 1,
+    "explanation": "'The number of' is singular; 'a number of' would be plural."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["pronouns"],
+    "prompt": "This book belongs to Priya; it is ___.",
+    "options": ["her", "hers", "she", "her's"],
+    "answer": 1,
+    "explanation": "The possessive pronoun is 'hers', with no apostrophe."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["pronouns"],
+    "prompt": "Between you and ___, I think the plan will fail.",
+    "options": ["I", "me", "myself", "mine"],
+    "answer": 1,
+    "explanation": "After a preposition like 'between' we use the object pronoun 'me'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["pronouns"],
+    "prompt": "The students did the project by ___.",
+    "options": ["them", "themselves", "theirselves", "their"],
+    "answer": 1,
+    "explanation": "'By themselves' means without help. 'Theirselves' is not a word."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["pronouns"],
+    "prompt": "Ravi and ___ went to the library after class.",
+    "options": ["me", "I", "myself", "mine"],
+    "answer": 1,
+    "explanation": "This is the subject of the sentence, so use 'I' (Ravi and I went...)."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["pronouns"],
+    "prompt": "The man ___ car was stolen went to the police.",
+    "options": ["who", "whom", "whose", "which"],
+    "answer": 2,
+    "explanation": "'Whose' shows possession: the man whose car was stolen."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "prompt": "I wanted to go out, ___ it was raining heavily.",
+    "options": ["and", "but", "or", "so"],
+    "answer": 1,
+    "explanation": "'But' joins two ideas that contrast."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "___ he studied hard, he could not clear the exam.",
+    "options": ["Because", "Although", "Unless", "Since"],
+    "answer": 1,
+    "explanation": "'Although' introduces a contrast: he studied, but he still failed."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "You will miss the bus ___ you leave now.",
+    "options": ["if", "unless", "because", "although"],
+    "answer": 1,
+    "explanation": "'Unless' means 'if not': you will miss the bus if you do not leave now."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "prompt": "He spoke slowly ___ everyone could understand him.",
+    "options": ["so that", "such that", "unless", "whereas"],
+    "answer": 0,
+    "explanation": "'So that' introduces a purpose."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "prompt": "She is not only intelligent ___ hard-working.",
+    "options": ["and also", "but also", "as well", "or"],
+    "answer": 1,
+    "explanation": "The pair is 'not only ... but also'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["modals"],
+    "prompt": "You ___ wear a helmet while riding a bike; it is the law.",
+    "options": ["must", "might", "could", "would"],
+    "answer": 0,
+    "explanation": "'Must' shows a rule or obligation."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["modals"],
+    "prompt": "It ___ rain later, so take an umbrella just in case.",
+    "options": ["must", "might", "shall", "would"],
+    "answer": 1,
+    "explanation": "'Might' shows a possibility; 'just in case' tells us it is not certain."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["modals"],
+    "prompt": "You ___ have told me earlier; I could have helped you.",
+    "options": ["should", "must", "can", "will"],
+    "answer": 0,
+    "explanation": "'Should have' + past participle expresses regret or criticism about the past."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 1,
+    "tags": ["comparatives"],
+    "prompt": "This is the ___ day of the year so far.",
+    "options": ["hot", "hotter", "hottest", "most hot"],
+    "answer": 2,
+    "explanation": "Comparing one day with all others needs the superlative: the hottest."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["comparatives"],
+    "prompt": "Her handwriting is ___ than mine.",
+    "options": ["more neat", "neater", "neatest", "most neat"],
+    "answer": 1,
+    "explanation": "Short adjectives add -er to compare two things: neat, neater."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["comparatives"],
+    "prompt": "He is ___ of the two brothers.",
+    "options": ["the taller", "the tallest", "tall", "more tall"],
+    "answer": 0,
+    "explanation": "When comparing exactly two, formal English uses the comparative: the taller of the two."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "prompt": "Could you ___ me a favour?",
+    "options": ["make", "do", "give", "take"],
+    "answer": 1,
+    "explanation": "The fixed phrase is 'do someone a favour'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "prompt": "He ___ a lot of mistakes in his first essay.",
+    "options": ["did", "made", "took", "had"],
+    "answer": 1,
+    "explanation": "We 'make' mistakes, not 'do' them."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The company had to ___ off fifty employees due to losses.",
+    "options": ["lay", "lie", "laid", "lain"],
+    "answer": 0,
+    "explanation": "'Lay off' means to dismiss workers; after 'had to' we need the base form 'lay'."
+  },
+  {
+    "type": "fill_blank",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "prompt": "We should ___ advantage of this opportunity.",
+    "options": ["make", "take", "get", "have"],
+    "answer": 1,
+    "explanation": "The fixed phrase is 'take advantage of'."
+  }
+]

@@ -1,0 +1,459 @@
+[
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["Each of the students", "have submitted", "the assignment", "on time."],
+    "answer": 1,
+    "correction": "Each of the students has submitted the assignment on time.",
+    "explanation": "'Each' is singular, so the verb must be 'has submitted'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["articles"],
+    "segments": ["She is", "a honest", "and hard-working", "employee."],
+    "answer": 1,
+    "correction": "She is an honest and hard-working employee.",
+    "explanation": "'Honest' starts with a vowel sound (silent h), so it needs 'an'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["prepositions", "tenses"],
+    "segments": ["We have been living", "in this city", "since five years", "and we love it."],
+    "answer": 2,
+    "correction": "We have been living in this city for five years and we love it.",
+    "explanation": "Use 'for' with a length of time; 'since' needs a starting point."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "segments": ["Yesterday I", "go to the market", "with my mother", "to buy vegetables."],
+    "answer": 1,
+    "correction": "Yesterday I went to the market with my mother to buy vegetables.",
+    "explanation": "'Yesterday' needs the simple past: went."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["pronouns"],
+    "segments": ["My friend and me", "went to the cinema", "after finishing", "our exams."],
+    "answer": 0,
+    "correction": "My friend and I went to the cinema after finishing our exams.",
+    "explanation": "This is the subject of the sentence, so use 'I', not 'me'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["The quality of", "these mangoes", "are not", "very good."],
+    "answer": 2,
+    "correction": "The quality of these mangoes is not very good.",
+    "explanation": "The subject is 'the quality', which is singular, so use 'is'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["comparatives"],
+    "segments": ["This is", "the most tallest", "building", "in our city."],
+    "answer": 1,
+    "correction": "This is the tallest building in our city.",
+    "explanation": "Do not use 'most' with an -est superlative; just say 'the tallest'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "segments": ["I am working", "in this company", "since 2019,", "and I enjoy it."],
+    "answer": 0,
+    "correction": "I have been working in this company since 2019, and I enjoy it.",
+    "explanation": "An action that started in the past and continues now, with 'since', needs the present perfect continuous."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["prepositions"],
+    "segments": ["He is married", "with a doctor", "who works", "at the city hospital."],
+    "answer": 1,
+    "correction": "He is married to a doctor who works at the city hospital.",
+    "explanation": "We are married 'to' someone."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "segments": ["You should do", "a decision", "before the end", "of the day."],
+    "answer": 0,
+    "correction": "You should make a decision before the end of the day.",
+    "explanation": "We 'make' a decision; 'do a decision' is not used."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["modals"],
+    "segments": ["You must", "to complete", "the form", "before Monday."],
+    "answer": 1,
+    "correction": "You must complete the form before Monday.",
+    "explanation": "Modal verbs like 'must' are followed by the base verb without 'to'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "segments": ["Although he was tired,", "but he continued", "working on", "the report."],
+    "answer": 1,
+    "correction": "Although he was tired, he continued working on the report.",
+    "explanation": "Use either 'although' or 'but', never both in the same sentence."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "segments": ["She has been", "practising the piano", "every evening", "for two years."],
+    "answer": 4,
+    "explanation": "The sentence is correct: the present perfect continuous with 'for two years' describes an ongoing habit."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["articles"],
+    "segments": ["The sun", "rises in", "east and", "sets in the west."],
+    "answer": 2,
+    "correction": "The sun rises in the east and sets in the west.",
+    "explanation": "Compass directions as places take 'the': in the east, in the west."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["Neither the teacher", "nor the students", "was ready", "for the surprise test."],
+    "answer": 2,
+    "correction": "Neither the teacher nor the students were ready for the surprise test.",
+    "explanation": "With 'neither ... nor', the verb agrees with the nearer subject, 'the students' (plural)."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["pronouns"],
+    "segments": ["The committee", "has announced", "it's decision", "after a long meeting."],
+    "answer": 2,
+    "correction": "The committee has announced its decision after a long meeting.",
+    "explanation": "'Its' is the possessive; 'it's' means 'it is'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["tenses", "conjunctions"],
+    "segments": ["If I would have", "known about the meeting,", "I would have", "attended it."],
+    "answer": 0,
+    "correction": "If I had known about the meeting, I would have attended it.",
+    "explanation": "The if-part of a third conditional uses the past perfect: if I had known."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["word_order"],
+    "segments": ["Can you tell me", "where is", "the nearest", "post office?"],
+    "answer": 1,
+    "correction": "Can you tell me where the nearest post office is?",
+    "explanation": "In an indirect question the word order is subject + verb: where the post office is."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["The number of", "accidents on this road", "have increased", "sharply this year."],
+    "answer": 2,
+    "correction": "The number of accidents on this road has increased sharply this year.",
+    "explanation": "'The number of' is singular, so it takes 'has increased'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["prepositions"],
+    "segments": ["The manager", "explained us", "the new rules", "in detail."],
+    "answer": 1,
+    "correction": "The manager explained to us the new rules in detail.",
+    "explanation": "We explain something 'to' someone; 'explain us' is incorrect."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "segments": ["The children", "were playing football", "when it", "started to rain."],
+    "answer": 4,
+    "explanation": "The sentence is correct: an action in progress (were playing) interrupted by another (started)."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["She don't", "like spicy food,", "so she ordered", "a plain dosa."],
+    "answer": 0,
+    "correction": "She doesn't like spicy food, so she ordered a plain dosa.",
+    "explanation": "With 'she', the negative is 'doesn't', not 'don't'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["comparatives"],
+    "segments": ["My brother is", "more older", "than me", "by three years."],
+    "answer": 1,
+    "correction": "My brother is older than me by three years.",
+    "explanation": "'Older' is already a comparative; do not add 'more'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["prepositions", "collocations"],
+    "segments": ["He is", "very good in", "solving", "maths problems."],
+    "answer": 1,
+    "correction": "He is very good at solving maths problems.",
+    "explanation": "The fixed phrase is 'good at' something."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["modals"],
+    "segments": ["You should", "not to worry", "about the result", "too much."],
+    "answer": 1,
+    "correction": "You should not worry about the result too much.",
+    "explanation": "'Should' is followed by the base verb: should not worry."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["conjunctions"],
+    "segments": ["Despite the heavy rain,", "the match", "started", "on time."],
+    "answer": 4,
+    "explanation": "The sentence is correct: 'despite' is followed by a noun phrase (the heavy rain)."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "segments": ["By the time", "the guests arrived,", "we have already", "finished cooking."],
+    "answer": 2,
+    "correction": "By the time the guests arrived, we had already finished cooking.",
+    "explanation": "Something completed before another past event needs the past perfect: had finished."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["collocations"],
+    "segments": ["I am looking forward", "to meet you", "at the conference", "next week."],
+    "answer": 1,
+    "correction": "I am looking forward to meeting you at the conference next week.",
+    "explanation": "In 'look forward to', 'to' is a preposition, so it is followed by the -ing form."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "segments": ["No sooner did", "he reach the station", "when the train", "left."],
+    "answer": 2,
+    "correction": "No sooner did he reach the station than the train left.",
+    "explanation": "'No sooner' is always paired with 'than', not 'when'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["Bread and butter", "are", "my favourite", "breakfast."],
+    "answer": 1,
+    "correction": "Bread and butter is my favourite breakfast.",
+    "explanation": "'Bread and butter' is a single dish, so it takes a singular verb."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["prepositions"],
+    "segments": ["We will meet", "on Monday", "in 10 a.m.", "near the library."],
+    "answer": 2,
+    "correction": "We will meet on Monday at 10 a.m. near the library.",
+    "explanation": "Use 'at' with clock times."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["conjunctions"],
+    "segments": ["Please switch off", "the fan", "before you", "leave the room."],
+    "answer": 4,
+    "explanation": "The sentence is correct: after 'before' we use the present tense for a future action."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["tenses"],
+    "segments": [
+      "When I reached",
+      "the cinema,",
+      "the film already started,",
+      "so we missed the beginning."
+    ],
+    "answer": 2,
+    "correction": "When I reached the cinema, the film had already started, so we missed the beginning.",
+    "explanation": "The film started before I arrived, so use the past perfect: had already started."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["One of my cousins", "live", "in Bengaluru", "and works at a bank."],
+    "answer": 1,
+    "correction": "One of my cousins lives in Bengaluru and works at a bank.",
+    "explanation": "The subject is 'one', which is singular, so use 'lives'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["word_order"],
+    "segments": ["She has", "never been", "late for work", "in her life never."],
+    "answer": 3,
+    "correction": "She has never been late for work in her life.",
+    "explanation": "'Never' is already used; repeating it at the end is wrong."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["modals"],
+    "segments": ["You needn't", "to bring", "any food,", "we have plenty."],
+    "answer": 1,
+    "correction": "You needn't bring any food, we have plenty.",
+    "explanation": "As a modal, 'needn't' is followed by the base verb without 'to'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "segments": ["Hardly had", "I closed my eyes", "than I heard", "a loud noise."],
+    "answer": 2,
+    "correction": "Hardly had I closed my eyes when I heard a loud noise.",
+    "explanation": "'Hardly' is paired with 'when', not 'than'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["tenses", "conjunctions"],
+    "segments": ["Had I known", "about the traffic,", "I would have", "left earlier."],
+    "answer": 4,
+    "explanation": "The sentence is correct: 'Had I known' is an inverted form of 'If I had known' (third conditional)."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["comparatives"],
+    "segments": ["Of all the students", "in the class,", "Meena is", "the more hardworking."],
+    "answer": 3,
+    "correction": "Of all the students in the class, Meena is the most hardworking.",
+    "explanation": "Comparing one person with a whole group needs the superlative: the most hardworking."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["The list of", "items", "are on", "the table."],
+    "answer": 2,
+    "correction": "The list of items is on the table.",
+    "explanation": "The subject is 'the list', which is singular, so use 'is'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["prepositions"],
+    "segments": ["He prefers", "tea than", "coffee", "in the morning."],
+    "answer": 1,
+    "correction": "He prefers tea to coffee in the morning.",
+    "explanation": "We prefer one thing 'to' another, not 'than'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["prepositions"],
+    "segments": ["The company", "has made", "a lot of progress", "on the last year."],
+    "answer": 3,
+    "correction": "The company has made a lot of progress in the last year.",
+    "explanation": "A period of time takes 'in': in the last year."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["articles"],
+    "segments": ["I want to buy", "an useful book", "on public speaking", "for my exam."],
+    "answer": 1,
+    "correction": "I want to buy a useful book on public speaking for my exam.",
+    "explanation": "'Useful' starts with a 'yoo' sound (a consonant sound), so it takes 'a'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "segments": ["My sister", "is studying", "engineering", "at a college in Pune."],
+    "answer": 4,
+    "explanation": "The sentence is correct: the present continuous describes a current course of study."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["pronouns"],
+    "segments": ["Whom do you think", "will win", "the singing competition", "this year?"],
+    "answer": 0,
+    "correction": "Who do you think will win the singing competition this year?",
+    "explanation": "The pronoun is the subject of 'will win', so use 'who', not 'whom'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["conjunctions"],
+    "segments": ["Unless you", "do not practise", "regularly, you", "will not improve."],
+    "answer": 1,
+    "correction": "Unless you practise regularly, you will not improve.",
+    "explanation": "'Unless' already means 'if not', so do not add another 'not'."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "segments": ["The principal", "gave us", "many advices", "before the exam."],
+    "answer": 2,
+    "correction": "The principal gave us a lot of advice before the exam.",
+    "explanation": "'Advice' is uncountable: a lot of advice, some advice, a piece of advice."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["subject_verb_agreement"],
+    "segments": ["Neither the students", "nor the teacher", "was aware", "of the change."],
+    "answer": 4,
+    "explanation": "The sentence is correct: with 'neither ... nor' the verb agrees with the nearer subject, 'the teacher' (singular)."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 1,
+    "tags": ["tenses"],
+    "segments": ["Last week", "we visit", "the science museum", "with our teachers."],
+    "answer": 1,
+    "correction": "Last week we visited the science museum with our teachers.",
+    "explanation": "'Last week' needs the simple past: visited."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "segments": ["Could you", "borrow me", "your notes", "for a day?"],
+    "answer": 1,
+    "correction": "Could you lend me your notes for a day?",
+    "explanation": "You 'lend' something to someone; you 'borrow' something from someone."
+  },
+  {
+    "type": "spot_error",
+    "difficulty": 3,
+    "tags": ["word_order"],
+    "segments": ["Rarely", "we get", "such a good opportunity", "to travel abroad."],
+    "answer": 1,
+    "correction": "Rarely do we get such a good opportunity to travel abroad.",
+    "explanation": "After a negative adverb like 'rarely' at the start, use question word order: rarely do we get."
+  }
+]

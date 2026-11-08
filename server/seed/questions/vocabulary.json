@@ -1,0 +1,227 @@
+[
+  {
+    "type": "synonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "The village has an **abundant** supply of fresh water.",
+    "options": ["plentiful", "scarce", "costly", "limited"],
+    "answer": 0,
+    "explanation": "'Abundant' means existing in large amounts, so 'plentiful' is closest."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "She gave a **brief** answer to the question.",
+    "options": ["short", "detailed", "rude", "loud"],
+    "answer": 0,
+    "explanation": "'Brief' means short in time or length."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The manager was **reluctant** to approve the new budget.",
+    "options": ["unwilling", "eager", "quick", "proud"],
+    "answer": 0,
+    "explanation": "'Reluctant' means not wanting to do something: unwilling."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "His **candid** reply surprised everyone in the room.",
+    "options": ["frank", "shy", "angry", "vague"],
+    "answer": 0,
+    "explanation": "'Candid' means honest and direct: frank."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The old bridge is too **fragile** to carry heavy trucks.",
+    "options": ["delicate", "sturdy", "ancient", "narrow"],
+    "answer": 0,
+    "explanation": "'Fragile' means easily broken: delicate."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The professor's lecture was so **lucid** that even beginners understood it.",
+    "options": ["clear", "lengthy", "boring", "complex"],
+    "answer": 0,
+    "explanation": "'Lucid' means expressed clearly and easy to understand."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The team showed great **tenacity** in the final minutes of the match.",
+    "options": ["determination", "weakness", "laziness", "confusion"],
+    "answer": 0,
+    "explanation": "'Tenacity' means not giving up easily: determination."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "The children were **delighted** with their new toys.",
+    "options": ["pleased", "bored", "angry", "worried"],
+    "answer": 0,
+    "explanation": "'Delighted' means very pleased."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "It is **imperative** that you submit the form before Friday.",
+    "options": ["essential", "optional", "unlikely", "difficult"],
+    "answer": 0,
+    "explanation": "'Imperative' means extremely important or necessary: essential."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "Her **meticulous** notes helped the whole class prepare.",
+    "options": ["careful", "messy", "short", "colourful"],
+    "answer": 0,
+    "explanation": "'Meticulous' means showing great attention to detail: careful."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The speaker tried to **mitigate** the effects of the bad news.",
+    "options": ["reduce", "increase", "announce", "ignore"],
+    "answer": 0,
+    "explanation": "'Mitigate' means to make something less severe: reduce."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "He was **anxious** about his first job interview.",
+    "options": ["worried", "excited", "certain", "careless"],
+    "answer": 0,
+    "explanation": "'Anxious' means nervous or worried."
+  },
+  {
+    "type": "synonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The instructions were **ambiguous**, so many students made mistakes.",
+    "options": ["unclear", "simple", "printed", "strict"],
+    "answer": 0,
+    "explanation": "'Ambiguous' means open to more than one meaning: unclear."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "The shop was **crowded** on Sunday evening.",
+    "options": ["empty", "busy", "noisy", "bright"],
+    "answer": 0,
+    "explanation": "'Crowded' means full of people; the opposite is 'empty'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "He gave a **generous** donation to the school.",
+    "options": ["stingy", "large", "kind", "quick"],
+    "answer": 0,
+    "explanation": "'Generous' means giving freely; the opposite is 'stingy' (unwilling to give)."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 1,
+    "tags": ["vocabulary"],
+    "prompt": "The exam questions were quite **simple**.",
+    "options": ["complicated", "easy", "short", "clear"],
+    "answer": 0,
+    "explanation": "The opposite of 'simple' is 'complicated'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "She is known for her **modest** behaviour.",
+    "options": ["arrogant", "humble", "quiet", "polite"],
+    "answer": 0,
+    "explanation": "'Modest' means not boastful; the opposite is 'arrogant'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The government decided to **expand** the airport.",
+    "options": ["reduce", "enlarge", "build", "visit"],
+    "answer": 0,
+    "explanation": "'Expand' means make bigger; the opposite is 'reduce'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The results of the experiment were **accurate**.",
+    "options": ["incorrect", "exact", "quick", "useful"],
+    "answer": 0,
+    "explanation": "'Accurate' means correct; the opposite is 'incorrect'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "He gave a **vague** description of the thief.",
+    "options": ["precise", "unclear", "long", "funny"],
+    "answer": 0,
+    "explanation": "'Vague' means not clear or detailed; the opposite is 'precise'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The new rules were met with **hostility** by the workers.",
+    "options": ["friendliness", "anger", "silence", "confusion"],
+    "answer": 0,
+    "explanation": "'Hostility' means unfriendly opposition; the opposite is 'friendliness'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The speaker's argument was **coherent** and easy to follow.",
+    "options": ["disjointed", "logical", "brief", "loud"],
+    "answer": 0,
+    "explanation": "'Coherent' means logical and well connected; the opposite is 'disjointed'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "The company's profits saw a **gradual** increase.",
+    "options": ["sudden", "slow", "steady", "small"],
+    "answer": 0,
+    "explanation": "'Gradual' means happening slowly over time; the opposite is 'sudden'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 2,
+    "tags": ["vocabulary"],
+    "prompt": "The old man was **feeble** after his illness.",
+    "options": ["strong", "weak", "tired", "sad"],
+    "answer": 0,
+    "explanation": "'Feeble' means weak; the opposite is 'strong'."
+  },
+  {
+    "type": "antonym",
+    "difficulty": 3,
+    "tags": ["vocabulary"],
+    "prompt": "Her approach to the problem was quite **conventional**.",
+    "options": ["unusual", "traditional", "careful", "simple"],
+    "answer": 0,
+    "explanation": "'Conventional' means following the usual way; the opposite is 'unusual'."
+  }
+]

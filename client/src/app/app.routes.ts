@@ -50,6 +50,26 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.DashboardPage),
       },
       {
+        path: 'practice/written',
+        title: 'Written practice',
+        loadComponent: () =>
+          import('./features/practice/written/written-home/written-home').then(
+            (m) => m.WrittenHomePage,
+          ),
+      },
+      {
+        path: 'practice/written/session/:id',
+        title: 'Practice',
+        loadComponent: () =>
+          import('./features/practice/written/player/player').then((m) => m.PlayerPage),
+      },
+      {
+        path: 'practice/written/session/:id/summary',
+        title: 'Results',
+        loadComponent: () =>
+          import('./features/practice/written/summary/summary').then((m) => m.SummaryPage),
+      },
+      {
         path: 'profile',
         title: 'Profile',
         loadComponent: () => import('./features/profile/profile').then((m) => m.ProfilePage),

@@ -4,9 +4,15 @@
       <p class="eyebrow">{{ greeting }}</p>
       <h1 id="hero-title" class="display">Hi {{ firstName() }},<br />let's get you SHL-ready.</h1>
       <p class="hero__lead">
-        Speaking and written practice open soon. Until then, set your exam date and read the tips
-        below.
+        Written practice is open: quick rounds with instant explanations. Speaking practice opens
+        soon.
       </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" routerLink="/practice/written">
+          Start written practice
+          <ui-icon name="lucideArrowRight" size="18px" />
+        </a>
+      </div>
     </div>
     <ui-illustration class="hero__art" name="speak" />
   </section>
@@ -52,20 +58,37 @@
     }
   </section>
 
+  @let st = stats();
   <section class="tile tile--butter streak rise" style="--i: 2" aria-labelledby="streak-title">
     <div class="stat-head">
       <span class="stat-icon"><ui-icon name="lucideFlame" size="22px" /></span>
-      <h2 id="streak-title">0-day streak</h2>
+      <h2 id="streak-title">{{ st?.streakDays ?? 0 }}-day streak</h2>
     </div>
     <ol class="week" aria-label="This week">
       @for (day of weekDays; track $index) {
-        <li [class.is-today]="$index === todayIndex">
-          <span class="sr-only">{{ $index === todayIndex ? 'Today, ' : '' }}no practice</span>
-          <span aria-hidden="true">{{ day }}</span>
+        @let done = !!st?.week?.[$index];
+        <li [class.is-today]="$index === todayIndex" [class.is-done]="done">
+          <span class="sr-only"
+            >{{ $index === todayIndex ? 'Today: ' : ''
+            }}{{ done ? 'practised' : 'no practice' }}</span
+          >
+          @if (done) {
+            <ui-icon name="lucideCheck" size="14px" />
+          } @else {
+            <span aria-hidden="true">{{ day }}</span>
+          }
         </li>
       }
     </ol>
-    <p class="stat-note">Practise any day to start your streak.</p>
+    <p class="stat-note">
+      @if (!st?.streakDays) {
+        Practise any day to start your streak.
+      } @else if (st!.answeredToday) {
+        Nice! You practised today.
+      } @else {
+        Practise today to keep your streak alive.
+      }
+    </p>
   </section>
 
   <section class="tile tile--mint goal rise" style="--i: 3" aria-labelledby="goal-title">
@@ -73,42 +96,71 @@
       <span class="stat-icon"><ui-icon name="lucideTarget" size="22px" /></span>
       <h2 id="goal-title">Daily goal</h2>
     </div>
-    <p class="goal__count"><strong>0</strong> / 5 questions</p>
+    <p class="goal__count">
+      <strong>{{ st?.answeredToday ?? 0 }}</strong> / {{ st?.dailyGoal ?? 5 }} questions
+    </p>
     <div
       class="bar"
       role="progressbar"
-      aria-valuemin="0"
-      aria-valuemax="5"
-      aria-valuenow="0"
       aria-label="Daily goal progress"
+      aria-valuemin="0"
+      [attr.aria-valuemax]="st?.dailyGoal ?? 5"
+      [attr.aria-valuenow]="st?.answeredToday ?? 0"
     >
-      <span style="width: 0%"></span>
+      <span [style.width.%]="goalPercent()"></span>
     </div>
-    <p class="stat-note">Starts when practice opens.</p>
+    <p class="stat-note">
+      @if (goalLeft() === 0 && st) {
+        Goal reached. Great job!
+      } @else {
+        {{ goalLeft() || (st?.dailyGoal ?? 5) }} more to hit today's goal.
+      }
+    </p>
   </section>
 </div>
 
 <h2 class="section-title">Practice modules</h2>
 <div class="modules">
   @for (module of modules; track module.title; let i = $index) {
-    <article class="tile tile--{{ module.tone }} module lift rise" [style.--i]="i + 4">
-      <div class="module__top">
-        <span class="module__icon"><ui-icon [name]="module.icon" size="24px" /></span>
-        <span class="pill module__lock">
-          <ui-icon name="lucideLock" size="13px" />
-          Opens soon
-        </span>
-      </div>
-      <h3>{{ module.title }}</h3>
-      <p>{{ module.description }}</p>
-      <ul class="chips">
-        @for (task of module.tasks; track task) {
-          <li>{{ task }}</li>
-        }
-      </ul>
-    </article>
+    @if (module.link) {
+      <a
+        class="tile tile--{{ module.tone }} module module--open lift rise"
+        [style.--i]="i + 4"
+        [routerLink]="module.link"
+      >
+        <ng-container *ngTemplateOutlet="moduleBody; context: { $implicit: module, open: true }" />
+      </a>
+    } @else {
+      <article class="tile tile--{{ module.tone }} module lift rise" [style.--i]="i + 4">
+        <ng-container *ngTemplateOutlet="moduleBody; context: { $implicit: module, open: false }" />
+      </article>
+    }
   }
 </div>
+
+<ng-template #moduleBody let-module let-open="open">
+  <div class="module__top">
+    <span class="module__icon"><ui-icon [name]="module.icon" size="24px" /></span>
+    @if (open) {
+      <span class="pill module__lock">
+        Start now
+        <ui-icon name="lucideArrowRight" size="14px" />
+      </span>
+    } @else {
+      <span class="pill module__lock">
+        <ui-icon name="lucideLock" size="13px" />
+        Opens soon
+      </span>
+    }
+  </div>
+  <h3>{{ module.title }}</h3>
+  <p>{{ module.description }}</p>
+  <ul class="chips">
+    @for (task of module.tasks; track task) {
+      <li>{{ task }}</li>
+    }
+  </ul>
+</ng-template>
 
 <section class="tile tile--rose tips rise" style="--i: 7" aria-labelledby="tips-title">
   <div class="tips__head">

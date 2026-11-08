@@ -1,6 +1,9 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { catchError, of } from 'rxjs';
+import { PracticeService } from '../../core/api/practice.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { fromIsoDate } from '../../core/forms/form-utils';
 import type { AppIcon } from '../../core/icons';
@@ -14,19 +17,37 @@ interface Module {
   tone: 'lavender' | 'mint' | 'sky';
   description: string;
   tasks: string[];
+  /** Set once the module is available. */
+  link?: string;
 }
 
 const RING_RADIUS = 52;
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, UiIcon, UiIllustration],
+  imports: [RouterLink, DatePipe, NgTemplateOutlet, UiIcon, UiIllustration],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class DashboardPage {
   private readonly user = inject(AuthService).user;
   private readonly now = new Date();
+
+  /** Streak and daily goal; null while loading or if the request fails. */
+  protected readonly stats = toSignal(
+    inject(PracticeService)
+      .stats()
+      .pipe(catchError(() => of(null))),
+    { initialValue: null },
+  );
+  protected readonly goalPercent = computed(() => {
+    const s = this.stats();
+    return s ? Math.min(100, Math.round((s.answeredToday / s.dailyGoal) * 100)) : 0;
+  });
+  protected readonly goalLeft = computed(() => {
+    const s = this.stats();
+    return s ? Math.max(0, s.dailyGoal - s.answeredToday) : 0;
+  });
 
   protected readonly greeting = greeting(this.now);
   protected readonly firstName = computed(() => this.user()?.name.split(/\s+/)[0] ?? '');
@@ -62,7 +83,8 @@ export class DashboardPage {
       icon: 'lucidePenLine',
       tone: 'mint',
       description: 'Quick grammar and vocabulary rounds with instant answers and explanations.',
-      tasks: ['Fill in the blanks', 'Spot the error', 'Sentence completion', 'Dictation'],
+      tasks: ['Fill in the blanks', 'Spot the error', 'Sentence completion', 'Synonyms & antonyms'],
+      link: '/practice/written',
     },
     {
       title: 'Mock tests',

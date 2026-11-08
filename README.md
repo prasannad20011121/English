@@ -13,7 +13,9 @@ Node.js) and will use free / open-source AI for speech-to-text, grammar checking
 | ----- | ---------------------------------------------------------------- | ------- |
 | 0     | Project setup: monorepo, Express + Angular, Docker, CI           | ✅ Done |
 | 1     | Accounts: sign up, log in, stay logged in, profile, reset, admin | ✅ Done |
-| 2–9   | Practice modules, voice scoring, mock tests, dashboard, admin    | Planned |
+| 2a    | Question bank + written practice with instant feedback           | ✅ Done |
+| 2b    | AI-assisted question writing (free LLM) with admin review        | Next    |
+| 3–9   | Voice practice, scoring, mock tests, progress, admin tools       | Planned |
 
 The full roadmap is in [docs/PLAN.md](docs/PLAN.md).
 
@@ -26,7 +28,17 @@ The full roadmap is in [docs/PLAN.md](docs/PLAN.md).
   printed in the server log.
 - **Profile:** edit your details, exam date and listening accent, and change your password (this
   logs out your other devices).
-- **Dashboard:** exam countdown, the upcoming practice modules, and tips for the voice test.
+- **Written practice** (156 original questions): fill in the blanks, spot the error, sentence
+  completion, synonyms and antonyms. Choose the number of questions, difficulty and topics.
+  - Instant feedback with the right answer, the corrected sentence and a short explanation.
+  - Keyboard shortcuts (A–E or 1–5, Enter for next), and a round resumes where you left off after a
+    reload.
+  - A results page with score, accuracy by topic and every mistake explained, plus "Review my
+    mistakes" rounds.
+  - No repeats until you have seen every question; "Report a problem" hides a question after two
+    reports.
+- **Dashboard:** exam countdown, a real practice streak and daily goal, the practice modules, and
+  tips for the voice test.
 - **Admin:** a searchable, paginated list of users.
 - A custom **"soft bento pastel"** design: pastel tiles, the Outfit font, Lucide icons, gentle
   animations, and confetti when you sign up.
@@ -63,6 +75,7 @@ docs/     Plan and design notes
 npm install                                   # installs server + client (npm workspaces)
 docker compose up -d mongo                    # or use your own MongoDB / Atlas
 cp server/.env.example server/.env            # then edit values if needed
+npm run seed:questions                        # loads the question bank (safe to run again)
 npm run seed:admin                            # optional: creates the admin from ADMIN_* in server/.env
 npm run dev                                   # API on :3000, Angular on http://localhost:4200
 ```
@@ -71,14 +84,15 @@ The Angular dev server proxies `/api` to the API, so cookies work without any CO
 
 ### Scripts (run from the repo root)
 
-| Command              | What it does                                           |
-| -------------------- | ------------------------------------------------------ |
-| `npm run dev`        | Runs API (auto-restart) and Angular dev server         |
-| `npm test`           | Runs server and client unit tests                      |
-| `npm run lint`       | ESLint + type checks for both apps                     |
-| `npm run build`      | Production builds into `server/dist` and `client/dist` |
-| `npm run format`     | Formats everything with Prettier                       |
-| `npm run seed:admin` | Creates or updates the admin account                   |
+| Command                  | What it does                                           |
+| ------------------------ | ------------------------------------------------------ |
+| `npm run dev`            | Runs API (auto-restart) and Angular dev server         |
+| `npm test`               | Runs server and client unit tests                      |
+| `npm run lint`           | ESLint + type checks for both apps                     |
+| `npm run build`          | Production builds into `server/dist` and `client/dist` |
+| `npm run format`         | Formats everything with Prettier                       |
+| `npm run seed:questions` | Loads `server/seed/questions/*.json` into the database |
+| `npm run seed:admin`     | Creates or updates the admin account                   |
 
 Server tests start an in-memory MongoDB automatically. The first run downloads a MongoDB binary; to
 use one you already have, set `MONGOMS_SYSTEM_BINARY=/path/to/mongod`.
@@ -91,7 +105,11 @@ docker compose up --build
 ```
 
 Then open http://localhost:3000. In this mode Express serves the built Angular app and the API from
-one container (`SERVE_CLIENT=true`).
+one container (`SERVE_CLIENT=true`). Load the question bank once with:
+
+```bash
+docker compose exec app node dist/scripts/seed-questions.js
+```
 
 ## Configuration
 
@@ -112,22 +130,41 @@ All server settings are environment variables, checked at startup. They are docu
 
 ## API (so far)
 
-| Method      | Path                        | Notes                                         |
-| ----------- | --------------------------- | --------------------------------------------- |
-| GET         | `/api/health`               | API + database status                         |
-| POST        | `/api/auth/register`        | Returns `{ user, accessToken }` + sets cookie |
-| POST        | `/api/auth/login`           | Same response as register                     |
-| POST        | `/api/auth/refresh`         | Uses the refresh cookie; rotates it           |
-| POST        | `/api/auth/logout`          | Revokes the refresh token                     |
-| GET         | `/api/auth/me`              | Current user (Bearer token)                   |
-| POST        | `/api/auth/forgot-password` | Always 200, so emails can't be discovered     |
-| POST        | `/api/auth/reset-password`  | Single-use token from the email               |
-| POST        | `/api/auth/change-password` | Ends other sessions                           |
-| GET / PATCH | `/api/users/me`             | Read / update profile                         |
-| GET         | `/api/admin/users`          | Admin only; `?q=&role=&page=&limit=`          |
+| Method      | Path                                 | Notes                                                                        |
+| ----------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| GET         | `/api/health`                        | API + database status                                                        |
+| POST        | `/api/auth/register`                 | Returns `{ user, accessToken }` + sets cookie                                |
+| POST        | `/api/auth/login`                    | Same response as register                                                    |
+| POST        | `/api/auth/refresh`                  | Uses the refresh cookie; rotates it                                          |
+| POST        | `/api/auth/logout`                   | Revokes the refresh token                                                    |
+| GET         | `/api/auth/me`                       | Current user (Bearer token)                                                  |
+| POST        | `/api/auth/forgot-password`          | Always 200, so emails can't be discovered                                    |
+| POST        | `/api/auth/reset-password`           | Single-use token from the email                                              |
+| POST        | `/api/auth/change-password`          | Ends other sessions                                                          |
+| GET / PATCH | `/api/users/me`                      | Read / update profile                                                        |
+| GET         | `/api/admin/users`                   | Admin only; `?q=&role=&page=&limit=`                                         |
+| GET         | `/api/practice/written/catalog`      | Question counts, your progress, topics                                       |
+| POST        | `/api/practice/sessions`             | Start a round: `{ type, count, difficulty?, tags? }` or `{ mode: "review" }` |
+| GET         | `/api/practice/sessions/:id`         | Resume a round (answers so far included)                                     |
+| POST        | `/api/practice/sessions/:id/answers` | Checked on the server; reveals answer + explanation                          |
+| POST        | `/api/practice/sessions/:id/finish`  | Score, accuracy by topic, mistakes                                           |
+| GET         | `/api/users/me/stats?tz=`            | Streak, daily goal, totals (in your time zone)                               |
+| POST        | `/api/questions/:id/report`          | Flag a question for review                                                   |
 
 Errors always look like `{ "error": { "code", "message", "details"? } }`; validation errors include
 `details.fields` with a message per field.
+
+## Question bank
+
+Questions live in `server/seed/questions/*.json`. Each item is checked by the same Zod rules the API
+uses (`server/src/modules/questions/question.schemas.ts`), for example:
+
+- exactly one `___` blank;
+- four different options;
+- spot-the-error corrections may only change the marked part.
+
+The server tests fail if any seed item breaks a rule. Options are shuffled in a fixed order when
+seeding, so the right answer is not always in the same position.
 
 ## Security notes
 
@@ -138,3 +175,5 @@ Errors always look like `{ "error": { "code", "message", "details"? } }`; valida
   revoked.
 - Rate limits on login, register and password reset; Helmet security headers; CORS allowlist; Zod
   validation on every input.
+- Answer keys are never sent to the browser before a question is answered; answers are checked on
+  the server, and each answer counts only once.

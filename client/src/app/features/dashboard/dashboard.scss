@@ -28,6 +28,10 @@
   max-width: 40ch;
 }
 
+.hero__cta {
+  margin-top: 6px;
+}
+
 .hero__art {
   flex: 0 1 40%;
   max-width: 240px;
@@ -155,6 +159,14 @@ h2 {
   .is-today {
     box-shadow: inset 0 0 0 2px currentColor;
   }
+
+  .is-done {
+    background: currentColor;
+
+    .ui-icon {
+      color: var(--tile-bg);
+    }
+  }
 }
 
 .goal__count {
@@ -202,6 +214,19 @@ h2 {
   h3 {
     margin-top: 8px;
     font-size: 22px;
+  }
+}
+
+.module--open {
+  color: var(--tile-ink);
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .module__lock {
+    background: var(--surface);
+    color: var(--primary);
   }
 }
 
