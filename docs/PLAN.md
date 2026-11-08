@@ -12,11 +12,18 @@ MEAN stack (MongoDB, Express, Angular, Node.js). The user asked for **free** AI/
 was unsure about roles, so we use the simple default: **Student + Admin**. A Trainer/batch role is an
 optional later phase.
 
-**Status:** Phases 0–1 and Phase 2 (question bank, written practice, and the AI-assisted question
-writer with admin review) are built. See the phase
-table in section 13 and the README for how to run them. Questions come from a reviewed bank, not
-live LLM generation: the LLM only helps admins write drafts that are checked before publishing
-(Phase 2b). The remaining phases are built one by one.
+**Status:** Phases 0–6 are built. The app is **voice-only**, like the SHL voice test:
+
+- Questions are spoken by the browser's text-to-speech in the student's chosen accent.
+- Every answer is recorded, stored, transcribed and scored.
+- Whisper on the server (any OpenAI-compatible endpoint, such as the Groq free tier) does the
+  transcription. Until it is set up, the browser's own speech recognition is the fallback.
+
+The tap-to-answer written practice from Phase 2 was removed from the student UI. Its question bank
+is reused: fill-in-the-blank items became "Listen & complete" and spot-the-error items became
+"Listen & correct". Questions come from a reviewed bank, not live LLM generation; the LLM only helps
+admins write drafts that are checked before publishing. See the phase table in section 13 and the
+README for how to run it.
 
 > Note: SHL formats differ by employer, and public sources disagree on the exact sections. All test
 > structure (sections, counts, timers) is therefore **data-driven (admin-configurable templates)**,
@@ -260,19 +267,28 @@ Spoken 15 min", "Written English 20 min", "Full Mock").
 
 ## 13. Phases (build order)
 
-| Phase                   | Scope                                                                                                                                                  | Done when                                                          |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| ✅ 0. Setup             | Monorepo, Angular + Express TS scaffolds, ESLint/Prettier, docker-compose (Mongo, LanguageTool), `.env.example`, GitHub Actions CI (lint, test, build) | `docker compose up` runs both apps; CI green                       |
-| ✅ 1. Auth              | User model, JWT + rotating refresh token, guards, login/register/forgot/reset UI, profile, admin user list                                             | Register → login → protected dashboard                             |
-| 2. Text modules         | Question model, seed data, practice for fill-blank, spot-error and MCQ with instant feedback and explanations                                          | Student completes a 10-item practice and sees score + explanations |
-| 3. Audio infrastructure | Mic check, RecorderService, upload + GridFS, ffmpeg, STT adapter (Groq / faster-whisper), Agenda job, Socket.IO, polling fallback                      | Recorded clip → transcript appears in the UI                       |
-| 4. Voice modules        | Read aloud, listen & repeat, short answer, sentence builds, conversation; WER/fluency/answer-match scoring; transcript-diff UI; Piper TTS prompt audio | Each voice type gives a score and coloured feedback                |
-| 5. Free speech          | Topic talk + story retelling; LanguageTool + LLM rubric adapter; improved-answer and tips UI                                                           | A 1–2 min talk returns a rubric score and corrections              |
-| 6. Mock test engine     | Templates, strict timed runner (play once, auto-record, no back, fullscreen, tab-switch flag), submit, report + PDF                                    | A full mock runs end-to-end and produces a skill-wise report       |
-| 7. Dashboard            | UserStats updates, trend/radar charts, weak areas, recommendations, streaks, history                                                                   | Dashboard reflects new attempts                                    |
-| 8. Admin                | Question CRUD, import/export, AI generator with review, TTS button, template builder, analytics                                                        | Admin can create and publish items and templates                   |
-| 9. Hardening & deploy   | Tests, security pass, quotas, audio cleanup job, deploy                                                                                                | Live URL works on Chrome, Edge, Firefox, Safari and Android Chrome |
-| 10. Optional            | Trainer role + batches, leaderboard, PWA                                                                                                               | —                                                                  |
+How phases 3–6 differ from the original sketch, to keep them simple and free:
+
+- Answers are transcribed and scored straight away during the upload, with no job queue or
+  sockets.
+- Prompt audio uses the browser's built-in voices instead of Piper.
+- The test template is fixed in code, not editable by admins yet.
+- There is no PDF export or fullscreen/tab-switch monitoring yet.
+- There is no LLM rubric for free speech yet.
+
+| Phase                      | Scope                                                                                                                                                                                          | Done when                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| ✅ 0. Setup                | Monorepo, Angular + Express TS scaffolds, ESLint/Prettier, docker-compose (Mongo, LanguageTool), `.env.example`, GitHub Actions CI (lint, test, build)                                         | `docker compose up` runs both apps; CI green                       |
+| ✅ 1. Auth                 | User model, JWT + rotating refresh token, guards, login/register/forgot/reset UI, profile, admin user list                                                                                     | Register → login → protected dashboard                             |
+| ✅ 2. Text modules         | Question model, seed data, practice for fill-blank, spot-error and MCQ with instant feedback and explanations; AI-assisted drafts with admin review                                            | Student completes a 10-item practice and sees score + explanations |
+| ✅ 3. Audio infrastructure | Mic check, RecorderService, upload + GridFS, STT adapter (OpenAI-compatible Whisper) with browser speech-recognition fallback, 60-day recording cleanup                                        | Recorded clip → transcript appears in the UI                       |
+| ✅ 4. Voice modules        | Read aloud, listen & repeat, listen & complete, listen & correct, short answer, sentence builds, conversation; alignment/fluency/answer-match scoring; transcript-diff UI; browser TTS prompts | Each voice type gives a score and coloured feedback                |
+| ✅ 5. Free speech          | Topic talk + story retelling; key points, fluency, vocabulary and LanguageTool grammar; tips UI                                                                                                | A 1–2 min talk returns a score and tips                            |
+| ✅ 6. Mock test engine     | 9-part SHL-style template, runner (plays once, auto-record, no going back, no feedback until the end), report with skills, parts and band, history                                             | A full mock runs end-to-end and produces a skill-wise report       |
+| 7. Dashboard               | UserStats updates, trend/radar charts, weak areas, recommendations, streaks, history                                                                                                           | Dashboard reflects new attempts                                    |
+| 8. Admin                   | Question CRUD, import/export, AI generator with review, TTS button, template builder, analytics                                                                                                | Admin can create and publish items and templates                   |
+| 9. Hardening & deploy      | Tests, security pass, quotas, audio cleanup job, deploy                                                                                                                                        | Live URL works on Chrome, Edge, Firefox, Safari and Android Chrome |
+| 10. Optional               | Trainer role + batches, leaderboard, PWA                                                                                                                                                       | —                                                                  |
 
 ## 14. Free deployment
 
