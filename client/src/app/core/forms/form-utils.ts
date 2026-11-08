@@ -41,15 +41,49 @@ export function matchFields(field: string, confirmField: string): ValidatorFn {
   };
 }
 
-export function passwordErrorMessage(control: AbstractControl): string | null {
-  const e = control.errors;
-  if (!e) return null;
-  if (e['required']) return 'Password is required';
-  if (e['passwordShort']) return 'Use at least 8 characters';
-  if (e['passwordLong']) return 'Use at most 72 characters';
-  if (e['passwordWeak']) return 'Include at least one letter and one number';
-  if (e['server']) return e['server'] as string;
-  return null;
+const DEFAULT_MESSAGES: Record<string, string> = {
+  required: 'This field is required',
+  email: 'Enter a valid email address',
+  minlength: 'This is too short',
+  maxlength: 'This is too long',
+  passwordShort: 'Use at least 8 characters',
+  passwordLong: 'Use at most 72 characters',
+  passwordWeak: 'Include at least one letter and one number',
+  mismatch: 'Passwords do not match',
+};
+
+/**
+ * The message to show under a field, or null. Shown once the field was touched (or the form
+ * was submitted). Server-side errors win; `messages` overrides the defaults per error key.
+ */
+export function fieldError(
+  control: AbstractControl | null | undefined,
+  messages: Record<string, string> = {},
+): string | null {
+  if (!control?.errors || !control.touched) return null;
+  const errors = control.errors;
+  if (typeof errors['server'] === 'string') return errors['server'];
+  for (const key of Object.keys(errors)) {
+    const message = messages[key] ?? DEFAULT_MESSAGES[key];
+    if (message) return message;
+  }
+  return 'Please check this field';
+}
+
+/** 0 = empty, 1 = weak, 2 = okay, 3 = strong. */
+export function passwordScore(value: string): 0 | 1 | 2 | 3 {
+  if (!value) return 0;
+  const hasLetter = /[A-Za-z]/.test(value);
+  const hasDigit = /\d/.test(value);
+  if (value.length < 8 || !hasLetter || !hasDigit) return 1;
+  const hasMixedCase = /[a-z]/.test(value) && /[A-Z]/.test(value);
+  const hasSymbol = /[^A-Za-z0-9]/.test(value);
+  return value.length >= 12 || hasMixedCase || hasSymbol ? 3 : 2;
+}
+
+/** `YYYY-MM-DD…` from the API → `YYYY-MM-DD` for a native date input ('' when empty). */
+export function isoDay(value: string | null | undefined): string {
+  return value?.match(/^\d{4}-\d{2}-\d{2}/)?.[0] ?? '';
 }
 
 /** Local calendar date → `YYYY-MM-DD` (no time-zone shift). */

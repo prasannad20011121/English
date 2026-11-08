@@ -1,84 +1,124 @@
-<header class="page-header">
-  <h1>Users</h1>
-  <p>Everyone who has signed up. Question bank and analytics tools come in later phases.</p>
+<header class="page-head">
+  <h1 class="title">Users</h1>
+  <p>Everyone who has signed up. Question bank and analytics tools arrive in later phases.</p>
 </header>
 
-<div class="filters">
-  <mat-form-field appearance="outline" class="search">
-    <mat-label>Search name, email or college</mat-label>
-    <mat-icon matIconPrefix aria-hidden="true">search</mat-icon>
+<div class="toolbar">
+  <label class="search">
+    <span class="sr-only">Search name, email or college</span>
+    <ui-icon name="lucideSearch" />
     <input
-      matInput
+      class="ui-input"
       type="search"
+      placeholder="Search name, email or college"
       [value]="search()"
       (input)="onSearch($any($event.target).value)"
     />
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="role-filter">
-    <mat-label>Role</mat-label>
-    <mat-select [value]="role()" (valueChange)="onRole($event)">
-      <mat-option value="">All</mat-option>
-      <mat-option value="student">Students</mat-option>
-      <mat-option value="admin">Admins</mat-option>
-    </mat-select>
-  </mat-form-field>
+  </label>
+  <div class="segmented" role="radiogroup" aria-label="Filter by role">
+    @for (r of roles; track r.value) {
+      <label>
+        <input
+          type="radio"
+          name="role"
+          [value]="r.value"
+          [checked]="role() === r.value"
+          (change)="onRole(r.value)"
+        />
+        <span>{{ r.label }}</span>
+      </label>
+    }
+  </div>
 </div>
 
 @let s = state();
 @if (s.status === 'error') {
-  <p class="form-error" role="alert">
-    <mat-icon aria-hidden="true">error</mat-icon>
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" />
     {{ s.message }}
   </p>
 }
 
-<div class="table-wrap">
-  @if (s.status === 'loading') {
-    <mat-progress-bar mode="indeterminate" aria-label="Loading users" />
-  }
-  <table mat-table [dataSource]="page()?.items ?? []" aria-label="Users">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let u">{{ u.name }}</td>
-    </ng-container>
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let u">{{ u.email }}</td>
-    </ng-container>
-    <ng-container matColumnDef="college">
-      <th mat-header-cell *matHeaderCellDef>College</th>
-      <td mat-cell *matCellDef="let u">{{ u.college ?? '—' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>Role</th>
-      <td mat-cell *matCellDef="let u">
-        <span class="role-chip" [class.admin]="u.role === 'admin'">{{ u.role }}</span>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef>Joined</th>
-      <td mat-cell *matCellDef="let u">{{ u.createdAt | date: 'mediumDate' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="lastLoginAt">
-      <th mat-header-cell *matHeaderCellDef>Last login</th>
-      <td mat-cell *matCellDef="let u">{{ (u.lastLoginAt | date: 'medium') ?? 'Never' }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns"></tr>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell empty" [attr.colspan]="columns.length">
-        {{ s.status === 'loading' ? 'Loading…' : 'No users match your search.' }}
-      </td>
-    </tr>
+<div
+  class="table-card card"
+  [class.is-loading]="s.status === 'loading'"
+  [attr.aria-busy]="s.status === 'loading'"
+>
+  <table>
+    <caption class="sr-only">
+      Users
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">College</th>
+        <th scope="col">Role</th>
+        <th scope="col">Joined</th>
+        <th scope="col">Last login</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (u of page()?.items ?? []; track u.id) {
+        <tr>
+          <td data-label="Name">
+            <div class="who">
+              <ui-avatar [name]="u.name" size="38px" />
+              <div>
+                <strong>{{ u.name }}</strong>
+                <span>{{ u.email }}</span>
+              </div>
+            </div>
+          </td>
+          <td data-label="College">{{ u.college ?? '—' }}</td>
+          <td data-label="Role">
+            <span
+              class="pill"
+              [class.pill--lavender]="u.role === 'admin'"
+              [class.pill--mint]="u.role === 'student'"
+            >
+              {{ u.role === 'admin' ? 'Admin' : 'Student' }}
+            </span>
+          </td>
+          <td data-label="Joined">{{ u.createdAt | date: 'd MMM y' }}</td>
+          <td data-label="Last login">{{ (u.lastLoginAt | date: 'd MMM, h:mm a') ?? 'Never' }}</td>
+        </tr>
+      } @empty {
+        <tr class="empty">
+          <td colspan="5">
+            {{ s.status === 'loading' ? 'Loading users…' : 'No users match your search.' }}
+          </td>
+        </tr>
+      }
+    </tbody>
   </table>
 </div>
 
-<mat-paginator
-  [length]="page()?.total ?? 0"
-  [pageIndex]="pageIndex()"
-  [pageSize]="pageSize()"
-  [pageSizeOptions]="[10, 20, 50, 100]"
-  (page)="onPage($event)"
-  aria-label="Choose page of users"
-/>
+<nav class="pager" aria-label="Pages of users">
+  <label class="pager__size">
+    Rows
+    <select class="ui-input" (change)="onPageSize($any($event.target).value)">
+      @for (size of pageSizes; track size) {
+        <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+      }
+    </select>
+  </label>
+  <span class="pager__range" aria-live="polite">{{ range() }}</span>
+  <button
+    type="button"
+    class="icon-btn"
+    aria-label="Previous page"
+    [disabled]="!hasPrev()"
+    (click)="step(-1)"
+  >
+    <ui-icon name="lucideChevronLeft" />
+  </button>
+  <button
+    type="button"
+    class="icon-btn"
+    aria-label="Next page"
+    [disabled]="!hasNext()"
+    (click)="step(1)"
+  >
+    <ui-icon name="lucideChevronRight" />
+  </button>
+</nav>

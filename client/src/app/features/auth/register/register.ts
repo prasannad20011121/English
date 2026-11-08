@@ -1,57 +1,45 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterLink } from '@angular/router';
 import { apiErrorMessage, apiFieldErrors } from '../../../core/api/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
+import { CelebrateService } from '../../../core/celebrate.service';
 import {
   applyServerErrors,
+  fieldError,
   matchFields,
-  passwordErrorMessage,
   passwordStrength,
   toIsoDate,
 } from '../../../core/forms/form-utils';
-import { APP_NAME } from '../../../core/title-strategy';
+import { UiField, UiInput, UiSuffix } from '../../../ui/field/field';
+import { UiIcon } from '../../../ui/icon/icon';
+import { UiPasswordMeter } from '../../../ui/password-meter/password-meter';
+import { ToastService } from '../../../ui/toast/toast.service';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatProgressBarModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, UiField, UiInput, UiSuffix, UiIcon, UiPasswordMeter],
   templateUrl: './register.html',
 })
 export class RegisterPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly toast = inject(ToastService);
+  private readonly celebrate = inject(CelebrateService);
 
-  protected readonly appName = APP_NAME;
+  protected readonly fieldError = fieldError;
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly hidePassword = signal(true);
-  protected readonly today = new Date();
-  protected readonly passwordErrorMessage = passwordErrorMessage;
+  protected readonly today = toIsoDate(new Date());
 
-  protected readonly form = this.fb.group(
+  protected readonly form = inject(NonNullableFormBuilder).group(
     {
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       email: ['', [Validators.required, Validators.email]],
       college: ['', Validators.maxLength(120)],
-      targetExamDate: this.fb.control<Date | null>(null),
+      /** YYYY-MM-DD from the native date input, or ''. */
+      targetExamDate: [''],
       password: ['', [Validators.required, passwordStrength]],
       confirmPassword: ['', Validators.required],
       consentAudio: [false, Validators.requiredTrue],
@@ -73,11 +61,15 @@ export class RegisterPage {
         email: v.email.trim(),
         password: v.password,
         college: v.college.trim() || undefined,
-        targetExamDate: toIsoDate(v.targetExamDate),
+        targetExamDate: v.targetExamDate || null,
         consentAudio: true,
       })
       .subscribe({
-        next: () => void this.router.navigateByUrl('/dashboard'),
+        next: (user) => {
+          this.celebrate.burst();
+          this.toast.show(`Welcome aboard, ${user.name.split(/\s+/)[0]}! Your account is ready.`);
+          void this.router.navigateByUrl('/dashboard');
+        },
         error: (err: unknown) => {
           const applied = applyServerErrors(this.form, apiFieldErrors(err));
           this.error.set(applied ? 'Please fix the highlighted fields.' : apiErrorMessage(err));

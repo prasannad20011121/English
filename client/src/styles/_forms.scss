@@ -1,0 +1,182 @@
+// Native form controls, styled. Inputs get `.ui-input` from the `uiInput` directive.
+
+.form-grid {
+  display: grid;
+  gap: 18px 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.form-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.ui-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 16px var(--font);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+
+  &::placeholder {
+    color: var(--ink-3);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--primary) 45%, var(--line-strong));
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 20%, transparent);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--danger);
+
+    &:focus {
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 18%, transparent);
+    }
+  }
+
+  &:disabled {
+    background: var(--surface-2);
+    color: var(--ink-2);
+    cursor: not-allowed;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+}
+
+select.ui-input {
+  appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%237a7690' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+// ---- Checkbox ----------------------------------------------------------------------------------
+
+.check {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  line-height: 1.45;
+
+  input {
+    appearance: none;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin: 1px 0 0;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 7px;
+    background: var(--surface);
+    cursor: pointer;
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 6px;
+      margin-top: -3px;
+      border-left: 2.5px solid var(--primary-ink);
+      border-bottom: 2.5px solid var(--primary-ink);
+      transform: rotate(-45deg) scale(0);
+      transition: transform var(--dur) var(--ease);
+    }
+
+    &:checked {
+      background: var(--primary);
+      border-color: var(--primary);
+
+      &::after {
+        transform: rotate(-45deg) scale(1);
+      }
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--danger);
+    }
+  }
+}
+
+// ---- Segmented control (radio pills) -----------------------------------------------------------
+
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+
+  label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+    transition:
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  input:checked + span {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  input:focus-visible + span {
+    outline: 3px solid color-mix(in srgb, var(--primary) 60%, transparent);
+    outline-offset: 1px;
+  }
+}
+
+.group-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}

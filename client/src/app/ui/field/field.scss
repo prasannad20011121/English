@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.field__label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.field__optional {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.field__control {
+  position: relative;
+}
+
+.field__suffix {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.field__control:has(.field__suffix:not(:empty)) ::ng-deep .ui-input {
+  padding-right: 52px;
+}
+
+.field__hint,
+.field__error {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.field__hint {
+  color: var(--ink-2);
+}
+
+.field__error {
+  color: var(--danger);
+  font-weight: 600;
+}

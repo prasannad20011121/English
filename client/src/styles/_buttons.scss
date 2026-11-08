@@ -1,0 +1,115 @@
+.btn {
+  --btn-bg: var(--surface-2);
+  --btn-fg: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font: 600 15px/1 var(--font);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+
+  &:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &--primary {
+    --btn-bg: var(--primary);
+    --btn-fg: var(--primary-ink);
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--primary) 80%, transparent);
+
+    &:hover:not(:disabled) {
+      --btn-bg: var(--primary-hover);
+    }
+  }
+
+  &--soft {
+    --btn-bg: color-mix(in srgb, var(--surface) 55%, transparent);
+    --btn-fg: inherit;
+  }
+
+  &--ghost {
+    --btn-bg: transparent;
+    --btn-fg: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--line-strong);
+
+    &:hover:not(:disabled) {
+      --btn-bg: var(--surface-2);
+    }
+  }
+
+  &--sm {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &.is-loading::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

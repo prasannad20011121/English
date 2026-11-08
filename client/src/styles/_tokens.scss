@@ -1,0 +1,110 @@
+// Design tokens: "Soft bento pastel". Every colour pair used for text meets WCAG AA (4.5:1).
+
+@mixin light {
+  color-scheme: light;
+
+  --bg: #faf8f5;
+  --bg-glow-1: #efe9ff;
+  --bg-glow-2: #ffeadf;
+  --surface: #ffffff;
+  --surface-2: #f5f2fa;
+  --ink: #1f1d2b;
+  --ink-2: #5b5870;
+  --ink-3: #77738a;
+  --line: #ece8f2;
+  --line-strong: #dcd6e8;
+
+  --primary: #6d5dd3;
+  --primary-hover: #5b4bc4;
+  --primary-ink: #ffffff;
+  --primary-soft: #e9e3ff;
+
+  --lavender: #e9e3ff;
+  --lavender-ink: #3e2f99;
+  --mint: #d8f5e6;
+  --mint-ink: #1e6b47;
+  --peach: #ffe3d3;
+  --peach-ink: #9a3f17;
+  --butter: #fff4c7;
+  --butter-ink: #7a5b00;
+  --sky: #ddefff;
+  --sky-ink: #1f5c99;
+  --rose: #ffe0ec;
+  --rose-ink: #9c2557;
+
+  --danger: #c43d3d;
+  --danger-soft: #ffe4e4;
+  --danger-ink: #8f2222;
+  --success-soft: #d8f5e6;
+  --success-ink: #1e6b47;
+
+  --shadow-sm: 0 1px 2px rgb(31 29 43 / 0.04), 0 2px 8px rgb(31 29 43 / 0.04);
+  --shadow: 0 1px 2px rgb(31 29 43 / 0.04), 0 12px 32px rgb(31 29 43 / 0.07);
+  --shadow-lg: 0 24px 60px rgb(61 47 153 / 0.14);
+}
+
+@mixin dark {
+  color-scheme: dark;
+
+  --bg: #15131d;
+  --bg-glow-1: #241d45;
+  --bg-glow-2: #2e1e1c;
+  --surface: #1e1b29;
+  --surface-2: #272336;
+  --ink: #f2effa;
+  --ink-2: #b9b4cb;
+  --ink-3: #928ca6;
+  --line: #2e2a3d;
+  --line-strong: #3d3753;
+
+  --primary: #a99cff;
+  --primary-hover: #bdb3ff;
+  --primary-ink: #1a1530;
+  --primary-soft: #2d2652;
+
+  --lavender: #2d2652;
+  --lavender-ink: #d9d1ff;
+  --mint: #163829;
+  --mint-ink: #b8f0d2;
+  --peach: #3d2418;
+  --peach-ink: #ffcdb3;
+  --butter: #382f12;
+  --butter-ink: #ffe9a3;
+  --sky: #172c42;
+  --sky-ink: #bfe0ff;
+  --rose: #3c1a2a;
+  --rose-ink: #ffc2d9;
+
+  --danger: #ff8a8a;
+  --danger-soft: #3f1d22;
+  --danger-ink: #ffc9c9;
+  --success-soft: #163829;
+  --success-ink: #b8f0d2;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px rgb(0 0 0 / 0.35);
+  --shadow-lg: 0 24px 60px rgb(0 0 0 / 0.45);
+}
+
+:root {
+  --font: 'Outfit Variable', 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 220ms;
+
+  @include light;
+}
+
+// Follow the system unless the user picked a theme (ThemeService sets html[data-theme]).
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark;
+}

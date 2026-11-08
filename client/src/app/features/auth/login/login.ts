@@ -1,27 +1,15 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
-import { safeReturnUrl } from '../../../core/forms/form-utils';
-import { APP_NAME } from '../../../core/title-strategy';
+import { fieldError, safeReturnUrl } from '../../../core/forms/form-utils';
+import { UiField, UiInput, UiSuffix } from '../../../ui/field/field';
+import { UiIcon } from '../../../ui/icon/icon';
 
 @Component({
   selector: 'app-login',
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressBarModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, UiField, UiInput, UiSuffix, UiIcon],
   templateUrl: './login.html',
 })
 export class LoginPage {
@@ -32,7 +20,7 @@ export class LoginPage {
   readonly returnUrl = input<string>();
   readonly expired = input<string>();
 
-  protected readonly appName = APP_NAME;
+  protected readonly fieldError = fieldError;
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly hidePassword = signal(true);

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { UiToaster } from './ui/toast/toaster';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: '<router-outlet />',
+  imports: [RouterOutlet, UiToaster],
+  template: '<router-outlet /><ui-toaster />',
 })
 export class App {}

@@ -1,71 +1,66 @@
-<div class="auth-page">
-  <section class="auth-card" aria-labelledby="login-title">
-    <div class="auth-brand">
-      <mat-icon aria-hidden="true">graphic_eq</mat-icon>
-      <span>{{ appName }}</span>
-    </div>
-    <h1 id="login-title">Welcome back</h1>
-    <p class="subtitle">Log in to continue your SHL English practice.</p>
+<h1 class="auth-title">Welcome back</h1>
+<p class="auth-sub">Log in to keep your practice streak going.</p>
 
-    @if (showExpired()) {
-      <p class="form-info" role="status">
-        <mat-icon aria-hidden="true">schedule</mat-icon>
-        Your session ended. Please log in again.
-      </p>
-    }
-    @if (error(); as message) {
-      <p class="form-error" role="alert">
-        <mat-icon aria-hidden="true">error</mat-icon>
-        {{ message }}
-      </p>
-    }
+@if (showExpired()) {
+  <p class="alert alert--info" role="status">
+    <ui-icon name="lucideClock" />
+    Your session ended. Please log in again.
+  </p>
+}
+@if (error(); as message) {
+  <p class="alert alert--error" role="alert">
+    <ui-icon name="lucideCircleAlert" />
+    {{ message }}
+  </p>
+}
 
-    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" autocomplete="email" required />
-        @if (form.controls.email.hasError('required')) {
-          <mat-error>Email is required</mat-error>
-        } @else if (form.controls.email.hasError('email')) {
-          <mat-error>Enter a valid email address</mat-error>
-        }
-      </mat-form-field>
+<form class="form-stack" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <ui-field
+    label="Email"
+    [error]="fieldError(form.controls.email, { required: 'Email is required' })"
+  >
+    <input
+      uiInput
+      type="email"
+      formControlName="email"
+      autocomplete="email"
+      placeholder="you@college.edu"
+    />
+  </ui-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          [type]="hidePassword() ? 'password' : 'text'"
-          formControlName="password"
-          autocomplete="current-password"
-          required
-        />
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          (click)="hidePassword.set(!hidePassword())"
-          [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
-        >
-          <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
-        </button>
-        @if (form.controls.password.hasError('required')) {
-          <mat-error>Password is required</mat-error>
-        }
-      </mat-form-field>
+  <ui-field
+    label="Password"
+    [error]="fieldError(form.controls.password, { required: 'Password is required' })"
+  >
+    <input
+      uiInput
+      [type]="hidePassword() ? 'password' : 'text'"
+      formControlName="password"
+      autocomplete="current-password"
+    />
+    <button
+      uiSuffix
+      type="button"
+      class="icon-btn"
+      (click)="hidePassword.set(!hidePassword())"
+      [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+    >
+      <ui-icon [name]="hidePassword() ? 'lucideEye' : 'lucideEyeOff'" />
+    </button>
+  </ui-field>
 
-      <div class="inline-link-row">
-        <a routerLink="/forgot-password">Forgot password?</a>
-      </div>
+  <div class="auth-row-end">
+    <a routerLink="/forgot-password">Forgot password?</a>
+  </div>
 
-      <button mat-flat-button class="auth-submit" type="submit" [disabled]="loading()">
-        {{ loading() ? 'Logging in…' : 'Log in' }}
-      </button>
-      @if (loading()) {
-        <mat-progress-bar mode="indeterminate" aria-label="Logging in" />
-      }
-    </form>
+  <button
+    class="btn btn--primary btn--block"
+    type="submit"
+    [class.is-loading]="loading()"
+    [disabled]="loading()"
+  >
+    {{ loading() ? 'Logging in…' : 'Log in' }}
+  </button>
+</form>
 
-    <p class="auth-footer">New here? <a routerLink="/register">Create an account</a></p>
-  </section>
-</div>
+<p class="auth-foot">New here? <a routerLink="/register">Create a free account</a></p>

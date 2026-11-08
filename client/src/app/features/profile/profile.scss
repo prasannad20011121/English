@@ -1,40 +1,119 @@
-.cards {
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  p {
+    overflow-wrap: anywhere;
+  }
+}
+
+.hero__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+
+  .pill {
+    background: color-mix(in srgb, var(--surface) 65%, transparent);
+  }
+}
+
+.grid {
   display: grid;
   gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
 }
 
-.card {
-  padding: 20px;
-  border-radius: 20px;
-  border: 1px solid var(--mat-sys-outline-variant);
-  background: var(--mat-sys-surface-container-lowest);
-
-  h2 {
-    margin: 0 0 16px;
-    font: var(--mat-sys-title-medium);
-  }
+.card__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 18px;
 }
 
-.card-note {
-  margin: -8px 0 16px;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-.facts {
+.card__icon {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 8px 24px;
-  margin: 0;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--tile-bg);
+  color: var(--tile-ink);
+}
 
-  dt {
-    color: var(--mat-sys-on-surface-variant);
+.note {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.password .note {
+  margin: -10px 0 20px;
+}
+
+.meter-gap {
+  margin-top: 8px;
+}
+
+.save-bar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 10px 10px 10px 20px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur) var(--ease);
+
+  &.is-dirty {
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--primary) 35%, var(--line));
+  }
+}
+
+.save-bar__text {
+  margin-right: auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+@media (max-width: 959.98px) {
+  .save-bar {
+    bottom: calc(100px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 799.98px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 519.98px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  dd {
-    margin: 0;
-  }
-
-  .role {
-    text-transform: capitalize;
+  .save-bar__text {
+    display: none;
   }
 }

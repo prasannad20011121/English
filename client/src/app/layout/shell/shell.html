@@ -1,100 +1,139 @@
-<mat-sidenav-container class="shell">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    [mode]="isHandset() ? 'over' : 'side'"
-    [opened]="!isHandset()"
-    [attr.role]="isHandset() ? 'dialog' : 'navigation'"
-  >
-    <a class="brand" routerLink="/dashboard" (click)="closeOnHandset()">
-      <mat-icon class="brand-icon" aria-hidden="true">graphic_eq</mat-icon>
-      <span>{{ appName }}</span>
-    </a>
+<div class="app">
+  @if (!isHandset()) {
+    <aside class="sidebar">
+      <a class="brand" routerLink="/dashboard">
+        <span class="brand__mark"><ui-icon name="lucideAudioLines" size="22px" /></span>
+        <span class="brand__name">SHL English<small>Practice</small></span>
+      </a>
 
-    <nav aria-label="Main">
-      <mat-nav-list>
-        <h3 matSubheader>Practice</h3>
+      <nav class="nav" aria-label="Main">
+        <p class="nav__heading">Practice</p>
         @for (item of practiceNav; track item.label) {
           <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
         }
-        <mat-divider />
-        <h3 matSubheader>Account</h3>
+        <p class="nav__heading">Account</p>
         @for (item of accountNav; track item.label) {
           <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
         }
         @if (isAdmin()) {
-          <mat-divider />
-          <h3 matSubheader>Admin</h3>
+          <p class="nav__heading">Admin</p>
           @for (item of adminNav; track item.label) {
             <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
           }
         }
-      </mat-nav-list>
-    </nav>
-  </mat-sidenav>
+      </nav>
 
-  <mat-sidenav-content class="main">
-    <mat-toolbar class="toolbar">
+      <div class="sidebar__promo tile tile--butter">
+        <ui-icon name="lucideLightbulb" size="22px" />
+        <p><strong>10 minutes a day</strong> beats one long session before the test.</p>
+      </div>
+    </aside>
+  }
+
+  <div class="main">
+    <header class="topbar">
       @if (isHandset()) {
-        <button mat-icon-button type="button" aria-label="Open menu" (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span class="toolbar-title">{{ appName }}</span>
+        <a class="brand brand--compact" routerLink="/dashboard" aria-label="{{ appName }} home">
+          <span class="brand__mark"><ui-icon name="lucideAudioLines" size="20px" /></span>
+        </a>
       }
       <span class="spacer"></span>
       <button
-        mat-button
         type="button"
-        class="user-button"
-        [matMenuTriggerFor]="userMenu"
-        aria-label="Account menu"
+        class="icon-btn"
+        [attr.aria-label]="theme.label()"
+        (click)="theme.cycle()"
       >
-        <span class="avatar" aria-hidden="true">{{ initials() }}</span>
-        <span class="user-name">{{ user()?.name }}</span>
-        <mat-icon iconPositionEnd>expand_more</mat-icon>
+        <ui-icon [name]="theme.icon()" />
       </button>
-      <mat-menu #userMenu="matMenu" xPosition="before">
-        <div class="menu-header">
-          <strong>{{ user()?.name }}</strong>
-          <small>{{ user()?.email }}</small>
-        </div>
-        <mat-divider />
-        <a mat-menu-item routerLink="/profile">
-          <mat-icon>person</mat-icon>
-          <span>Profile</span>
-        </a>
-        <button mat-menu-item type="button" (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Log out</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar>
+      <button type="button" class="account-btn" [cdkMenuTriggerFor]="accountMenu">
+        <ui-avatar [name]="user()?.name" size="36px" />
+        <span class="account-btn__name">{{ firstName() }}</span>
+        <span class="sr-only">, account menu</span>
+        <ui-icon name="lucideChevronDown" size="18px" />
+      </button>
+    </header>
 
     <main class="content">
       <router-outlet />
     </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+
+  @if (isHandset()) {
+    <nav class="tabbar" aria-label="Main">
+      @for (item of tabs(); track item.label) {
+        @if (item.soon) {
+          <span class="tab is-soon" aria-disabled="true">
+            <span class="tab__icon">
+              <ui-icon [name]="item.icon" size="22px" />
+              <span class="tab__lock"><ui-icon name="lucideLock" size="10px" /></span>
+            </span>
+            <span>{{ item.short }}</span>
+            <span class="sr-only">(coming soon)</span>
+          </span>
+        } @else {
+          <a
+            class="tab"
+            [routerLink]="item.link"
+            routerLinkActive="is-active"
+            ariaCurrentWhenActive="page"
+          >
+            <span class="tab__icon"><ui-icon [name]="item.icon" size="22px" /></span>
+            <span>{{ item.short }}</span>
+          </a>
+        }
+      }
+    </nav>
+  }
+</div>
+
+<ng-template #accountMenu>
+  <div class="menu" cdkMenu>
+    <div class="menu__head">
+      <ui-avatar [name]="user()?.name" size="44px" />
+      <div>
+        <strong>{{ user()?.name }}</strong>
+        <small>{{ user()?.email }}</small>
+      </div>
+    </div>
+    <a class="menu__item" cdkMenuItem routerLink="/profile">
+      <ui-icon name="lucideUser" size="18px" />
+      Profile
+    </a>
+    @if (isAdmin()) {
+      <a class="menu__item" cdkMenuItem routerLink="/admin/users">
+        <ui-icon name="lucideUsers" size="18px" />
+        Users (admin)
+      </a>
+    }
+    <button
+      class="menu__item menu__item--danger"
+      type="button"
+      cdkMenuItem
+      (cdkMenuItemTriggered)="logout()"
+    >
+      <ui-icon name="lucideLogOut" size="18px" />
+      Log out
+    </button>
+  </div>
+</ng-template>
 
 <ng-template #navItem let-item>
   @if (item.soon) {
-    <button mat-list-item type="button" disabled>
-      <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.label }}</span>
-      <span matListItemMeta class="soon-badge">Soon</span>
-    </button>
+    <span class="nav__item is-soon" aria-disabled="true">
+      <ui-icon [name]="item.icon" />
+      <span class="nav__label">{{ item.label }}</span>
+      <span class="nav__soon"><ui-icon name="lucideLock" size="12px" /> Soon</span>
+    </span>
   } @else {
     <a
-      mat-list-item
+      class="nav__item"
       [routerLink]="item.link"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [activated]="rla.isActive"
-      [attr.aria-current]="rla.isActive ? 'page' : null"
-      (click)="closeOnHandset()"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
     >
-      <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.label }}</span>
+      <ui-icon [name]="item.icon" />
+      <span class="nav__label">{{ item.label }}</span>
     </a>
   }
 </ng-template>

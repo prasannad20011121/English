@@ -1,51 +1,107 @@
-<header class="page-header">
-  <h1>Hi {{ firstName() }}</h1>
-  <p>Here's your SHL English practice plan.</p>
-</header>
+<div class="bento">
+  <section class="tile tile--lavender hero rise" aria-labelledby="hero-title">
+    <div class="hero__text">
+      <p class="eyebrow">{{ greeting }}</p>
+      <h1 id="hero-title" class="display">Hi {{ firstName() }},<br />let's get you SHL-ready.</h1>
+      <p class="hero__lead">
+        Speaking and written practice open soon. Until then, set your exam date and read the tips
+        below.
+      </p>
+    </div>
+    <ui-illustration class="hero__art" name="speak" />
+  </section>
 
-<section class="exam-card" aria-label="Exam countdown">
-  <mat-icon class="exam-icon" aria-hidden="true">event</mat-icon>
   @let days = daysLeft();
-  @if (days === null) {
-    <div class="exam-text">
-      <strong>When is your SHL test?</strong>
-      <span>Add your exam date to see a countdown and plan your practice.</span>
-    </div>
-    <a mat-flat-button routerLink="/profile">Set exam date</a>
-  } @else if (days < 0) {
-    <div class="exam-text">
-      <strong>Your exam date has passed</strong>
-      <span>Got another test coming up? Update the date in your profile.</span>
-    </div>
-    <a mat-stroked-button routerLink="/profile">Update date</a>
-  } @else {
-    <div class="exam-text">
-      <strong class="days">
+  <section class="tile tile--peach countdown rise" style="--i: 1" aria-label="Exam countdown">
+    @if (days === null) {
+      <ui-icon name="lucideCalendarDays" size="32px" />
+      <h2>When is your SHL test?</h2>
+      <p>Add the date and we'll count down with you.</p>
+      <a class="btn btn--soft btn--sm" routerLink="/profile">Set exam date</a>
+    } @else if (days < 0) {
+      <ui-icon name="lucideCalendarDays" size="32px" />
+      <h2>Your exam date has passed</h2>
+      <p>Another test coming up? Update the date.</p>
+      <a class="btn btn--soft btn--sm" routerLink="/profile">Update date</a>
+    } @else {
+      <div class="ring">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring__track" cx="60" cy="60" [attr.r]="ringRadius" />
+          <circle
+            class="ring__fill"
+            cx="60"
+            cy="60"
+            [attr.r]="ringRadius"
+            [attr.stroke-dasharray]="ringCircumference"
+            [attr.stroke-dashoffset]="ringOffset()"
+          />
+        </svg>
+        <div class="ring__label">
+          <strong>{{ days }}</strong>
+          <span>{{ days === 1 ? 'day' : 'days' }}</span>
+        </div>
+      </div>
+      <h2>
         @if (days === 0) {
-          Your SHL test is today. Good luck!
+          Test day. You've got this!
         } @else {
-          {{ days }} {{ days === 1 ? 'day' : 'days' }} to your SHL test
+          to your SHL test
         }
-      </strong>
-      <span>{{ examDate() | date: 'fullDate' }}</span>
+      </h2>
+      <p>{{ examDate() | date: 'EEE, d MMM y' }}</p>
+    }
+  </section>
+
+  <section class="tile tile--butter streak rise" style="--i: 2" aria-labelledby="streak-title">
+    <div class="stat-head">
+      <span class="stat-icon"><ui-icon name="lucideFlame" size="22px" /></span>
+      <h2 id="streak-title">0-day streak</h2>
     </div>
-    <a mat-stroked-button routerLink="/profile">Change</a>
-  }
-</section>
+    <ol class="week" aria-label="This week">
+      @for (day of weekDays; track $index) {
+        <li [class.is-today]="$index === todayIndex">
+          <span class="sr-only">{{ $index === todayIndex ? 'Today, ' : '' }}no practice</span>
+          <span aria-hidden="true">{{ day }}</span>
+        </li>
+      }
+    </ol>
+    <p class="stat-note">Practise any day to start your streak.</p>
+  </section>
+
+  <section class="tile tile--mint goal rise" style="--i: 3" aria-labelledby="goal-title">
+    <div class="stat-head">
+      <span class="stat-icon"><ui-icon name="lucideTarget" size="22px" /></span>
+      <h2 id="goal-title">Daily goal</h2>
+    </div>
+    <p class="goal__count"><strong>0</strong> / 5 questions</p>
+    <div
+      class="bar"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="5"
+      aria-valuenow="0"
+      aria-label="Daily goal progress"
+    >
+      <span style="width: 0%"></span>
+    </div>
+    <p class="stat-note">Starts when practice opens.</p>
+  </section>
+</div>
 
 <h2 class="section-title">Practice modules</h2>
 <div class="modules">
-  @for (module of modules; track module.title) {
-    <article class="module-card">
-      <div class="module-head">
-        <span class="module-icon" aria-hidden="true">
-          <mat-icon>{{ module.icon }}</mat-icon>
+  @for (module of modules; track module.title; let i = $index) {
+    <article class="tile tile--{{ module.tone }} module lift rise" [style.--i]="i + 4">
+      <div class="module__top">
+        <span class="module__icon"><ui-icon [name]="module.icon" size="24px" /></span>
+        <span class="pill module__lock">
+          <ui-icon name="lucideLock" size="13px" />
+          Opens soon
         </span>
-        <h3>{{ module.title }}</h3>
-        <span class="soon-chip">Coming soon</span>
       </div>
+      <h3>{{ module.title }}</h3>
       <p>{{ module.description }}</p>
-      <ul class="task-list">
+      <ul class="chips">
         @for (task of module.tasks; track task) {
           <li>{{ task }}</li>
         }
@@ -54,12 +110,20 @@
   }
 </div>
 
-<h2 class="section-title">Tips for the SHL voice test</h2>
-<ul class="tips">
-  @for (tip of tips; track tip) {
-    <li>
-      <mat-icon aria-hidden="true">check_circle</mat-icon>
-      <span>{{ tip }}</span>
-    </li>
-  }
-</ul>
+<section class="tile tile--rose tips rise" style="--i: 7" aria-labelledby="tips-title">
+  <div class="tips__head">
+    <ui-illustration class="tips__art" name="goal" />
+    <div>
+      <p class="eyebrow">Before test day</p>
+      <h2 id="tips-title" class="title">Tips for the SHL voice test</h2>
+    </div>
+  </div>
+  <ul class="tips__list">
+    @for (tip of tips; track tip.text) {
+      <li>
+        <span class="tips__icon"><ui-icon [name]="tip.icon" size="20px" /></span>
+        <span>{{ tip.text }}</span>
+      </li>
+    }
+  </ul>
+</section>

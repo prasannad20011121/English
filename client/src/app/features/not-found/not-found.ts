@@ -1,30 +1,49 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
+import { UiIllustration } from '../../ui/illustration/illustration';
 
 @Component({
   selector: 'app-not-found',
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [RouterLink, UiIllustration],
   template: `
-    <div class="auth-page">
-      <section class="auth-card" aria-labelledby="nf-title">
-        <mat-icon class="nf-icon" aria-hidden="true">travel_explore</mat-icon>
-        <h1 id="nf-title">Page not found</h1>
-        <p class="subtitle">The page you were looking for doesn't exist or has moved.</p>
-        <a mat-flat-button class="auth-submit" [routerLink]="loggedIn() ? '/dashboard' : '/login'">
-          {{ loggedIn() ? 'Go to dashboard' : 'Go to log in' }}
+    <main class="nf">
+      <div class="tile tile--sky nf__card rise">
+        <ui-illustration class="nf__art" name="lost" />
+        <p class="eyebrow">Error 404</p>
+        <h1 class="display">This page wandered off.</h1>
+        <p class="nf__text">The link may be old, or the page has moved.</p>
+        <a class="btn btn--primary" [routerLink]="loggedIn() ? '/dashboard' : '/login'">
+          {{ loggedIn() ? 'Back to home' : 'Go to log in' }}
         </a>
-      </section>
-    </div>
+      </div>
+    </main>
   `,
   styles: `
-    .nf-icon {
-      font-size: 48px;
-      width: 48px;
-      height: 48px;
-      color: var(--mat-sys-primary);
+    .nf {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: 24px 16px;
+    }
+
+    .nf__card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      max-width: 520px;
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .nf__art {
+      width: min(260px, 70%);
+      margin-bottom: 8px;
+    }
+
+    .nf__text {
+      margin-bottom: 14px;
     }
   `,
 })

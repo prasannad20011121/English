@@ -1,0 +1,54 @@
+<div class="auth">
+  <aside class="showcase" aria-label="About {{ appName }}">
+    <a class="brand" routerLink="/login">
+      <span class="brand__mark"><ui-icon name="lucideAudioLines" size="22px" /></span>
+      <span class="brand__name">{{ appName }}</span>
+    </a>
+
+    <p class="showcase__headline display">
+      Speak confidently.<br />
+      <span class="highlight">Ace your SHL</span> English test.
+    </p>
+    <p class="showcase__lead">
+      Practise the real task types, hear how you sound, and walk into test day ready.
+    </p>
+
+    <div class="bento" aria-hidden="true">
+      <div class="tile tile--lavender bento__hero rise" style="--i: 1">
+        <ui-illustration name="speak" />
+        <strong>Read aloud &amp; repeat</strong>
+      </div>
+      <div class="tile tile--peach rise" style="--i: 2">
+        <ui-icon name="lucideMic" size="26px" />
+        <strong>Topic talk</strong>
+        <span>1–2 minutes</span>
+      </div>
+      <div class="tile tile--mint rise" style="--i: 3">
+        <span class="mini-sentence">She <s>don't</s> <b>doesn't</b> like tea.</span>
+        <strong>Spot the error</strong>
+      </div>
+      <div class="tile tile--butter bento__wide rise" style="--i: 4">
+        <ui-icon name="lucideSparkles" size="24px" />
+        <strong>Instant feedback on fluency, grammar &amp; pronunciation</strong>
+      </div>
+    </div>
+  </aside>
+
+  <main class="panel">
+    <div class="panel__card rise">
+      <router-outlet />
+    </div>
+    <p class="panel__note">
+      Independent practice tool — not affiliated with SHL. Scores are practice estimates.
+    </p>
+  </main>
+
+  <button
+    type="button"
+    class="icon-btn theme-toggle"
+    [attr.aria-label]="theme.label()"
+    (click)="theme.cycle()"
+  >
+    <ui-icon [name]="theme.icon()" />
+  </button>
+</div>

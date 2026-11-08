@@ -1,30 +1,21 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api-error';
 import { AuthService } from '../../../core/auth/auth.service';
-import { APP_NAME } from '../../../core/title-strategy';
+import { fieldError } from '../../../core/forms/form-utils';
+import { UiField, UiInput } from '../../../ui/field/field';
+import { UiIcon } from '../../../ui/icon/icon';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, UiField, UiInput, UiIcon],
   templateUrl: './forgot-password.html',
 })
 export class ForgotPasswordPage {
   private readonly auth = inject(AuthService);
 
-  protected readonly appName = APP_NAME;
+  protected readonly fieldError = fieldError;
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly sentMessage = signal<string | null>(null);

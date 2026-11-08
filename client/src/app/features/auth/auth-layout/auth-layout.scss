@@ -1,0 +1,196 @@
+.auth {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 100dvh;
+}
+
+// ---- Left: pastel showcase ---------------------------------------------------------------------
+
+.showcase {
+  // Stays in view while a long form (sign-up) scrolls on desktop.
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 36px clamp(24px, 4vw, 56px);
+  background:
+    radial-gradient(60% 50% at 10% 0%, var(--bg-glow-1), transparent 70%),
+    radial-gradient(50% 45% at 100% 100%, var(--bg-glow-2), transparent 70%), var(--bg);
+  overflow: hidden;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: var(--primary-ink);
+}
+
+.showcase__headline {
+  margin-top: clamp(12px, 4vh, 40px);
+  max-width: 14ch;
+}
+
+.highlight {
+  background: linear-gradient(transparent 60%, var(--butter) 60%);
+  border-radius: 6px;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+.showcase__lead {
+  max-width: 42ch;
+  color: var(--ink-2);
+  font-size: 17px;
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  grid-template-rows: repeat(2, minmax(124px, auto)) auto;
+  gap: 14px;
+  margin-top: auto;
+  max-width: 560px;
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 18px;
+    border-radius: 24px;
+    font-size: 14px;
+
+    strong {
+      font-size: 16px;
+      line-height: 1.25;
+    }
+  }
+}
+
+.bento__hero {
+  grid-row: span 2;
+
+  ui-illustration {
+    width: 88%;
+    margin: auto auto 8px;
+  }
+}
+
+.bento__wide {
+  grid-column: 1 / -1;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  min-height: 0;
+}
+
+.mini-sentence {
+  margin-bottom: auto;
+  font-size: 15px;
+
+  s {
+    text-decoration-thickness: 2px;
+    text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+
+  b {
+    padding: 0 6px;
+    border-radius: 8px;
+    background: var(--surface);
+  }
+}
+
+// ---- Right: form card --------------------------------------------------------------------------
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 72px 24px 32px;
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.panel__card {
+  width: 100%;
+  max-width: 460px;
+}
+
+.panel__note {
+  max-width: 460px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink-3);
+}
+
+// ---- Tablet & phone: showcase becomes a compact header -----------------------------------------
+
+@media (max-width: 959.98px) {
+  .auth {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .showcase {
+    position: relative;
+    height: auto;
+    gap: 10px;
+    padding: 20px 20px 28px;
+  }
+
+  .showcase__headline {
+    margin-top: 12px;
+    font-size: clamp(26px, 7vw, 34px);
+    max-width: 18ch;
+  }
+
+  .showcase__lead,
+  .bento {
+    display: none;
+  }
+
+  .panel {
+    justify-content: flex-start;
+    padding: 28px 20px 40px;
+    border-radius: 28px 28px 0 0;
+    margin-top: -16px;
+    box-shadow: 0 -12px 32px rgb(31 29 43 / 0.06);
+  }
+
+  .theme-toggle {
+    top: 18px;
+    right: 14px;
+  }
+}

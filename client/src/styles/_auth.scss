@@ -1,0 +1,41 @@
+// Content inside the auth layout's form card (login, register, forgot, reset).
+
+.auth-title {
+  font-size: clamp(28px, 3.4vw, 34px);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.auth-sub {
+  margin: 8px 0 28px;
+  color: var(--ink-2);
+}
+
+.auth-foot {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.auth-row-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+  font-size: 14px;
+}
+
+.consent {
+  margin: 4px 0 4px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--mint);
+  color: var(--mint-ink);
+  font-size: 14px;
+  font-weight: 500;
+
+  &__error {
+    margin: 10px 0 0 34px;
+    color: var(--danger);
+    font-weight: 600;
+  }
+}

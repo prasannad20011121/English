@@ -1,40 +1,32 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, type PageEvent } from '@angular/material/paginator';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
 import { catchError, debounceTime, map, of, startWith, switchMap } from 'rxjs';
 import { apiErrorMessage } from '../../../core/api/api-error';
 import { UserService } from '../../../core/api/user.service';
 import type { Page, Role, User } from '../../../core/models/user';
+import { UiAvatar } from '../../../ui/avatar/avatar';
+import { UiIcon } from '../../../ui/icon/icon';
 
 type LoadState =
   { status: 'loading' } | { status: 'ok'; page: Page<User> } | { status: 'error'; message: string };
 
 @Component({
   selector: 'app-admin-users',
-  imports: [
-    DatePipe,
-    MatTableModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatProgressBarModule,
-  ],
+  imports: [DatePipe, UiAvatar, UiIcon],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.scss',
 })
 export class AdminUsersPage {
   private readonly users = inject(UserService);
 
-  protected readonly columns = ['name', 'email', 'college', 'role', 'createdAt', 'lastLoginAt'];
+  protected readonly roles: { value: Role | ''; label: string }[] = [
+    { value: '', label: 'All' },
+    { value: 'student', label: 'Students' },
+    { value: 'admin', label: 'Admins' },
+  ];
+  protected readonly pageSizes = [10, 20, 50, 100];
+
   protected readonly search = signal('');
   protected readonly role = signal<Role | ''>('');
   protected readonly pageIndex = signal(0);
@@ -70,6 +62,18 @@ export class AdminUsersPage {
       s.status === 'ok' ? s.page : s.status === 'error' ? null : (previous?.value ?? null),
   });
 
+  protected readonly range = computed(() => {
+    const p = this.page();
+    if (!p || p.total === 0) return '0 of 0';
+    const from = (p.page - 1) * p.limit + 1;
+    return `${from}–${Math.min(p.page * p.limit, p.total)} of ${p.total}`;
+  });
+  protected readonly hasPrev = computed(() => this.pageIndex() > 0);
+  protected readonly hasNext = computed(() => {
+    const p = this.page();
+    return !!p && p.page * p.limit < p.total;
+  });
+
   protected onSearch(value: string): void {
     this.search.set(value);
     this.pageIndex.set(0);
@@ -80,8 +84,12 @@ export class AdminUsersPage {
     this.pageIndex.set(0);
   }
 
-  protected onPage(event: PageEvent): void {
-    this.pageIndex.set(event.pageIndex);
-    this.pageSize.set(event.pageSize);
+  protected onPageSize(value: string): void {
+    this.pageSize.set(Number(value));
+    this.pageIndex.set(0);
+  }
+
+  protected step(delta: number): void {
+    this.pageIndex.update((i) => Math.max(0, i + delta));
   }
 }

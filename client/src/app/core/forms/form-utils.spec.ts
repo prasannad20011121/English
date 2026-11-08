@@ -1,8 +1,11 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   applyServerErrors,
+  fieldError,
   fromIsoDate,
+  isoDay,
   matchFields,
+  passwordScore,
   passwordStrength,
   safeReturnUrl,
   toIsoDate,
@@ -46,5 +49,32 @@ describe('form utils', () => {
     expect(safeReturnUrl('//evil.com')).toBeNull();
     expect(safeReturnUrl('https://evil.com')).toBeNull();
     expect(safeReturnUrl(undefined)).toBeNull();
+  });
+
+  it('shows field errors only after the field is touched', () => {
+    const control = new FormControl('', Validators.required);
+    expect(fieldError(control)).toBeNull();
+    control.markAsTouched();
+    expect(fieldError(control)).toBe('This field is required');
+    expect(fieldError(control, { required: 'Email is required' })).toBe('Email is required');
+    control.setErrors({ required: true, server: 'Taken' });
+    expect(fieldError(control)).toBe('Taken');
+    control.setValue('ok');
+    expect(fieldError(control)).toBeNull();
+  });
+
+  it('scores password strength', () => {
+    expect(passwordScore('')).toBe(0);
+    expect(passwordScore('abc')).toBe(1);
+    expect(passwordScore('abcdefgh')).toBe(1);
+    expect(passwordScore('secret123')).toBe(2);
+    expect(passwordScore('Secret123')).toBe(3);
+    expect(passwordScore('secret123456')).toBe(3);
+    expect(passwordScore('secret12!')).toBe(3);
+  });
+
+  it('extracts the calendar day for date inputs', () => {
+    expect(isoDay('2027-01-15T00:00:00.000Z')).toBe('2027-01-15');
+    expect(isoDay(null)).toBe('');
   });
 });

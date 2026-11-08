@@ -2,6 +2,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import { provideIcons } from '@ng-icons/core';
+import { APP_ICONS } from '../../../core/icons';
 import { authResponse } from '../../../core/testing/fixtures';
 import { LoginPage } from './login';
 
@@ -28,6 +30,7 @@ describe('LoginPage', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([{ path: '**', children: [] }]),
+        provideIcons(APP_ICONS),
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(LoginPage);

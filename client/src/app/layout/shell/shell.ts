@@ -1,25 +1,23 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, computed, inject, viewChild } from '@angular/core';
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
+import type { AppIcon } from '../../core/icons';
+import { ThemeService } from '../../core/theme/theme.service';
 import { APP_NAME } from '../../core/title-strategy';
+import { UiAvatar } from '../../ui/avatar/avatar';
+import { UiIcon } from '../../ui/icon/icon';
 
 interface NavItem {
   label: string;
-  icon: string;
+  short: string;
+  icon: AppIcon;
   link?: string;
-  /** Shown but disabled until the feature ships. */
+  /** Shown but locked until the feature ships. */
   soon?: boolean;
 }
 
@@ -30,32 +28,23 @@ interface NavItem {
     NgTemplateOutlet,
     RouterLink,
     RouterLinkActive,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatDividerModule,
-    MatTooltipModule,
+    CdkMenu,
+    CdkMenuItem,
+    CdkMenuTrigger,
+    UiAvatar,
+    UiIcon,
   ],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
 export class Shell {
   private readonly auth = inject(AuthService);
-  private readonly drawer = viewChild.required<MatSidenav>('drawer');
+  protected readonly theme = inject(ThemeService);
 
   protected readonly appName = APP_NAME;
   protected readonly user = this.auth.user;
   protected readonly isAdmin = this.auth.isAdmin;
-  protected readonly initials = computed(() =>
-    (this.user()?.name ?? '?')
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? '')
-      .join(''),
-  );
+  protected readonly firstName = computed(() => this.user()?.name.split(/\s+/)[0] ?? '');
 
   protected readonly isHandset = toSignal(
     inject(BreakpointObserver)
@@ -65,24 +54,28 @@ export class Shell {
   );
 
   protected readonly practiceNav: NavItem[] = [
-    { label: 'Dashboard', icon: 'dashboard', link: '/dashboard' },
-    { label: 'Speaking practice', icon: 'record_voice_over', soon: true },
-    { label: 'Written practice', icon: 'edit_note', soon: true },
-    { label: 'Mock tests', icon: 'timer', soon: true },
-    { label: 'Progress', icon: 'insights', soon: true },
+    { label: 'Home', short: 'Home', icon: 'lucideHouse', link: '/dashboard' },
+    { label: 'Speaking', short: 'Speak', icon: 'lucideMic', soon: true },
+    { label: 'Written', short: 'Write', icon: 'lucidePenLine', soon: true },
+    { label: 'Mock tests', short: 'Mock', icon: 'lucideTimer', soon: true },
+    { label: 'Progress', short: 'Progress', icon: 'lucideChartLine', soon: true },
   ];
 
   protected readonly accountNav: NavItem[] = [
-    { label: 'Profile', icon: 'person', link: '/profile' },
+    { label: 'Profile', short: 'Profile', icon: 'lucideUser', link: '/profile' },
   ];
 
   protected readonly adminNav: NavItem[] = [
-    { label: 'Users', icon: 'group', link: '/admin/users' },
+    { label: 'Users', short: 'Users', icon: 'lucideUsers', link: '/admin/users' },
   ];
 
-  protected closeOnHandset(): void {
-    if (this.isHandset()) void this.drawer().close();
-  }
+  /** Phone bottom bar: Home, Speak, Mock, Profile. */
+  protected readonly tabs = computed<NavItem[]>(() => [
+    this.practiceNav[0]!,
+    this.practiceNav[1]!,
+    this.practiceNav[3]!,
+    this.accountNav[0]!,
+  ]);
 
   protected logout(): void {
     this.auth.logout().subscribe();

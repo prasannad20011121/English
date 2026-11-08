@@ -3,29 +3,40 @@ import { authGuard, guestGuard, roleGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    canActivate: [guestGuard],
-    title: 'Log in',
-    loadComponent: () => import('./features/auth/login/login').then((m) => m.LoginPage),
-  },
-  {
-    path: 'register',
-    canActivate: [guestGuard],
-    title: 'Create account',
-    loadComponent: () => import('./features/auth/register/register').then((m) => m.RegisterPage),
-  },
-  {
-    path: 'forgot-password',
-    canActivate: [guestGuard],
-    title: 'Forgot password',
+    // Login, sign-up and password pages share the split-screen auth layout.
+    path: '',
     loadComponent: () =>
-      import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPasswordPage),
-  },
-  {
-    path: 'reset-password',
-    title: 'Set a new password',
-    loadComponent: () =>
-      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordPage),
+      import('./features/auth/auth-layout/auth-layout').then((m) => m.AuthLayout),
+    children: [
+      {
+        path: 'login',
+        canActivate: [guestGuard],
+        title: 'Log in',
+        loadComponent: () => import('./features/auth/login/login').then((m) => m.LoginPage),
+      },
+      {
+        path: 'register',
+        canActivate: [guestGuard],
+        title: 'Create account',
+        loadComponent: () =>
+          import('./features/auth/register/register').then((m) => m.RegisterPage),
+      },
+      {
+        path: 'forgot-password',
+        canActivate: [guestGuard],
+        title: 'Forgot password',
+        loadComponent: () =>
+          import('./features/auth/forgot-password/forgot-password').then(
+            (m) => m.ForgotPasswordPage,
+          ),
+      },
+      {
+        path: 'reset-password',
+        title: 'Set a new password',
+        loadComponent: () =>
+          import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordPage),
+      },
+    ],
   },
   {
     path: '',

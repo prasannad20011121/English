@@ -1,0 +1,61 @@
+// Entrance animation: add `.rise` (optionally with style="--i: n" to stagger).
+.rise {
+  animation: rise 520ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.lift {
+  transition:
+    transform 260ms var(--ease),
+    box-shadow 260ms var(--ease);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+}
+
+// Confetti pieces created by CelebrateService.
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  overflow: hidden;
+
+  i {
+    position: absolute;
+    top: -16px;
+    width: 10px;
+    height: 14px;
+    border-radius: 3px;
+    animation: confetti-fall var(--dur-fall, 1.4s) cubic-bezier(0.25, 0.6, 0.4, 1) forwards;
+    animation-delay: var(--delay, 0s);
+  }
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translate(var(--dx, 0), 105vh) rotate(var(--rot, 540deg));
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

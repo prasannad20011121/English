@@ -5,23 +5,33 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { TitleStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  TitleStrategy,
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+} from '@angular/router';
+import { provideIcons } from '@ng-icons/core';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/auth/auth.interceptor';
 import { AuthService } from './core/auth/auth.service';
+import { APP_ICONS } from './core/icons';
+import { ThemeService } from './core/theme/theme.service';
 import { AppTitleStrategy } from './core/title-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+    ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideNativeDateAdapter(),
+    provideIcons(APP_ICONS),
     { provide: TitleStrategy, useClass: AppTitleStrategy },
     provideAppInitializer(() => {
-      inject(MatIconRegistry).setDefaultFontSetClass('material-symbols-outlined');
+      inject(ThemeService); // applies the saved light/dark choice
       // Restore the session before the first route guard runs.
       return inject(AuthService).restoreSession();
     }),

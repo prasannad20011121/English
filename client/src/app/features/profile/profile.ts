@@ -1,37 +1,34 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { apiErrorMessage, apiFieldErrors } from '../../core/api/api-error';
 import { UserService } from '../../core/api/user.service';
 import { AuthService } from '../../core/auth/auth.service';
 import {
   applyServerErrors,
-  fromIsoDate,
+  fieldError,
+  isoDay,
   matchFields,
-  passwordErrorMessage,
   passwordStrength,
-  toIsoDate,
 } from '../../core/forms/form-utils';
 import { TTS_ACCENT_LABELS, type TtsAccent, type User } from '../../core/models/user';
+import { UiAvatar } from '../../ui/avatar/avatar';
+import { UiField, UiInput, UiSuffix } from '../../ui/field/field';
+import { UiIcon } from '../../ui/icon/icon';
+import { UiPasswordMeter } from '../../ui/password-meter/password-meter';
+import { ToastService } from '../../ui/toast/toast.service';
 
 @Component({
   selector: 'app-profile',
   imports: [
     ReactiveFormsModule,
     DatePipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatIconModule,
+    UiAvatar,
+    UiField,
+    UiInput,
+    UiSuffix,
+    UiIcon,
+    UiPasswordMeter,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
@@ -39,12 +36,12 @@ import { TTS_ACCENT_LABELS, type TtsAccent, type User } from '../../core/models/
 export class ProfilePage {
   private readonly auth = inject(AuthService);
   private readonly users = inject(UserService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly toast = inject(ToastService);
   private readonly fb = inject(NonNullableFormBuilder);
 
   protected readonly user = this.auth.user;
   protected readonly accents = Object.entries(TTS_ACCENT_LABELS) as [TtsAccent, string][];
-  protected readonly passwordErrorMessage = passwordErrorMessage;
+  protected readonly fieldError = fieldError;
 
   protected readonly savingProfile = signal(false);
   protected readonly profileError = signal<string | null>(null);
@@ -55,7 +52,8 @@ export class ProfilePage {
   protected readonly profileForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
     college: ['', Validators.maxLength(120)],
-    targetExamDate: this.fb.control<Date | null>(null),
+    /** YYYY-MM-DD from the native date input, or ''. */
+    targetExamDate: [''],
     ttsAccent: this.fb.control<TtsAccent>('en-IN'),
   });
 
@@ -85,14 +83,14 @@ export class ProfilePage {
       .updateProfile({
         name: v.name.trim(),
         college: v.college.trim() || null,
-        targetExamDate: toIsoDate(v.targetExamDate),
+        targetExamDate: v.targetExamDate || null,
         settings: { ttsAccent: v.ttsAccent },
       })
       .subscribe({
         next: (user) => {
           this.resetProfileForm(user);
           this.savingProfile.set(false);
-          this.snackBar.open('Profile saved.', 'OK', { duration: 3000 });
+          this.toast.show('Profile saved.');
         },
         error: (err: unknown) => {
           applyServerErrors(this.profileForm, apiFieldErrors(err));
@@ -119,9 +117,7 @@ export class ProfilePage {
       next: () => {
         this.passwordForm.reset();
         this.savingPassword.set(false);
-        this.snackBar.open('Password changed. Other devices have been logged out.', 'OK', {
-          duration: 5000,
-        });
+        this.toast.show('Password changed. Other devices have been logged out.');
       },
       error: (err: unknown) => {
         const applied = applyServerErrors(this.passwordForm, apiFieldErrors(err));
@@ -135,7 +131,7 @@ export class ProfilePage {
     this.profileForm.reset({
       name: user.name,
       college: user.college ?? '',
-      targetExamDate: fromIsoDate(user.targetExamDate),
+      targetExamDate: isoDay(user.targetExamDate),
       ttsAccent: user.settings.ttsAccent,
     });
   }

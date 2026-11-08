@@ -28,23 +28,29 @@ The full roadmap is in [docs/PLAN.md](docs/PLAN.md).
   logs out your other devices).
 - **Dashboard:** exam countdown, the upcoming practice modules, and tips for the voice test.
 - **Admin:** a searchable, paginated list of users.
-- Responsive layout (phone to desktop) with automatic light and dark themes.
+- A custom **"soft bento pastel"** design: pastel tiles, the Outfit font, Lucide icons, gentle
+  animations, and confetti when you sign up.
+- Desktop sidebar and phone bottom tab bar; light, dark or follow-the-system theme (remembered).
+- Accessibility: every page checked with axe-core in both themes (no violations); full keyboard
+  support; motion turned off for users who prefer reduced motion.
 
 ## Tech stack
 
-| Part     | Technology                                                                       |
-| -------- | -------------------------------------------------------------------------------- |
-| Frontend | Angular 22 (standalone components, signals, zoneless), Angular Material 3        |
-| Backend  | Node.js 22, Express 5, TypeScript, Mongoose 9, Zod                               |
-| Database | MongoDB 8                                                                        |
-| Auth     | JWT access token (in memory) + rotating httpOnly refresh-token cookie, bcrypt    |
-| Tests    | Vitest + Supertest + mongodb-memory-server (API), Vitest via `ng test` (Angular) |
-| Tooling  | npm workspaces, ESLint, Prettier, Docker, GitHub Actions                         |
+| Part     | Technology                                                                         |
+| -------- | ---------------------------------------------------------------------------------- |
+| Frontend | Angular 22 (standalone components, signals, zoneless) + Angular CDK                |
+| UI       | Own design system (`client/src/styles`, `client/src/app/ui`), Lucide icons, Outfit |
+| Backend  | Node.js 22, Express 5, TypeScript, Mongoose 9, Zod                                 |
+| Database | MongoDB 8                                                                          |
+| Auth     | JWT access token (in memory) + rotating httpOnly refresh-token cookie, bcrypt      |
+| Tests    | Vitest + Supertest + mongodb-memory-server (API), Vitest via `ng test` (Angular)   |
+| Tooling  | npm workspaces, ESLint, Prettier, Docker, GitHub Actions                           |
 
 ## Project layout
 
 ```
-client/   Angular app (src/app/core = auth/services, layout = shell, features = pages)
+client/   Angular app (src/app/core = auth/services, ui = design-system components,
+          layout = shell, features = pages; src/styles = design tokens and global styles)
 server/   Express API (src/modules/<feature>, models, middleware, config) + tests/
 docs/     Plan and design notes
 ```
