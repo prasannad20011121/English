@@ -1,0 +1,46 @@
+# Local development:   docker compose up -d mongo      (then `npm run dev`)
+# Full app in Docker:  cp .env.example .env && docker compose up --build   → http://localhost:3000
+# Grammar checker (needed from Phase 5):  docker compose --profile ai up -d languagetool
+
+services:
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_URI: mongodb://mongo:27017/shl_english
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET in .env (see .env.example)}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      CLIENT_ORIGIN: ${APP_URL:-http://localhost:3000}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      SMTP_URL: ${SMTP_URL:-}
+      MAIL_FROM: ${MAIL_FROM:-SHL English Practice <no-reply@example.com>}
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  # Open-source grammar checker used to score spoken answers (Phase 5). Needs ~1 GB RAM.
+  languagetool:
+    image: erikvl87/languagetool
+    profiles: ['ai']
+    restart: unless-stopped
+    ports:
+      - '8010:8010'
+
+volumes:
+  mongo-data:

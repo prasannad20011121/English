@@ -12,8 +12,8 @@ MEAN stack (MongoDB, Express, Angular, Node.js). The user asked for **free** AI/
 was unsure about roles, so we use the simple default: **Student + Admin**. A Trainer/batch role is an
 optional later phase.
 
-**Deliverable for this step:** save this plan as `docs/PLAN.md` (plus a short `README.md`), commit, and
-push to branch `ccr-ff5ad429-7xi33l`. No app code yet; the phases below are built one by one later.
+**Status:** Phase 0 (setup) and Phase 1 (accounts and login) are built — see the phase table in
+section 13 and the README for how to run them. The remaining phases are built one by one.
 
 > Note: SHL formats differ by employer, and public sources disagree on the exact sections. All test
 > structure (sections, counts, timers) is therefore **data-driven (admin-configurable templates)**,
@@ -23,19 +23,19 @@ push to branch `ccr-ff5ad429-7xi33l`. No app code yet; the phases below are buil
 
 ## 1. Test sections the app will simulate
 
-| # | Section | What the student does | Answer mode | Scoring |
-|---|---------|----------------------|-------------|---------|
-| 1 | Read Aloud | Sentence or passage shown; read it aloud | Voice | Accuracy (word error rate vs text), pronunciation clarity, fluency (speed, pauses) |
-| 2 | Listen & Repeat | Hear a sentence once (text hidden); repeat it | Voice | Accuracy vs the sentence, fluency |
-| 3 | Short Answer | Hear a question ("What do we use to cut paper?"); answer in 1–3 words | Voice | Matches an accepted-answers list (fuzzy match) |
-| 4 | Sentence Builds | Hear 3 jumbled phrases; speak them as one correct sentence | Voice | Word order + accuracy vs the target sentence |
-| 5 | Conversation | Hear a short dialogue, then a question; answer by voice | Voice | Accepted-answers match |
-| 6 | Story Retelling / Passage Reconstruction | Hear or read a short story; retell it in your own words | Voice (or typed) | Key ideas covered + grammar + fluency (LLM + rules) |
-| 7 | Topic Talk (free speech) | Topic shown, 30 s to prepare, speak for 1–2 min | Voice | Fluency, grammar, vocabulary, coherence, relevance (LLM + rules) |
-| 8 | Fill in the Blanks | Sentence with a gap (articles, prepositions, tenses, vocab) | MCQ / typed / **spoken** | Exact or accepted-answer match + explanation |
-| 9 | Spot the Error | Sentence split into parts A/B/C/D/"No error"; pick the wrong part; optionally give the correction | MCQ + optional typed/spoken correction | Correct part + correction check |
-| 10 | Sentence Completion / Synonyms / Reading comprehension | Standard written items | MCQ | Exact match |
-| 11 | Dictation (optional) | Hear a sentence; type it | Typed | Word error rate |
+| #   | Section                                                | What the student does                                                                             | Answer mode                            | Scoring                                                                            |
+| --- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------- |
+| 1   | Read Aloud                                             | Sentence or passage shown; read it aloud                                                          | Voice                                  | Accuracy (word error rate vs text), pronunciation clarity, fluency (speed, pauses) |
+| 2   | Listen & Repeat                                        | Hear a sentence once (text hidden); repeat it                                                     | Voice                                  | Accuracy vs the sentence, fluency                                                  |
+| 3   | Short Answer                                           | Hear a question ("What do we use to cut paper?"); answer in 1–3 words                             | Voice                                  | Matches an accepted-answers list (fuzzy match)                                     |
+| 4   | Sentence Builds                                        | Hear 3 jumbled phrases; speak them as one correct sentence                                        | Voice                                  | Word order + accuracy vs the target sentence                                       |
+| 5   | Conversation                                           | Hear a short dialogue, then a question; answer by voice                                           | Voice                                  | Accepted-answers match                                                             |
+| 6   | Story Retelling / Passage Reconstruction               | Hear or read a short story; retell it in your own words                                           | Voice (or typed)                       | Key ideas covered + grammar + fluency (LLM + rules)                                |
+| 7   | Topic Talk (free speech)                               | Topic shown, 30 s to prepare, speak for 1–2 min                                                   | Voice                                  | Fluency, grammar, vocabulary, coherence, relevance (LLM + rules)                   |
+| 8   | Fill in the Blanks                                     | Sentence with a gap (articles, prepositions, tenses, vocab)                                       | MCQ / typed / **spoken**               | Exact or accepted-answer match + explanation                                       |
+| 9   | Spot the Error                                         | Sentence split into parts A/B/C/D/"No error"; pick the wrong part; optionally give the correction | MCQ + optional typed/spoken correction | Correct part + correction check                                                    |
+| 10  | Sentence Completion / Synonyms / Reading comprehension | Standard written items                                                                            | MCQ                                    | Exact match                                                                        |
+| 11  | Dictation (optional)                                   | Hear a sentence; type it                                                                          | Typed                                  | Word error rate                                                                    |
 
 Every question has an `answerMode` (`voice | mcq | text`), so fill-in-the-blanks can also be answered by
 speaking, as some voice tests require.
@@ -43,6 +43,7 @@ speaking, as some voice tests require.
 ## 2. Features
 
 **Student**
+
 - Sign up / log in, with a profile (college, target exam date).
 - **Mic check** page: permission prompt, live level meter, a 5-second test recording with playback.
 - **Practice mode** (per section): untimed or timed, instant feedback after each item, retry, model
@@ -59,6 +60,7 @@ speaking, as some voice tests require.
   next" suggestions, attempt history.
 
 **Admin**
+
 - Question bank CRUD with filters, preview, and `draft/published` status.
 - Bulk import (CSV/JSON) and export.
 - **AI question generator** (free LLM): makes draft fill-in-blank, spot-the-error and topic items that
@@ -72,20 +74,20 @@ offline practice for text items.
 
 ## 3. Tech stack (all free / open source)
 
-| Layer | Choice | Why |
-|-------|--------|-----|
-| Frontend | **Angular** (latest, standalone components + signals), Angular Material, ngx-echarts (or ng2-charts) | MEAN "A"; Material gives ready-made accessible UI |
-| Audio in browser | MediaRecorder API (webm/opus; mp4/aac on Safari), Web Audio `AnalyserNode` (level meter, silence detection), `speechSynthesis` (TTS fallback) | Built-in and free |
-| Backend | **Node.js LTS + Express 5 + TypeScript**, Mongoose, Zod (validation), Multer (uploads), `fluent-ffmpeg` + ffmpeg (convert to 16 kHz mono WAV) | MEAN "E/N" |
-| Database | **MongoDB** (Atlas M0 free tier in prod, Docker locally); **GridFS** for audio files | MEAN "M"; GridFS avoids a separate storage service |
-| Background jobs | **Agenda** (MongoDB-backed job queue) + **Socket.IO** to push "evaluation ready" | No Redis needed; stack stays pure MEAN |
-| Speech-to-text | **Whisper** through one OpenAI-compatible adapter (`STT_BASE_URL`, `STT_MODEL`): (a) **Groq free tier** Whisper API to start (no GPU needed), or (b) **self-hosted faster-whisper** Docker container (unlimited, private). Browser **Web Speech API** only for optional live captions in Chrome/Edge | Free; gives word timestamps + per-word confidence (used for pronunciation clarity) |
-| Grammar check | **LanguageTool** (self-hosted Docker, open source) | Free, deterministic grammar/spelling errors on transcripts; works when the LLM is rate-limited |
-| LLM feedback | One OpenAI-compatible adapter (`LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY`) using the `openai` npm SDK. Options: **Groq free tier** (Llama models), **Google Gemini free tier** (OpenAI-compatible endpoint), or **Ollama** locally (Llama / Qwen / Gemma, fully free and private) | Switch provider by changing env vars only |
-| TTS for prompt audio | **Piper TTS** (open source) to pre-generate audio into GridFS from a seed/admin script; browser `speechSynthesis` as fallback | Free, consistent voices (US/UK/Indian English) |
-| Optional pronunciation upgrade | Azure Speech free tier (F0, ~5 audio hrs/month) Pronunciation Assessment as an extra adapter | Phoneme-level scores if ever needed |
-| Auth | JWT access token + refresh token in an httpOnly cookie, bcrypt | Standard |
-| Testing | Jest/Vitest + Supertest + mongodb-memory-server (API); Angular's default test runner; Playwright (E2E, fake microphone) | Free |
+| Layer                          | Choice                                                                                                                                                                                                                                                                                               | Why                                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Frontend                       | **Angular** (latest, standalone components + signals), Angular Material, ngx-echarts (or ng2-charts)                                                                                                                                                                                                 | MEAN "A"; Material gives ready-made accessible UI                                              |
+| Audio in browser               | MediaRecorder API (webm/opus; mp4/aac on Safari), Web Audio `AnalyserNode` (level meter, silence detection), `speechSynthesis` (TTS fallback)                                                                                                                                                        | Built-in and free                                                                              |
+| Backend                        | **Node.js LTS + Express 5 + TypeScript**, Mongoose, Zod (validation), Multer (uploads), `fluent-ffmpeg` + ffmpeg (convert to 16 kHz mono WAV)                                                                                                                                                        | MEAN "E/N"                                                                                     |
+| Database                       | **MongoDB** (Atlas M0 free tier in prod, Docker locally); **GridFS** for audio files                                                                                                                                                                                                                 | MEAN "M"; GridFS avoids a separate storage service                                             |
+| Background jobs                | **Agenda** (MongoDB-backed job queue) + **Socket.IO** to push "evaluation ready"                                                                                                                                                                                                                     | No Redis needed; stack stays pure MEAN                                                         |
+| Speech-to-text                 | **Whisper** through one OpenAI-compatible adapter (`STT_BASE_URL`, `STT_MODEL`): (a) **Groq free tier** Whisper API to start (no GPU needed), or (b) **self-hosted faster-whisper** Docker container (unlimited, private). Browser **Web Speech API** only for optional live captions in Chrome/Edge | Free; gives word timestamps + per-word confidence (used for pronunciation clarity)             |
+| Grammar check                  | **LanguageTool** (self-hosted Docker, open source)                                                                                                                                                                                                                                                   | Free, deterministic grammar/spelling errors on transcripts; works when the LLM is rate-limited |
+| LLM feedback                   | One OpenAI-compatible adapter (`LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY`) using the `openai` npm SDK. Options: **Groq free tier** (Llama models), **Google Gemini free tier** (OpenAI-compatible endpoint), or **Ollama** locally (Llama / Qwen / Gemma, fully free and private)                    | Switch provider by changing env vars only                                                      |
+| TTS for prompt audio           | **Piper TTS** (open source) to pre-generate audio into GridFS from a seed/admin script; browser `speechSynthesis` as fallback                                                                                                                                                                        | Free, consistent voices (US/UK/Indian English)                                                 |
+| Optional pronunciation upgrade | Azure Speech free tier (F0, ~5 audio hrs/month) Pronunciation Assessment as an extra adapter                                                                                                                                                                                                         | Phoneme-level scores if ever needed                                                            |
+| Auth                           | JWT access token + refresh token in an httpOnly cookie, bcrypt                                                                                                                                                                                                                                       | Standard                                                                                       |
+| Testing                        | Jest/Vitest + Supertest + mongodb-memory-server (API); Angular's default test runner; Playwright (E2E, fake microphone)                                                                                                                                                                              | Free                                                                                           |
 
 Groq can provide both Whisper and the LLM under **one free API key**. That is the easiest start;
 self-host (faster-whisper + Ollama + LanguageTool on a college/home machine) for unlimited free
@@ -109,8 +111,8 @@ Angular SPA ──HTTPS/REST──► Express API ──► MongoDB (users, ques
 ## 5. Voice answer pipeline
 
 1. **Client state machine** for each voice item: `PROMPT (show text / play audio once) → PREP countdown
-   → BEEP → RECORDING (countdown, live level meter, auto-stop after the time limit or ~3 s of silence
-   for short items) → UPLOADING → FEEDBACK (practice) | NEXT (mock)`.
+→ BEEP → RECORDING (countdown, live level meter, auto-stop after the time limit or ~3 s of silence
+for short items) → UPLOADING → FEEDBACK (practice) | NEXT (mock)`.
 2. `RecorderService` returns `{ blob, mimeType, durationMs, latencyMs }`, where latency is the time
    from the beep to the first speech, found with the AnalyserNode.
 3. `POST /api/sessions/:id/responses` (multipart, max 5 MB, audio/* whitelist). The server saves the
@@ -142,7 +144,7 @@ Angular SPA ──HTTPS/REST──► Express API ──► MongoDB (users, ques
   off-topic.
 - **LLM call** (`llm-grader.ts`): fixed system prompt + rubric, temperature 0, output forced to JSON and
   validated with Zod: `{ scores{}, strengths[], errors[{original, correction, explanation}],
-  improvedAnswer, tips[] }`. The transcript is sent as data, never as instructions.
+improvedAnswer, tips[] }`. The transcript is sent as data, never as instructions.
 - **MCQ / fill-blank / spot-error**: exact match; the optional correction is checked with WER vs
   `correctedSentence`.
 - **Overall score**: weighted per skill → 0–100 → rough CEFR band. The report says clearly that this is
@@ -176,8 +178,9 @@ before the answer is submitted; DTO mappers strip them.
 
 ## 8. REST API (`/api`)
 
-- **Auth**: `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `GET /auth/me`,
-  `POST /auth/forgot`, `/auth/reset`.
+- **Auth** (built): `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`,
+  `GET /auth/me`, `POST /auth/forgot-password`, `/auth/reset-password`, `/auth/change-password`.
+  **Users** (built): `GET|PATCH /users/me`. **Admin** (built): `GET /admin/users`.
 - **Practice**: `GET /practice/sections` (counts and progress per type); `POST /practice/sessions`
   `{type, count, difficulty?, tags?}`.
 - **Mock**: `GET /tests/templates`, `POST /tests/:templateId/start`.
@@ -254,19 +257,19 @@ Spoken 15 min", "Written English 20 min", "Full Mock").
 
 ## 13. Phases (build order)
 
-| Phase | Scope | Done when |
-|-------|-------|-----------|
-| 0. Setup | Monorepo, Angular + Express TS scaffolds, ESLint/Prettier, docker-compose (Mongo, LanguageTool), `.env.example`, GitHub Actions CI (lint, test, build) | `docker compose up` runs both apps; CI green |
-| 1. Auth | User model, JWT + refresh, guards, login/register UI, profile | Register → login → protected dashboard |
-| 2. Text modules | Question model, seed data, practice for fill-blank, spot-error and MCQ with instant feedback and explanations | Student completes a 10-item practice and sees score + explanations |
-| 3. Audio infrastructure | Mic check, RecorderService, upload + GridFS, ffmpeg, STT adapter (Groq / faster-whisper), Agenda job, Socket.IO, polling fallback | Recorded clip → transcript appears in the UI |
-| 4. Voice modules | Read aloud, listen & repeat, short answer, sentence builds, conversation; WER/fluency/answer-match scoring; transcript-diff UI; Piper TTS prompt audio | Each voice type gives a score and coloured feedback |
-| 5. Free speech | Topic talk + story retelling; LanguageTool + LLM rubric adapter; improved-answer and tips UI | A 1–2 min talk returns a rubric score and corrections |
-| 6. Mock test engine | Templates, strict timed runner (play once, auto-record, no back, fullscreen, tab-switch flag), submit, report + PDF | A full mock runs end-to-end and produces a skill-wise report |
-| 7. Dashboard | UserStats updates, trend/radar charts, weak areas, recommendations, streaks, history | Dashboard reflects new attempts |
-| 8. Admin | Question CRUD, import/export, AI generator with review, TTS button, template builder, analytics | Admin can create and publish items and templates |
-| 9. Hardening & deploy | Tests, security pass, quotas, audio cleanup job, deploy | Live URL works on Chrome, Edge, Firefox, Safari and Android Chrome |
-| 10. Optional | Trainer role + batches, leaderboard, PWA | — |
+| Phase                   | Scope                                                                                                                                                  | Done when                                                          |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| ✅ 0. Setup             | Monorepo, Angular + Express TS scaffolds, ESLint/Prettier, docker-compose (Mongo, LanguageTool), `.env.example`, GitHub Actions CI (lint, test, build) | `docker compose up` runs both apps; CI green                       |
+| ✅ 1. Auth              | User model, JWT + rotating refresh token, guards, login/register/forgot/reset UI, profile, admin user list                                             | Register → login → protected dashboard                             |
+| 2. Text modules         | Question model, seed data, practice for fill-blank, spot-error and MCQ with instant feedback and explanations                                          | Student completes a 10-item practice and sees score + explanations |
+| 3. Audio infrastructure | Mic check, RecorderService, upload + GridFS, ffmpeg, STT adapter (Groq / faster-whisper), Agenda job, Socket.IO, polling fallback                      | Recorded clip → transcript appears in the UI                       |
+| 4. Voice modules        | Read aloud, listen & repeat, short answer, sentence builds, conversation; WER/fluency/answer-match scoring; transcript-diff UI; Piper TTS prompt audio | Each voice type gives a score and coloured feedback                |
+| 5. Free speech          | Topic talk + story retelling; LanguageTool + LLM rubric adapter; improved-answer and tips UI                                                           | A 1–2 min talk returns a rubric score and corrections              |
+| 6. Mock test engine     | Templates, strict timed runner (play once, auto-record, no back, fullscreen, tab-switch flag), submit, report + PDF                                    | A full mock runs end-to-end and produces a skill-wise report       |
+| 7. Dashboard            | UserStats updates, trend/radar charts, weak areas, recommendations, streaks, history                                                                   | Dashboard reflects new attempts                                    |
+| 8. Admin                | Question CRUD, import/export, AI generator with review, TTS button, template builder, analytics                                                        | Admin can create and publish items and templates                   |
+| 9. Hardening & deploy   | Tests, security pass, quotas, audio cleanup job, deploy                                                                                                | Live URL works on Chrome, Edge, Firefox, Safari and Android Chrome |
+| 10. Optional            | Trainer role + batches, leaderboard, PWA                                                                                                               | —                                                                  |
 
 ## 14. Free deployment
 
@@ -292,7 +295,7 @@ docker-compose on one small VM or college server for unlimited use.
 - **API**: Supertest + mongodb-memory-server for auth, the practice flow, an upload → job → evaluated
   response (STT/LLM mocked), and checks that answer fields are hidden and audio access is restricted.
 - **E2E**: Playwright on Chromium with `--use-fake-ui-for-media-stream
-  --use-fake-device-for-media-stream --use-file-for-fake-audio-capture=tests/fixtures/read-aloud.wav`
+--use-fake-device-for-media-stream --use-file-for-fake-audio-capture=tests/fixtures/read-aloud.wav`
   to record a known sentence and assert that the transcript, score and report render. A full mock-test
   run is included.
 - **Manual**: `docker compose up`, register, mic check, one item of every type, one full mock, PDF

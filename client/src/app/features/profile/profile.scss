@@ -1,0 +1,40 @@
+.cards {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-lowest);
+
+  h2 {
+    margin: 0 0 16px;
+    font: var(--mat-sys-title-medium);
+  }
+}
+
+.card-note {
+  margin: -8px 0 16px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+  margin: 0;
+
+  dt {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .role {
+    text-transform: capitalize;
+  }
+}

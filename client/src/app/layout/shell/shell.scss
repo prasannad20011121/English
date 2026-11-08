@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.shell {
+  height: 100%;
+}
+
+.sidenav {
+  width: 288px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px 12px;
+  font: var(--mat-sys-title-medium);
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+}
+
+.brand-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+// Disabled "coming soon" entries are <button>s: drop the browser's button styling.
+button[mat-list-item] {
+  border: 0;
+  background: transparent;
+  text-align: start;
+  font: inherit;
+}
+
+.soon-badge {
+  align-self: center;
+  font: var(--mat-sys-label-small);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  gap: 4px;
+  background: var(--mat-sys-surface);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.toolbar-title {
+  font: var(--mat-sys-title-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  font: var(--mat-sys-label-large);
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px 12px;
+  gap: 2px;
+
+  small {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 599.98px) {
+  .user-name {
+    display: none;
+  }
+
+  .avatar {
+    margin-right: 0;
+  }
+}

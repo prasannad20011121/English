@@ -1,0 +1,65 @@
+<header class="page-header">
+  <h1>Hi {{ firstName() }}</h1>
+  <p>Here's your SHL English practice plan.</p>
+</header>
+
+<section class="exam-card" aria-label="Exam countdown">
+  <mat-icon class="exam-icon" aria-hidden="true">event</mat-icon>
+  @let days = daysLeft();
+  @if (days === null) {
+    <div class="exam-text">
+      <strong>When is your SHL test?</strong>
+      <span>Add your exam date to see a countdown and plan your practice.</span>
+    </div>
+    <a mat-flat-button routerLink="/profile">Set exam date</a>
+  } @else if (days < 0) {
+    <div class="exam-text">
+      <strong>Your exam date has passed</strong>
+      <span>Got another test coming up? Update the date in your profile.</span>
+    </div>
+    <a mat-stroked-button routerLink="/profile">Update date</a>
+  } @else {
+    <div class="exam-text">
+      <strong class="days">
+        @if (days === 0) {
+          Your SHL test is today. Good luck!
+        } @else {
+          {{ days }} {{ days === 1 ? 'day' : 'days' }} to your SHL test
+        }
+      </strong>
+      <span>{{ examDate() | date: 'fullDate' }}</span>
+    </div>
+    <a mat-stroked-button routerLink="/profile">Change</a>
+  }
+</section>
+
+<h2 class="section-title">Practice modules</h2>
+<div class="modules">
+  @for (module of modules; track module.title) {
+    <article class="module-card">
+      <div class="module-head">
+        <span class="module-icon" aria-hidden="true">
+          <mat-icon>{{ module.icon }}</mat-icon>
+        </span>
+        <h3>{{ module.title }}</h3>
+        <span class="soon-chip">Coming soon</span>
+      </div>
+      <p>{{ module.description }}</p>
+      <ul class="task-list">
+        @for (task of module.tasks; track task) {
+          <li>{{ task }}</li>
+        }
+      </ul>
+    </article>
+  }
+</div>
+
+<h2 class="section-title">Tips for the SHL voice test</h2>
+<ul class="tips">
+  @for (tip of tips; track tip) {
+    <li>
+      <mat-icon aria-hidden="true">check_circle</mat-icon>
+      <span>{{ tip }}</span>
+    </li>
+  }
+</ul>

@@ -1,0 +1,100 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="!isHandset()"
+    [attr.role]="isHandset() ? 'dialog' : 'navigation'"
+  >
+    <a class="brand" routerLink="/dashboard" (click)="closeOnHandset()">
+      <mat-icon class="brand-icon" aria-hidden="true">graphic_eq</mat-icon>
+      <span>{{ appName }}</span>
+    </a>
+
+    <nav aria-label="Main">
+      <mat-nav-list>
+        <h3 matSubheader>Practice</h3>
+        @for (item of practiceNav; track item.label) {
+          <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
+        }
+        <mat-divider />
+        <h3 matSubheader>Account</h3>
+        @for (item of accountNav; track item.label) {
+          <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
+        }
+        @if (isAdmin()) {
+          <mat-divider />
+          <h3 matSubheader>Admin</h3>
+          @for (item of adminNav; track item.label) {
+            <ng-container *ngTemplateOutlet="navItem; context: { $implicit: item }" />
+          }
+        }
+      </mat-nav-list>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main">
+    <mat-toolbar class="toolbar">
+      @if (isHandset()) {
+        <button mat-icon-button type="button" aria-label="Open menu" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="toolbar-title">{{ appName }}</span>
+      }
+      <span class="spacer"></span>
+      <button
+        mat-button
+        type="button"
+        class="user-button"
+        [matMenuTriggerFor]="userMenu"
+        aria-label="Account menu"
+      >
+        <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+        <span class="user-name">{{ user()?.name }}</span>
+        <mat-icon iconPositionEnd>expand_more</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu" xPosition="before">
+        <div class="menu-header">
+          <strong>{{ user()?.name }}</strong>
+          <small>{{ user()?.email }}</small>
+        </div>
+        <mat-divider />
+        <a mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </a>
+        <button mat-menu-item type="button" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Log out</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #navItem let-item>
+  @if (item.soon) {
+    <button mat-list-item type="button" disabled>
+      <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+      <span matListItemTitle>{{ item.label }}</span>
+      <span matListItemMeta class="soon-badge">Soon</span>
+    </button>
+  } @else {
+    <a
+      mat-list-item
+      [routerLink]="item.link"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [activated]="rla.isActive"
+      [attr.aria-current]="rla.isActive ? 'page' : null"
+      (click)="closeOnHandset()"
+    >
+      <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+      <span matListItemTitle>{{ item.label }}</span>
+    </a>
+  }
+</ng-template>
